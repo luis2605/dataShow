@@ -1,0 +1,21 @@
+
+th{
+    padding-right: 1em;
+}
+.true{
+    color:green
+}
+
+.false{
+    color: red;
+}
+
+.draft{
+    color: yellow;
+}
+.published{
+    color: lawngreen;
+}
+.closed{
+    color: brown;
+}

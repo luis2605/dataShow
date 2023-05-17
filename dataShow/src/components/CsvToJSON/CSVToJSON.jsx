@@ -3,14 +3,42 @@ import csvtojson from 'csvtojson';
 
 import classes from './CSVToJson.module.css'
 
+import HelpModal from '../HelpModal/HelpModal.jsx';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
+
 const CSVToJSON = () => {
   const [jsonData, setJsonData] = useState(null);
  const[mappedElement,setMappedElements] = useState(null);
+ const [multipleFilterData, setMultipleFilterData] = useState(null);
 
+ const [selectedCustomData, setSelectedCustomData] = useState([]);
+ 
+ const [isOpen, setIsOpen] = useState(false);
+
+
+ /* help modal */
+ const openModal = () => {
+   setIsOpen(true);
+ };
+
+ const closeModal = () => {
+   setIsOpen(false);
+ };
  /*filter by country */
 
  const [selectedCountry, setSelectedCountry] = useState('');
+/*filter by hasPrivateBathroom */
 
+const [hasPrivateBathroom, setHasPrivateBathroom] = useState('')
+
+/*filter by by City */
+
+const [selectedCity, setSelectedCity] = useState('')
+
+
+
+/* uploading the raw csv file */
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
     const fileReader = new FileReader();
@@ -32,21 +60,47 @@ const CSVToJSON = () => {
    
   };
 
-console.log(mappedElement);
+  /*Reset all filters*/ 
+  const resetFilters = () => {
+    setSelectedCountry('');
+    setSelectedCity('');
+    setHasPrivateBathroom('');
+  };
 
-
+ 
 
 
     useEffect(() => {
         if (jsonData) {
+
+          {/* filtering logic*/}
           let filteredData = jsonData;
+
           if (selectedCountry) {
             filteredData = jsonData.filter(
               (item) => item.publicData1.country === selectedCountry
-            );
+            
+              );
+          
           }
-    
-        
+         
+          if (hasPrivateBathroom) {
+            filteredData = multipleFilterData.filter(
+              (item) => (item.publicData1 && item.publicData1.amenities && item.publicData1.amenities.includes('privat_bathroom')? "true":"false" ||  item.publicData1 && item.publicData1.amenities && item.publicData1.amenities.includes('shared_bathroom')? "false":"true") === hasPrivateBathroom
+            );
+         
+          }
+
+          if (selectedCity) {
+            filteredData = multipleFilterData.filter(
+              (item) => item.publicData1.city === selectedCity
+            );
+          
+          }
+
+         
+          setMultipleFilterData(filteredData);
+
           const mapped = filteredData.map((item, index) => {
             let stateClasses = "";
             if (item.State === "draft") {
@@ -58,7 +112,7 @@ console.log(mappedElement);
             }
           
             return (
-              <tr key={index} className={classes.card}>
+              <tr  key={index} className={classes.card}>
                 <td>{index}</td>
                 <td>{item.Id}</td>
                 <td className={stateClasses}>{item.State}</td>
@@ -72,17 +126,48 @@ console.log(mappedElement);
                 )}
                 <td>{item.publicData1.country}</td>
                 <td>{item.publicData1.city}</td>
+                {multipleFilterData && <td onClick={(e) => addCustomElement(e, index)}> + </td>}
+                {multipleFilterData && <td onClick={(e) => removeCustomElement(e, index)}> - </td>}
               </tr>
             );
           });
     
           setMappedElements(mapped);
+          console.log(multipleFilterData);
+          console.log(selectedCustomData);
         }
-      }, [jsonData, selectedCountry]);
+      }, [jsonData, selectedCountry,hasPrivateBathroom,selectedCity,selectedCustomData]);
+
+   
+      
     
+ /* add custom elements from filteredData to selectedCustomData */
+ const addCustomElement = (e, index) => {
+  const selectedElement = multipleFilterData[index];
+  const elementName = selectedElement.Title; // Assuming 'Title' is the property to be used as the element name
 
+  setSelectedCustomData((prevElements) => {
+    // Check if the element with the same name already exists
+    if (prevElements.some((element) => element.Title === elementName)) {
+      return prevElements; // If the element already exists, return the previous elements as is
+    } else {
+      // If the element doesn't exist, add the selected element to the custom elements array
+      return [...prevElements, selectedElement];
+    }
+  });
+};
+ /* remove custom elements from filteredData to selectedCustomData */
+const removeCustomElement = (e, index) => {
+  const removedElement = selectedCustomData[index];
+  const elementName = removedElement.Title; // Assuming 'Title' is the property used as the element name
 
-
+  setSelectedCustomData((prevElements) => {
+    // Filter out the element with the same name from the custom elements array
+    return prevElements.filter((element) => element.Title !== elementName);
+  });
+};
+// console.log(jsonData)
+// console.log(hasPrivateBathroom)
 
     
 
@@ -91,10 +176,18 @@ console.log(mappedElement);
 
   return (
     <div>
+       <HelpModal isOpen={isOpen} onClose={closeModal}>
+        <h2 >Help Modal</h2>
+        <p>This is the content of the help modal.</p>
+      </HelpModal>
     <input type="file" accept=".csv" onChange={handleFileUpload} />
-    {jsonData && (
+    {multipleFilterData && (
       <div>
+
+        <p> {selectedCustomData.map((item)=> item.Title)}</p>
         <h3>Converted JSON Data:</h3>
+        <div className={classes["nav-container"]}>
+        <div className={classes["filter-container"]}> 
          {/* filtering by country*/}
         <div>
             <label htmlFor="countryFilter">Filter by Country:</label>
@@ -104,14 +197,61 @@ console.log(mappedElement);
               onChange={(e) => setSelectedCountry(e.target.value)}
             >
               <option value="">All</option>
-              {/* Assuming the country values are available in the jsonData */}
-              {[...new Set(jsonData.map((item) => item.publicData1.country))].map((country, index) => (
+              {/* Assuming the country values are available in the multipleFilterData */}
+              {[...new Set(multipleFilterData.map((item) => item.publicData1.country))].map((country, index) => (
                 <option key={index} value={country}>
                   {country}
                 </option>
               ))}
             </select>
           </div>
+
+            {/* filtering by hasPrivateBathroom*/}
+        <div>
+            <label htmlFor="bathroomFilter">Has Private Bathroom:</label>
+            <select
+              id="bathroomFilter"
+              value={hasPrivateBathroom}
+              onChange={(e) => setHasPrivateBathroom(e.target.value)}
+            >
+              <option value="">All</option>
+              {/* the values are not available on json data*/}
+          
+                <option key={1} value={"true"}>
+                 true
+                </option>
+                <option key={2} value={"false"}>
+                 false
+                </option>
+            </select>
+          </div>
+              {/* filtering by city*/}
+        <div>
+            <label htmlFor="cityFilter">Filter by City:</label>
+            <select
+              id="cityFilter"
+              value={selectedCity}
+              onChange={(e) => setSelectedCity(e.target.value)}
+            >
+              <option value="">All</option>
+              {/* Assuming the city values are available in the multipleFilterData */}
+              {[...new Set(multipleFilterData.map((item) => item.publicData1.city))].map((city, index) => (
+                <option key={index} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+          </div>
+          </div>
+          <div className={classes["btn-container"]}>
+          <button className={classes["reset-btn"]} onClick={resetFilters}><i className="fa fa-refresh" style={{fontSize:"16px"}}></i></button>
+          <button  className={classes["help-btn"]} onClick={openModal}>  <i className="fas fa-question-circle" style={{ fontSize: '24px', color: 'red' }}></i></button>
+     
+          </div>
+
+        </div>
+       
+         
          <table>
          <thead>
             <tr>
@@ -124,6 +264,8 @@ console.log(mappedElement);
               <th>Private Bathroom</th>
               <th>Country</th>
               <th>City</th>
+              <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>{mappedElement}</tbody>

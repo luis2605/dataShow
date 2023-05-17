@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import './App.css'
-import CSVToJSON from './components/CsvToJSON/CSVToJSON'
+import CSVToJSON from './components/CsvToJSON/CSVToJSON.jsx'
 
 function App() {
   const [count, setCount] = useState(0)

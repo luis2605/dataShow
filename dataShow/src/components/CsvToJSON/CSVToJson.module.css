@@ -69,6 +69,10 @@ table{
 }
 
 /*aux*/
+
+.small{
+    font-size: .7rem;
+}
 .true{
     color:green
 }

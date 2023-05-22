@@ -163,10 +163,13 @@ const updatedTitle = title.split("•")[0].trim();
             return (
               <tr  key={index} className={classes.card}>
                 <td>{index}</td>
-                <td>{item.Id}</td>
+                <td className={classes["small"]}>{item.Id}</td>
                 <td className={stateClasses}>{item.State}</td>
                 <td>{updatedTitle}</td>
                 <td>{item.publicData1.roomtype}</td>
+                <td>{item.publicData1.roomamount}</td>
+                <td>{item.publicData1.bedamount}</td>
+                <td>{item.publicData1.bedamount && item.publicData1.roomamount ? item.publicData1.bedamount * item.publicData1.roomamount : ""}</td>
                 <td>{item.PriceAmount / 100}</td>
                 <td>{item.publicData1.customCurrency}</td>
                 {item.publicData1 && item.publicData1.amenities && item.publicData1.amenities.includes('privat_bathroom') ? (
@@ -372,6 +375,9 @@ console.log(selectedCustomData)
               <th>State</th>
               <th>Title</th>
               <th>Room Type</th>
+              <th>Room Amount</th>
+              <th>Room Occupancy</th>
+              <th>Max Amount P.</th>
               <th>Price/Night</th>
               <th>Currency</th>
               <th>Private Bathroom</th>

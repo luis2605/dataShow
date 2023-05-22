@@ -45,7 +45,9 @@ const [hasPrivateBathroom, setHasPrivateBathroom] = useState('')
 /*filter by by City */
 
 const [selectedCity, setSelectedCity] = useState('')
+/*filter by activities */
 
+const [offerActivities, setOfferActivities] = useState('')
 
 
 const handleFileUpload = async (e) => {
@@ -85,45 +87,62 @@ const handleFileUpload = async (e) => {
     setSelectedRoomtype('')
     setSelectedCity('');
     setHasPrivateBathroom('');
+    setOfferActivities('')
   };
 
  
 console.log(fileMetadata)
 
     useEffect(() => {
-        if (jsonData) {
+      if (jsonData) {
+        let filteredData = jsonData;
 
-          {/* filtering logic*/}
-          let filteredData = jsonData;
-
-          if (selectedCountry) {
-            filteredData = jsonData.filter(
-              (item) => item.publicData1.country === selectedCountry
-            
-              );
-          
-          }
-          if (selectedRoomtype) {
-            filteredData = multipleFilterData.filter(
-              (item) => item.publicData1.roomtype == selectedRoomtype
-            
-              );
-          
-          }
+       
+    
+        if (selectedCountry || selectedRoomtype ||hasPrivateBathroom || selectedCity||offerActivities) {
+          filteredData = jsonData.filter((item) => {
+            const publicData = item.publicData1;
+    
+          const countryMatch = !selectedCountry || publicData.country === selectedCountry;
+          const roomtypeMatch = !selectedRoomtype || publicData.roomtype === selectedRoomtype;
+          const bathroomMatch=!hasPrivateBathroom ||  publicData && publicData.amenities && publicData.amenities.includes('privat_bathroom')? "true":"false"  == hasPrivateBathroom 
+          const bathroomMatchNot=!hasPrivateBathroom ||  publicData && publicData.amenities && publicData.amenities.includes('shared_bathroom')? "false":"true"  == hasPrivateBathroom 
          
-          if (hasPrivateBathroom) {
-            filteredData = multipleFilterData.filter(
-              (item) => (item.publicData1 && item.publicData1.amenities && item.publicData1.amenities.includes('privat_bathroom')? "true":"false" ||  item.publicData1 && item.publicData1.amenities && item.publicData1.amenities.includes('shared_bathroom')? "false":"true") === hasPrivateBathroom
-            );
-         
-          }
+          const cityMatch = !selectedCity || publicData.city === selectedCity;
+          const activitiesMatch = !offerActivities || (publicData.activities ? "yes" : "no") === offerActivities; 
+            return countryMatch && roomtypeMatch && cityMatch  && bathroomMatch && bathroomMatchNot && activitiesMatch;
+          });
+        }
 
-          if (selectedCity) {
-            filteredData = multipleFilterData.filter(
-              (item) => item.publicData1.city === selectedCity
-            );
+ 
+          // if (selectedCountry) {
+          //   filteredData = jsonData.filter(
+          //     (item) => item.publicData1.country === selectedCountry
+            
+          //     );
           
-          }
+          // }
+          // if (selectedRoomtype) {
+          //   filteredData = multipleFilterData.filter(
+          //     (item) => (item.publicData1 && item.publicData1.roomtype && item.publicData1.roomtype  === selectedRoomtype)
+            
+          //     );
+          
+          // }
+         
+          // if (hasPrivateBathroom) {
+          //   filteredData = multipleFilterData.filter(
+          //     (item) => (item.publicData1 && item.publicData1.amenities && item.publicData1.amenities.includes('privat_bathroom')? "true":"false" ||  item.publicData1 && item.publicData1.amenities && item.publicData1.amenities.includes('shared_bathroom')? "false":"true") === hasPrivateBathroom
+          //   );
+         
+          // }
+
+          // if (selectedCity) {
+          //   filteredData = multipleFilterData.filter(
+          //     (item) => item.publicData1.city === selectedCity
+          //   );
+          
+          // }
 
          
           
@@ -151,13 +170,14 @@ const updatedTitle = title.split("•")[0].trim();
                 <td>{item.PriceAmount / 100}</td>
                 <td>{item.publicData1.customCurrency}</td>
                 {item.publicData1 && item.publicData1.amenities && item.publicData1.amenities.includes('privat_bathroom') ? (
-                  <td className={classes.true}>true</td>
+                  <td className={classes.true}>true </td>
                 ) : (
-                  <td className={classes.false}>false</td>
+                  <td className={classes.false}>false </td>
                 )}
                 <td>{item.publicData1.country}</td>
                 <td>{item.publicData1.city}</td>
-                {multipleFilterData && <td  onClick={(e) => addCustomElement(e, index)}> + </td>}
+                <td>{item.publicData1.activities ? "yes":"no"}</td>
+                {multipleFilterData && <td  onClick={(e) => addCustomElement(e, index)}>+</td>}
                
               </tr>
             );
@@ -165,7 +185,7 @@ const updatedTitle = title.split("•")[0].trim();
           setMultipleFilterData(filteredData);
           setMappedElements(mapped);
 
-
+ console.log(filteredData)
    /* add custom elements from filteredData to selectedCustomData */
 const addCustomElement = (e, index) => {
   const selectedElement = filteredData[index];
@@ -196,7 +216,7 @@ const selection = selectedCustomData.map((item, index)=>{
   setSelection(selection)
        
         }
-      }, [jsonData, selectedCountry,selectedRoomtype,hasPrivateBathroom,selectedCity,selectedCustomData]);
+      }, [jsonData, selectedCountry,selectedRoomtype,hasPrivateBathroom,selectedCity,selectedCustomData,offerActivities]);
 
    
       console.log(multipleFilterData);
@@ -217,14 +237,14 @@ console.log(selectedCustomData)
     <input type="file" accept=".csv" onChange={handleFileUpload} />
     {jsonData && <p>File created on: {fileMetadata.lastModifiedDate.toLocaleString()}</p>}
     {multipleFilterData && (
-      <div>
+      <div className={classes["table-container"]}>
 
         {selection}
-        <h3>Converted JSON Data:</h3>
+  
         <div className={classes["nav-container"]}>
         <div className={classes["filter-container"]}> 
          {/* filtering by country*/}
-        <div>
+        <div  className={classes["filter-element"]} >
             <label htmlFor="countryFilter">Filter by Country:</label>
             <select
               id="countryFilter"
@@ -242,7 +262,7 @@ console.log(selectedCustomData)
           </div>
 
                  {/* filtering by roomtype*/}
-        <div>
+        <div  className={classes["filter-element"]}>
             <label htmlFor="roomtype">Filter by Room Type:</label>
             <select
               id="roomtype"
@@ -250,17 +270,34 @@ console.log(selectedCustomData)
               onChange={(e) => setSelectedRoomtype(e.target.value)}
             >
               <option value="">All</option>
-              {/* Assuming the roomtype values are available in the multipleFilterData */}
-              {[...new Set(multipleFilterData.map((item) => item.publicData1.roomtype))].map((roomtype, index) => (
-                <option key={index} value={roomtype}>
-                  {roomtype}
+              {/* the roomtype values are available in the multipleFilterData but not on a stylish way */}
+              <option key={1} value={"entire_accomodation"}>
+                 Entire accomodation
                 </option>
-              ))}
+              <option key={2} value={'singlebedroom'}>
+                 Single Bedroom
+              </option>
+              <option key={3} value={"doublebedroom"}>
+                 Double Bedroom
+              </option>
+              <option key={4} value={"shared_bedroom"}>
+                 Dormitory
+              </option>
+              <option key={5} value={"multi_bedroom"}>
+                 Multi Bedroom
+              </option>
+              <option key={6} value={"twobedroom"}>
+                 Two Bedroom
+              </option>
+              <option key={7} value={"camping"}>
+                 Camping
+              </option>
+           
             </select>
           </div>
 
             {/* filtering by hasPrivateBathroom*/}
-        <div>
+        <div  className={classes["filter-element"]}>
             <label htmlFor="bathroomFilter">Has Private Bathroom:</label>
             <select
               id="bathroomFilter"
@@ -274,12 +311,15 @@ console.log(selectedCustomData)
                  true
                 </option>
                 <option key={2} value={"false"}>
-                 false
+                 false 
+                </option>
+                <option key={3} value={"both"}>
+                 private & shared bathroom
                 </option>
             </select>
           </div>
               {/* filtering by city*/}
-        <div>
+        <div  className={classes["filter-element"]}>
             <label htmlFor="cityFilter">Filter by City:</label>
             <select
               id="cityFilter"
@@ -293,6 +333,25 @@ console.log(selectedCustomData)
                   {city}
                 </option>
               ))}
+            </select>
+          </div>
+          <div  className={classes["filter-element"]}>
+            <label htmlFor="activitiesFilter">Offer activities:</label>
+            <select
+              id="activitiesFilter"
+              value={offerActivities}
+              onChange={(e) => setOfferActivities(e.target.value)}
+            >
+              <option value="">All</option>
+              {/* the values are not available on json data*/}
+          
+                <option key={1} value={"yes"}>
+                 yes
+                </option>
+                <option key={2} value={"no"}>
+                 no 
+                </option>
+              
             </select>
           </div>
           </div>
@@ -318,8 +377,9 @@ console.log(selectedCustomData)
               <th>Private Bathroom</th>
               <th>Country</th>
               <th>City</th>
-              <th></th>
-              <th></th>
+              <th>Activities</th>
+            <th></th>
+             
             </tr>
           </thead>
           <tbody>{mappedElement}</tbody>

@@ -5,15 +5,21 @@ import classes from './CSVToJson.module.css'
 
 import HelpModal from '../HelpModal/HelpModal.jsx';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import CustomSelectedData from '../CustomSelectedData/CustomSelectedData';
 
 
 const CSVToJSON = () => {
   const [jsonData, setJsonData] = useState(null);
+ /* csv file metadata */
+  const [fileMetadata, setFileMetadata] = useState(null);
+
  const[mappedElement,setMappedElements] = useState(null);
  const [multipleFilterData, setMultipleFilterData] = useState(null);
 
  const [selectedCustomData, setSelectedCustomData] = useState([]);
  
+const [selection, setSelection] = useState(null);
+
  const [isOpen, setIsOpen] = useState(false);
 
 
@@ -28,6 +34,10 @@ const CSVToJSON = () => {
  /*filter by country */
 
  const [selectedCountry, setSelectedCountry] = useState('');
+ /*filter by roomtype */
+
+ const [selectedRoomtype, setSelectedRoomtype] = useState('');
+
 /*filter by hasPrivateBathroom */
 
 const [hasPrivateBathroom, setHasPrivateBathroom] = useState('')
@@ -38,37 +48,47 @@ const [selectedCity, setSelectedCity] = useState('')
 
 
 
-/* uploading the raw csv file */
-  const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
-    const fileReader = new FileReader();
+const handleFileUpload = async (e) => {
+  const file = e.target.files[0];
+  const fileReader = new FileReader();
 
-    fileReader.onload = async (event) => {
-      const csvData = event.target.result;
-      const jsonArray = await csvtojson().fromString(csvData);
+  fileReader.onload = async (event) => {
+    const csvData = event.target.result;
+    const jsonArray = await csvtojson().fromString(csvData);
 
-      const modifiedData = jsonArray.map((item) => {
-        const publicData1 = JSON.parse(item.PublicData);
-        return { ...item, publicData1 };
-      });
+    const modifiedData = jsonArray.map((item) => {
+      const publicData1 = JSON.parse(item.PublicData);
+      return { ...item, publicData1 };
+    });
 
-      setJsonData(modifiedData);
-    };
-
-    fileReader.readAsText(file);
-
-   
+    setJsonData(modifiedData);
   };
+
+  fileReader.readAsText(file);
+
+  // Get file metadata
+  const fileMetadata = {
+    name: file.name,
+    size: file.size,
+    type: file.type,
+    lastModified: file.lastModified,
+    lastModifiedDate: file.lastModifiedDate,
+  };
+
+  // Store the file metadata in a state variable
+  setFileMetadata(fileMetadata);
+};
 
   /*Reset all filters*/ 
   const resetFilters = () => {
     setSelectedCountry('');
+    setSelectedRoomtype('')
     setSelectedCity('');
     setHasPrivateBathroom('');
   };
 
  
-
+console.log(fileMetadata)
 
     useEffect(() => {
         if (jsonData) {
@@ -79,6 +99,13 @@ const [selectedCity, setSelectedCity] = useState('')
           if (selectedCountry) {
             filteredData = jsonData.filter(
               (item) => item.publicData1.country === selectedCountry
+            
+              );
+          
+          }
+          if (selectedRoomtype) {
+            filteredData = multipleFilterData.filter(
+              (item) => item.publicData1.roomtype == selectedRoomtype
             
               );
           
@@ -99,7 +126,7 @@ const [selectedCity, setSelectedCity] = useState('')
           }
 
          
-          setMultipleFilterData(filteredData);
+          
 
           const mapped = filteredData.map((item, index) => {
             let stateClasses = "";
@@ -110,13 +137,17 @@ const [selectedCity, setSelectedCity] = useState('')
             } else if (item.State === "published") {
               stateClasses = classes.published;
             }
-          
+ /*remove roomtype from title */
+            const title = item.Title;
+const updatedTitle = title.split("•")[0].trim();
+   /*map the listings  */        
             return (
               <tr  key={index} className={classes.card}>
                 <td>{index}</td>
                 <td>{item.Id}</td>
                 <td className={stateClasses}>{item.State}</td>
-                <td>{item.Title}</td>
+                <td>{updatedTitle}</td>
+                <td>{item.publicData1.roomtype}</td>
                 <td>{item.PriceAmount / 100}</td>
                 <td>{item.publicData1.customCurrency}</td>
                 {item.publicData1 && item.publicData1.amenities && item.publicData1.amenities.includes('privat_bathroom') ? (
@@ -126,51 +157,54 @@ const [selectedCity, setSelectedCity] = useState('')
                 )}
                 <td>{item.publicData1.country}</td>
                 <td>{item.publicData1.city}</td>
-                {multipleFilterData && <td onClick={(e) => addCustomElement(e, index)}> + </td>}
-                {multipleFilterData && <td onClick={(e) => removeCustomElement(e, index)}> - </td>}
+                {multipleFilterData && <td  onClick={(e) => addCustomElement(e, index)}> + </td>}
+               
               </tr>
             );
           });
-    
+          setMultipleFilterData(filteredData);
           setMappedElements(mapped);
-          console.log(multipleFilterData);
-          console.log(selectedCustomData);
+
+
+   /* add custom elements from filteredData to selectedCustomData */
+const addCustomElement = (e, index) => {
+  const selectedElement = filteredData[index];
+  setSelectedCustomData(prevData => [...prevData, selectedElement]);
+ 
+  };
+ /* remove custom elements from filteredData to selectedCustomData */
+  const removeCustomElement = (e) => {
+    const elementIndex = e.target.dataset.index; // Get the index of the element from the data-index attribute
+    const updatedSelectedCustomData = selectedCustomData.filter((_, index) => index !== parseInt(elementIndex)); // Remove the element at the specified index
+    
+    setSelectedCustomData(updatedSelectedCustomData); // Update the selectedCustomData state
+  };
+
+
+
+const selection = selectedCustomData.map((item, index)=>{
+  
+  return(
+    <div className={classes["selected-item"]}> 
+ <p>{item.Title} </p>
+ <p data-index={index} onClick={removeCustomElement}>-</p> {/* Pass the index of the element */}
+    </div>
+   
+  )
+  })
+
+  setSelection(selection)
+       
         }
-      }, [jsonData, selectedCountry,hasPrivateBathroom,selectedCity,selectedCustomData]);
+      }, [jsonData, selectedCountry,selectedRoomtype,hasPrivateBathroom,selectedCity,selectedCustomData]);
 
    
-      
-    
- /* add custom elements from filteredData to selectedCustomData */
- const addCustomElement = (e, index) => {
-  const selectedElement = multipleFilterData[index];
-  const elementName = selectedElement.Title; // Assuming 'Title' is the property to be used as the element name
-
-  setSelectedCustomData((prevElements) => {
-    // Check if the element with the same name already exists
-    if (prevElements.some((element) => element.Title === elementName)) {
-      return prevElements; // If the element already exists, return the previous elements as is
-    } else {
-      // If the element doesn't exist, add the selected element to the custom elements array
-      return [...prevElements, selectedElement];
-    }
-  });
-};
- /* remove custom elements from filteredData to selectedCustomData */
-const removeCustomElement = (e, index) => {
-  const removedElement = selectedCustomData[index];
-  const elementName = removedElement.Title; // Assuming 'Title' is the property used as the element name
-
-  setSelectedCustomData((prevElements) => {
-    // Filter out the element with the same name from the custom elements array
-    return prevElements.filter((element) => element.Title !== elementName);
-  });
-};
-// console.log(jsonData)
-// console.log(hasPrivateBathroom)
-
+      console.log(multipleFilterData);
     
 
+
+
+console.log(selectedCustomData)
 
 
 
@@ -181,10 +215,11 @@ const removeCustomElement = (e, index) => {
         <p>This is the content of the help modal.</p>
       </HelpModal>
     <input type="file" accept=".csv" onChange={handleFileUpload} />
+    {jsonData && <p>File created on: {fileMetadata.lastModifiedDate.toLocaleString()}</p>}
     {multipleFilterData && (
       <div>
 
-        <p> {selectedCustomData.map((item)=> item.Title)}</p>
+        {selection}
         <h3>Converted JSON Data:</h3>
         <div className={classes["nav-container"]}>
         <div className={classes["filter-container"]}> 
@@ -201,6 +236,24 @@ const removeCustomElement = (e, index) => {
               {[...new Set(multipleFilterData.map((item) => item.publicData1.country))].map((country, index) => (
                 <option key={index} value={country}>
                   {country}
+                </option>
+              ))}
+            </select>
+          </div>
+
+                 {/* filtering by roomtype*/}
+        <div>
+            <label htmlFor="roomtype">Filter by Room Type:</label>
+            <select
+              id="roomtype"
+              value={selectedRoomtype}
+              onChange={(e) => setSelectedRoomtype(e.target.value)}
+            >
+              <option value="">All</option>
+              {/* Assuming the roomtype values are available in the multipleFilterData */}
+              {[...new Set(multipleFilterData.map((item) => item.publicData1.roomtype))].map((roomtype, index) => (
+                <option key={index} value={roomtype}>
+                  {roomtype}
                 </option>
               ))}
             </select>
@@ -259,6 +312,7 @@ const removeCustomElement = (e, index) => {
               <th>ID</th>
               <th>State</th>
               <th>Title</th>
+              <th>Room Type</th>
               <th>Price/Night</th>
               <th>Currency</th>
               <th>Private Bathroom</th>

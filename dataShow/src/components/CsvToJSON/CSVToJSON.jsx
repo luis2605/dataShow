@@ -171,12 +171,14 @@ console.log(fileMetadata)
 
 
             /*
-            Half board (2 meals, breakfast always + lunch OR dinner)
-            Full board (3 meals, breakfast + lunch + dinner)
-            Self catering (kitchen)
-            Meals available on request
-            No supplies
+            diplay the meals 
              */
+            if( item.publicData1 && item.publicData1.food && item.publicData1.food.includes("breakfast_inclusive") && item.publicData1 && item.publicData1.food && !item.publicData1.food.includes("lunch_inclusive") && item.publicData1 && item.publicData1.food && !item.publicData1.food.includes("dinner_inclusive") ){
+
+              meals = "Only Breakfast"
+              } 
+
+
             if(item.publicData1 && item.publicData1.amenities && !item.publicData1.amenities.includes("private_kitchen") || item.publicData1 && item.publicData1.amenities && !item.publicData1.amenities.includes("shared_kitchen" ) || item.publicData1 && item.publicData1.food && !item.publicData1.food.includes("lunch_for_sale") ||item.publicData1 && item.publicData1.food && !item.publicData1.food.includes("dinner_for_sale") || item.publicData1 && item.publicData1.food && !item.publicData1.food.includes("breakfast_for_sale")){
 
               meals = "N/A"
@@ -201,7 +203,11 @@ console.log(fileMetadata)
               meals = "Full board"
             }
            
+      /* forming the url */
+      const name = item.Title
+      const id = item.Id
 
+      const url = `https://www.socialbnb.org/l/${name.replace(/\s+/g, '-')}/${id}`;
           
  /*remove roomtype from title */
             const title = item.Title;
@@ -228,6 +234,7 @@ const updatedTitle = title.split("•")[0].trim();
                 <td>{item.publicData1.country}</td>
                 <td>{item.publicData1.city}</td>
                 <td>{item.publicData1.activities ? "yes":"no"}</td>
+                <td><a href={url} target='_blank'> link</a> </td>
                 {multipleFilterData && <td  onClick={(e) => addCustomElement(e, index)}>+</td>}
                
               </tr>
@@ -270,14 +277,7 @@ const selection = selectedCustomData.map((item, index)=>{
       }, [jsonData, selectedCountry,selectedRoomtype,hasPrivateBathroom,selectedCity,selectedCustomData,offerActivities]);
 
    
-      console.log(multipleFilterData);
-    
-
-
-
-console.log(mappedElement)
-
-
+    console.log(selectedCustomData)
 
   return (
     <div>
@@ -288,9 +288,9 @@ console.log(mappedElement)
     <input type="file" accept=".csv" onChange={handleFileUpload} />
     {jsonData && <p>File created on: {fileMetadata.lastModifiedDate.toLocaleString()}</p>}
     {selection}
-    <Button variant="primary" onClick={handleShow}>
+   {jsonData && <Button variant="primary" onClick={handleShow}>
         Launch
-      </Button>
+      </Button>}
     <Offcanvas show={show} onHide={handleClose}>
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Offcanvas</Offcanvas.Title>
@@ -422,8 +422,8 @@ console.log(mappedElement)
 
 
     {multipleFilterData && (
-      <div className={classes["table-container"]}>
-         <Table striped bordered hover responsive>
+     
+         <Table striped bordered hover  >
          <thead>
             <tr>
               <th>Index</th>
@@ -441,14 +441,15 @@ console.log(mappedElement)
               <th>Country</th>
               <th>City</th>
               <th>Activities</th>
-            <th></th>
+              <th>Url</th>
+            
              
             </tr>
           </thead>
           <tbody>{mappedElement}</tbody>
          </Table>
         
-      </div>
+     
     )}
   </div>
 

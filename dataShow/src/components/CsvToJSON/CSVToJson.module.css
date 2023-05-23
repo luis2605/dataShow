@@ -49,22 +49,12 @@ label{
     text-align: left;
 }
 
-/*table styles*/
-thead {
- 
-    border: none;
-    background: rgba(255,255,255,0.35);
-    -webkit-backdrop-filter: blur(5px);
-    backdrop-filter: blur(5px);
-    border: 0px solid rgba(255,255,255,0.175);
-    text-align: center;
-}
 th{
-    padding: .5em;
+    border: none !important;
 }
-table{
-    border-collapse: collapse;
-}
+
+
+
 
 /*aux*/
 
@@ -72,19 +62,19 @@ table{
     font-size: .7rem;
 }
 .true{
-    color:green
+    color:green !important
 }
 
 .false{
-    color: red;
+    color: red !important;
 }
 
 .draft{
-    color: yellow
+    color: rgba(52, 106, 207, 0.459) !important
 }
 .published{
-    color: green
+    color: green!important
 }
 .closed{
-    color: red;
+    color: red !important;
 }

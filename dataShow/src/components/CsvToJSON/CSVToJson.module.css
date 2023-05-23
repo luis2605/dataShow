@@ -51,9 +51,7 @@ label{
 
 /*table styles*/
 thead {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0px;
+ 
     border: none;
     background: rgba(255,255,255,0.35);
     -webkit-backdrop-filter: blur(5px);
@@ -82,11 +80,11 @@ table{
 }
 
 .draft{
-    color: yellow;
+    color: yellow
 }
 .published{
-    color: lawngreen;
+    color: green
 }
 .closed{
-    color: brown;
+    color: red;
 }

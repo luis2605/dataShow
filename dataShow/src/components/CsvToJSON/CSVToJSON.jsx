@@ -7,6 +7,10 @@ import HelpModal from '../HelpModal/HelpModal.jsx';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import CustomSelectedData from '../CustomSelectedData/CustomSelectedData';
 
+import Button from 'react-bootstrap/Button';
+import Offcanvas from 'react-bootstrap/Offcanvas';
+
+import Table from 'react-bootstrap/Table';
 
 const CSVToJSON = () => {
   const [jsonData, setJsonData] = useState(null);
@@ -22,6 +26,8 @@ const [selection, setSelection] = useState(null);
 
  const [isOpen, setIsOpen] = useState(false);
 
+ /*filter offset canvas */
+ const [show, setShow] = useState(false);
 
  /* help modal */
  const openModal = () => {
@@ -48,6 +54,11 @@ const [selectedCity, setSelectedCity] = useState('')
 /*filter by activities */
 
 const [offerActivities, setOfferActivities] = useState('')
+
+/*open close filter offset canvas */
+
+const handleClose = () => setShow(false);
+const handleShow = () => setShow(true);
 
 
 const handleFileUpload = async (e) => {
@@ -106,7 +117,7 @@ console.log(fileMetadata)
           const countryMatch = !selectedCountry || publicData.country === selectedCountry;
           const roomtypeMatch = !selectedRoomtype || publicData.roomtype === selectedRoomtype;
           const bathroomMatch=!hasPrivateBathroom ||  publicData && publicData.amenities && publicData.amenities.includes('privat_bathroom')? "true":"false"  == hasPrivateBathroom 
-          const bathroomMatchNot=!hasPrivateBathroom ||  publicData && publicData.amenities && publicData.amenities.includes('shared_bathroom')? "false":"true"  == hasPrivateBathroom 
+          const bathroomMatchNot=!hasPrivateBathroom ||  publicData && publicData.amenities && publicData.amenities.includes('shared_bathroom')? "false":"true" == hasPrivateBathroom 
          
           const cityMatch = !selectedCity || publicData.city === selectedCity;
           const activitiesMatch = !offerActivities || (publicData.activities ? "yes" : "no") === offerActivities; 
@@ -145,8 +156,7 @@ console.log(fileMetadata)
           // }
 
          
-          
-
+        
           const mapped = filteredData.map((item, index) => {
             let stateClasses = "";
             if (item.State === "draft") {
@@ -156,6 +166,43 @@ console.log(fileMetadata)
             } else if (item.State === "published") {
               stateClasses = classes.published;
             }
+
+            let meals="";
+
+
+            /*
+            Half board (2 meals, breakfast always + lunch OR dinner)
+            Full board (3 meals, breakfast + lunch + dinner)
+            Self catering (kitchen)
+            Meals available on request
+            No supplies
+             */
+            if(item.publicData1 && item.publicData1.amenities && !item.publicData1.amenities.includes("private_kitchen") || item.publicData1 && item.publicData1.amenities && !item.publicData1.amenities.includes("shared_kitchen" ) || item.publicData1 && item.publicData1.food && !item.publicData1.food.includes("lunch_for_sale") ||item.publicData1 && item.publicData1.food && !item.publicData1.food.includes("dinner_for_sale") || item.publicData1 && item.publicData1.food && !item.publicData1.food.includes("breakfast_for_sale")){
+
+              meals = "N/A"
+            }
+
+            if(item.publicData1 && item.publicData1.amenities && item.publicData1.amenities.includes("private_kitchen") || item.publicData1 && item.publicData1.amenities && item.publicData1.amenities.includes("shared_kitchen" )){
+
+              meals = "Self catering"
+            }
+            if( item.publicData1 && item.publicData1.food && item.publicData1.food.includes("lunch_for_sale") ||item.publicData1 && item.publicData1.food && item.publicData1.food.includes("dinner_for_sale") || item.publicData1 && item.publicData1.food && item.publicData1.food.includes("breakfast_for_sale") ){
+
+              meals = "On request"
+              } 
+
+
+            if( item.publicData1 && item.publicData1.food && item.publicData1.food.includes("breakfast_inclusive") && item.publicData1 && item.publicData1.food && item.publicData1.food.includes("lunch_inclusive") || item.publicData1 && item.publicData1.food && item.publicData1.food.includes("breakfast_inclusive") && item.publicData1 && item.publicData1.food && item.publicData1.food.includes("dinner_inclusive")  ){
+
+            meals = "Half board"
+            } 
+             if(item.publicData1 && item.publicData1.food && item.publicData1.food.includes("breakfast_inclusive") && item.publicData1 && item.publicData1.food && item.publicData1.food.includes("lunch_inclusive")  && item.publicData1 && item.publicData1.food &&  item.publicData1.food.includes("dinner_inclusive")){
+
+              meals = "Full board"
+            }
+           
+
+          
  /*remove roomtype from title */
             const title = item.Title;
 const updatedTitle = title.split("•")[0].trim();
@@ -172,6 +219,7 @@ const updatedTitle = title.split("•")[0].trim();
                 <td>{item.publicData1.bedamount && item.publicData1.roomamount ? item.publicData1.bedamount * item.publicData1.roomamount : ""}</td>
                 <td>{item.PriceAmount / 100}</td>
                 <td>{item.publicData1.customCurrency}</td>
+                <td>{ meals}</td>
                 {item.publicData1 && item.publicData1.amenities && item.publicData1.amenities.includes('privat_bathroom') ? (
                   <td className={classes.true}>true </td>
                 ) : (
@@ -227,7 +275,7 @@ const selection = selectedCustomData.map((item, index)=>{
 
 
 
-console.log(selectedCustomData)
+console.log(mappedElement)
 
 
 
@@ -239,12 +287,16 @@ console.log(selectedCustomData)
       </HelpModal>
     <input type="file" accept=".csv" onChange={handleFileUpload} />
     {jsonData && <p>File created on: {fileMetadata.lastModifiedDate.toLocaleString()}</p>}
-    {multipleFilterData && (
-      <div className={classes["table-container"]}>
-
-        {selection}
-  
-        <div className={classes["nav-container"]}>
+    {selection}
+    <Button variant="primary" onClick={handleShow}>
+        Launch
+      </Button>
+    <Offcanvas show={show} onHide={handleClose}>
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+        {multipleFilterData && <div className={classes["nav-container"]}>
         <div className={classes["filter-container"]}> 
          {/* filtering by country*/}
         <div  className={classes["filter-element"]} >
@@ -364,10 +416,14 @@ console.log(selectedCustomData)
      
           </div>
 
-        </div>
-       
-         
-         <table>
+        </div>}
+        </Offcanvas.Body>
+      </Offcanvas>
+
+
+    {multipleFilterData && (
+      <div className={classes["table-container"]}>
+         <Table striped bordered hover responsive>
          <thead>
             <tr>
               <th>Index</th>
@@ -380,6 +436,7 @@ console.log(selectedCustomData)
               <th>Max Amount P.</th>
               <th>Price/Night</th>
               <th>Currency</th>
+              <th>Meals</th>
               <th>Private Bathroom</th>
               <th>Country</th>
               <th>City</th>
@@ -389,7 +446,7 @@ console.log(selectedCustomData)
             </tr>
           </thead>
           <tbody>{mappedElement}</tbody>
-         </table>
+         </Table>
         
       </div>
     )}

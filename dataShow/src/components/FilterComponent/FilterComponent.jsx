@@ -101,8 +101,8 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
     
           const countryMatch = !selectedCountry || publicData.country === selectedCountry;
           const roomtypeMatch = !selectedRoomtype || publicData.roomtype === selectedRoomtype;
-          const bathroomMatch=!hasPrivateBathroom ||  publicData && publicData.amenities && publicData.amenities.includes('privat_bathroom')? "true":"false"  == hasPrivateBathroom 
-          const bathroomMatchNot=!hasPrivateBathroom ||  publicData && publicData.amenities && publicData.amenities.includes('shared_bathroom')? "false":"true" == hasPrivateBathroom 
+          const bathroomMatch=!hasPrivateBathroom ||  publicData && publicData.amenities && publicData.amenities.includes('privat_bathroom')? "yes":"no"  == hasPrivateBathroom 
+          const bathroomMatchNot=!hasPrivateBathroom ||  publicData && publicData.amenities && publicData.amenities.includes('shared_bathroom')? "no":"yes" == hasPrivateBathroom 
          
           const cityMatch = !selectedCity || publicData.city === selectedCity;
           const activitiesMatch = !offerActivities || (publicData.activities ? "yes" : "no") === offerActivities; 
@@ -179,14 +179,14 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
                 <td>{item.publicData1.customCurrency}</td>
                 <td>{ meals}</td>
                 {item.publicData1 && item.publicData1.amenities && item.publicData1.amenities.includes('privat_bathroom') ? (
-                  <td className={classes.true}>true </td>
+                  <td className={classes.true}>yes </td>
                 ) : (
-                  <td className={classes.false}>false </td>
+                  <td className={classes.false}>no </td>
                 )}
                 <td>{item.publicData1.country}</td>
                 <td>{item.publicData1.city}</td>
                 <td>{item.publicData1.activities ? "yes":"no"}</td>
-                <td><a href={url} target='_blank'> link</a> </td>
+                <td><a href={url} target='_blank'> {url}</a> </td>
                 {multipleFilterData && <td  onClick={(e) => addCustomElement(e, index)}>+</td>}
                
               </tr>
@@ -234,26 +234,7 @@ const selection = selectedCustomData.map((item, index)=>{
 
     
 
-      /*exporting the final table to json file  */
-
-      // const exportTableToJSON = () => {
-      //   const table = document.getElementById('yourTableId');
-      //   const headers = Array.from(table.querySelectorAll('th')).map(th => th.textContent.trim());
-    
-      //   const rows = Array.from(table.querySelectorAll('tbody tr'));
-      //   const data = rows.map(row => {
-      //     const cells = Array.from(row.querySelectorAll('td'));
-      //     return headers.reduce((rowData, header, index) => {
-      //       rowData[header] = cells[index].textContent.trim();
-      //       return rowData;
-      //     }, {});
-      //   });
-      
-      //   const jsonData = JSON.stringify(data, null, 2);
-      //  setTableJson(jsonData)
-      //   console.log(tableJson)
-      // };
-      
+  
       
    
     console.log(selectedCustomData)
@@ -348,11 +329,11 @@ const selection = selectedCustomData.map((item, index)=>{
               <option value="">All</option>
               {/* the values are not available on json data*/}
           
-                <option key={1} value={"true"}>
-                 true
+                <option key={1} value={"yes"}>
+                 yes
                 </option>
-                <option key={2} value={"false"}>
-                 false 
+                <option key={2} value={"no"}>
+                 no 
                 </option>
                 <option key={3} value={"both"}>
                  private & shared bathroom
@@ -408,8 +389,9 @@ const selection = selectedCustomData.map((item, index)=>{
 
 
     {multipleFilterData && (
-     
-         <Table striped bordered hover id="yourTableId" >
+           <>
+           <p>elements: {multipleFilterData.length}</p>
+         <Table striped bordered hover id="filteredTable" >
          <thead>
             <tr>
               <th>Index</th>
@@ -434,7 +416,7 @@ const selection = selectedCustomData.map((item, index)=>{
           </thead>
           <tbody>{mappedElement}</tbody>
          </Table>
-        
+         </>
      
     )}
   </div>}

@@ -23,7 +23,7 @@ import Table from 'react-bootstrap/Table';
 import { saveAs } from 'file-saver';  
 
 const FilterComponent = ({jsonData , fileMetadata}) => {
-
+ 
    /*mapped elements for rendering table */
     const[mappedElement,setMappedElements] = useState(null);
  /*json data after filters applied*/
@@ -53,6 +53,10 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
     };
 
     /*filters */
+
+    /*filter by State */
+
+    const[ actualState, setActualState ] = useState('')
     /*filter by country */
    
     const [selectedCountry, setSelectedCountry] = useState('');
@@ -79,6 +83,7 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
 
   /*Reset all filters*/ 
   const resetFilters = () => {
+    setActualState('')
     setSelectedCountry('');
     setSelectedRoomtype('')
     setSelectedCity('');
@@ -95,10 +100,10 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
 
        
     
-        if (selectedCountry || selectedRoomtype ||hasPrivateBathroom || selectedCity||offerActivities) {
+        if ( actualState||selectedCountry || selectedRoomtype ||hasPrivateBathroom || selectedCity||offerActivities) {
           filteredData = jsonData.filter((item) => {
             const publicData = item.publicData1;
-    
+          const stateMatch= !actualState || item.State === actualState;
           const countryMatch = !selectedCountry || publicData.country === selectedCountry;
           const roomtypeMatch = !selectedRoomtype || publicData.roomtype === selectedRoomtype;
           const bathroomMatch=!hasPrivateBathroom ||  publicData && publicData.amenities && publicData.amenities.includes('privat_bathroom')? "yes":"no"  == hasPrivateBathroom 
@@ -106,7 +111,7 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
          
           const cityMatch = !selectedCity || publicData.city === selectedCity;
           const activitiesMatch = !offerActivities || (publicData.activities ? "yes" : "no") === offerActivities; 
-            return countryMatch && roomtypeMatch && cityMatch  && bathroomMatch && bathroomMatchNot && activitiesMatch;
+            return  stateMatch && countryMatch && roomtypeMatch && cityMatch  && bathroomMatch && bathroomMatchNot && activitiesMatch;
           });
         }
 
@@ -186,6 +191,9 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
                 <td>{item.publicData1.country}</td>
                 <td>{item.publicData1.city}</td>
                 <td>{item.publicData1.activities ? "yes":"no"}</td>
+                <td>{item.publicData1.category.join(' ')}</td>
+                <td>{item.publicData1.languages.join(' ')}</td>
+                <td>{item.publicData1.otherLanguages}</td>
                 <td><a href={url} target='_blank'> {url}</a> </td>
                 {multipleFilterData && <td  onClick={(e) => addCustomElement(e, index)}>+</td>}
                
@@ -230,7 +238,8 @@ const selection = selectedCustomData.map((item, index)=>{
 
 
         }
-      }, [jsonData, selectedCountry,selectedRoomtype,hasPrivateBathroom,selectedCity,selectedCustomData,offerActivities]);
+      }, [jsonData,actualState, selectedCountry,selectedRoomtype,hasPrivateBathroom,selectedCity,selectedCustomData,offerActivities]);
+
 
     
 
@@ -241,7 +250,7 @@ const selection = selectedCustomData.map((item, index)=>{
 
   return (
     <>
-     {jsonData && <div>
+     {jsonData && <div className={classes["mega-container"]}>
        <HelpModal isOpen={isOpen} onClose={closeModal}>
         <h2 >Help Modal</h2>
         <p>This is the content of the help modal.</p>
@@ -265,6 +274,31 @@ const selection = selectedCustomData.map((item, index)=>{
         <Offcanvas.Body>
         {multipleFilterData && <div className={classes["nav-container"]}>
         <div className={classes["filter-container"]}> 
+           {/* filtering by State*/}
+           <div  className={classes["filter-element"]}>
+            <label htmlFor="stateFilter">Actual Status:</label>
+            <select
+              id="stateFilter"
+              value={actualState}
+              onChange={(e) => setActualState(e.target.value)}
+            >
+              <option value="">All</option>
+              {/* the values are not available on json data*/}
+          
+                <option key={1} value={"draft"}>
+                draft
+                </option>
+                <option key={2} value={"published"}>
+                published 
+                </option>
+                <option key={3} value={"closed"}>
+                closed
+                </option>
+                <option key={4} value={"pendingApproval"}>
+                pending Approval
+                </option>
+            </select>
+          </div>
          {/* filtering by country*/}
         <div  className={classes["filter-element"]} >
             <label htmlFor="countryFilter">Filter by Country:</label>
@@ -387,8 +421,8 @@ const selection = selectedCustomData.map((item, index)=>{
         </Offcanvas.Body>
       </Offcanvas>
 
-
-    {multipleFilterData && (
+  {!multipleFilterData && <div className={classes["spinner"]}></div>}
+    { multipleFilterData && (
            <>
            <p>elements: {multipleFilterData.length}</p>
          <Table striped bordered hover id="filteredTable" >
@@ -409,6 +443,9 @@ const selection = selectedCustomData.map((item, index)=>{
               <th>Country</th>
               <th>City</th>
               <th>Activities</th>
+              <th>Impact</th>
+              <th>Lang</th>
+              <th>+Lang</th>
               <th>Url</th>
             
              
@@ -419,7 +456,7 @@ const selection = selectedCustomData.map((item, index)=>{
          </>
      
     )}
-  </div>}
+  </div>} 
     </>
    
 

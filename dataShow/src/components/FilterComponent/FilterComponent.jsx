@@ -2,33 +2,48 @@
 import React, { useState , useEffect } from 'react';
 
 
-import classes from './filterComponent.module.css'
+
 
 import HelpModal from '../HelpModal/HelpModal.jsx';
-import '@fortawesome/fontawesome-free/css/all.min.css';
+
 import CustomSelectedData from '../CustomSelectedData/CustomSelectedData';
 
+
+/* font-awesome icons  */
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
+/* css modules  */
+import classes from './filterComponent.module.css'
+/* bootstrap components  */
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-
 import Table from 'react-bootstrap/Table';
+
+/* export final table to json  */
+import { saveAs } from 'file-saver';  
 
 const FilterComponent = ({jsonData , fileMetadata}) => {
 
-   
+   /*mapped elements for rendering table */
     const[mappedElement,setMappedElements] = useState(null);
+ /*json data after filters applied*/
     const [multipleFilterData, setMultipleFilterData] = useState(null);
-   
+ /*json data after filters applied and specific data selected*/  
     const [selectedCustomData, setSelectedCustomData] = useState([]);
-    
+/* display selected json data from selectedCustomData */  
    const [selection, setSelection] = useState(null);
-   
+
+ /* created table on json format */
+ 
+ const [tableJson, setTableJson]=useState([])
+
+   /*boolean for displaying help modal*/ 
     const [isOpen, setIsOpen] = useState(false);
-   
+  
     /*filter offset canvas */
     const [show, setShow] = useState(false);
    
-    /* help modal */
+    /* help modal open/close */
     const openModal = () => {
       setIsOpen(true);
     };
@@ -36,6 +51,8 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
     const closeModal = () => {
       setIsOpen(false);
     };
+
+    /*filters */
     /*filter by country */
    
     const [selectedCountry, setSelectedCountry] = useState('');
@@ -93,38 +110,6 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
           });
         }
 
- 
-          // if (selectedCountry) {
-          //   filteredData = jsonData.filter(
-          //     (item) => item.publicData1.country === selectedCountry
-            
-          //     );
-          
-          // }
-          // if (selectedRoomtype) {
-          //   filteredData = multipleFilterData.filter(
-          //     (item) => (item.publicData1 && item.publicData1.roomtype && item.publicData1.roomtype  === selectedRoomtype)
-            
-          //     );
-          
-          // }
-         
-          // if (hasPrivateBathroom) {
-          //   filteredData = multipleFilterData.filter(
-          //     (item) => (item.publicData1 && item.publicData1.amenities && item.publicData1.amenities.includes('privat_bathroom')? "true":"false" ||  item.publicData1 && item.publicData1.amenities && item.publicData1.amenities.includes('shared_bathroom')? "false":"true") === hasPrivateBathroom
-          //   );
-         
-          // }
-
-          // if (selectedCity) {
-          //   filteredData = multipleFilterData.filter(
-          //     (item) => item.publicData1.city === selectedCity
-          //   );
-          
-          // }
-
-         
-        
           const mapped = filteredData.map((item, index) => {
             let stateClasses = "";
             if (item.State === "draft") {
@@ -136,7 +121,6 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
             }
 
             let meals="";
-
 
             /*
             diplay the meals 
@@ -171,15 +155,15 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
               meals = "Full board"
             }
            
-      /* forming the url */
-      const name = item.Title
-      const id = item.Id
+             /* forming the url */
+                const name = item.Title
+                const id = item.Id
 
-      const url = `https://www.socialbnb.org/l/${name.replace(/\s+/g, '-')}/${id}`;
+                const url = `https://www.socialbnb.org/l/${name.replace(/\s+/g, '-')}/${id}`;
           
- /*remove roomtype from title */
-            const title = item.Title;
-const updatedTitle = title.split("•")[0].trim();
+            /*remove roomtype from title */
+                const title = item.Title;
+                const updatedTitle = title.split("•")[0].trim();
    /*map the listings  */        
             return (
               <tr  key={index} className={classes.card}>
@@ -213,13 +197,13 @@ const updatedTitle = title.split("•")[0].trim();
 
  console.log(filteredData)
    /* add custom elements from filteredData to selectedCustomData */
-const addCustomElement = (e, index) => {
+  const addCustomElement = (e, index) => {
   const selectedElement = filteredData[index];
   setSelectedCustomData(prevData => [...prevData, selectedElement]);
  
   };
- /* remove custom elements from filteredData to selectedCustomData */
-  const removeCustomElement = (e) => {
+  /* remove custom elements from filteredData to selectedCustomData */
+    const removeCustomElement = (e) => {
     const elementIndex = e.target.dataset.index; // Get the index of the element from the data-index attribute
     const updatedSelectedCustomData = selectedCustomData.filter((_, index) => index !== parseInt(elementIndex)); // Remove the element at the specified index
     
@@ -240,7 +224,7 @@ const selection = selectedCustomData.map((item, index)=>{
   })
 
   setSelection(selection)
-   
+ 
   
 
 
@@ -248,7 +232,28 @@ const selection = selectedCustomData.map((item, index)=>{
         }
       }, [jsonData, selectedCountry,selectedRoomtype,hasPrivateBathroom,selectedCity,selectedCustomData,offerActivities]);
 
+    
 
+      /*exporting the final table to json file  */
+
+      // const exportTableToJSON = () => {
+      //   const table = document.getElementById('yourTableId');
+      //   const headers = Array.from(table.querySelectorAll('th')).map(th => th.textContent.trim());
+    
+      //   const rows = Array.from(table.querySelectorAll('tbody tr'));
+      //   const data = rows.map(row => {
+      //     const cells = Array.from(row.querySelectorAll('td'));
+      //     return headers.reduce((rowData, header, index) => {
+      //       rowData[header] = cells[index].textContent.trim();
+      //       return rowData;
+      //     }, {});
+      //   });
+      
+      //   const jsonData = JSON.stringify(data, null, 2);
+      //  setTableJson(jsonData)
+      //   console.log(tableJson)
+      // };
+      
       
    
     console.log(selectedCustomData)
@@ -260,7 +265,7 @@ const selection = selectedCustomData.map((item, index)=>{
         <h2 >Help Modal</h2>
         <p>This is the content of the help modal.</p>
       </HelpModal>
- 
+     
     
     {selection}
    {jsonData && <div>
@@ -269,6 +274,8 @@ const selection = selectedCustomData.map((item, index)=>{
       </Button>
     <Button   onClick={openModal}>  <i className="fas fa-question-circle" style={{ fontSize: '16px', color: 'white' }}></i></Button>
      <p>File created on: {fileMetadata.lastModifiedDate.toLocaleString()}</p>
+     <CustomSelectedData onMultipleFilterData={multipleFilterData} onCustomSelectedData={selectedCustomData} />
+    
    </div> }
     <Offcanvas show={show} onHide={handleClose}>
         <Offcanvas.Header closeButton>
@@ -402,7 +409,7 @@ const selection = selectedCustomData.map((item, index)=>{
 
     {multipleFilterData && (
      
-         <Table striped bordered hover  >
+         <Table striped bordered hover id="yourTableId" >
          <thead>
             <tr>
               <th>Index</th>

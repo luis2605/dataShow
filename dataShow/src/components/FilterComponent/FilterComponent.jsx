@@ -22,6 +22,9 @@ import Table from 'react-bootstrap/Table';
 /* export final table to json  */
 import { saveAs } from 'file-saver';  
 
+/*impor for checkin countries to continents for filtering */
+import { getContinentCode, getContinentName } from '@brixtol/country-continent';
+
 const FilterComponent = ({jsonData , fileMetadata}) => {
  
    /*mapped elements for rendering table */
@@ -91,6 +94,8 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
     /*filter by impact */
    
       const [impact, setImpact] = useState('')
+    /*filter by continent */
+      const [selectedContinent, setSelectedContinent] = useState('');
    
    /*open close filter offset canvas */
    
@@ -113,6 +118,9 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
     setActExpanded(false)
   };
 
+
+
+
   /*Reset all filters*/ 
   const resetFilters = () => {
     setActualState('')
@@ -121,9 +129,28 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
     setSelectedCity('');
     setHasPrivateBathroom('');
     setOfferActivities('')
+    setImpact('')
+    setSelectedContinent('')
+  };
+/*btn + and - effect & styles */
+  const buttonStyle = {
+    padding: '10px ',
+    backgroundColor: '#0B5ED7',
+   borderRadius:'50%',
+    border: 'none',
+    cursor: 'pointer',
+    transition: 'transform 0.2s',
+    fontSize: '16px',
+     color: 'white'
   };
 
- 
+  const handleMouseDown = (e) => {
+    e.target.style.transform = 'translateY(2px)';
+  };
+
+  const handleMouseUp = (e) => {
+    e.target.style.transform = 'none';
+  };
 
 
     useEffect(() => {
@@ -147,14 +174,24 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
           !impact ||
           (publicData.amenities && publicData.category.includes(impact)) ||
           (publicData.categories && publicData.category.includes(impact));
-
-          console.log(impact)
-    
-            return  stateMatch && countryMatch && roomtypeMatch && cityMatch  && bathroomMatch && bathroomMatchNot && activitiesMatch && impactMatch;
+ 
+    // Check if publicData and publicData.country are defined before getting the continent
+    const continent = publicData && publicData.country && getContinentName(publicData.country);
+// la pinga esta no funciona tratar manana de nuevo
+    // Perform continent match only if the continent is defined and selectedContinent is not empty para 
+    const continentMatch = !selectedContinent || (continent && continent === selectedContinent);
+          
+            return  stateMatch && countryMatch && roomtypeMatch && cityMatch  && bathroomMatch && bathroomMatchNot && activitiesMatch && impactMatch && continentMatch;
           });
         }
-
+       
           const mapped = filteredData.map((item, index) => {
+           
+            /*set continent name */
+            const publicData = item.publicData1;
+            const continent = publicData && publicData.country && getContinentName(publicData.country);
+
+           /*set className for styles on state */
             let stateClasses = "";
             if (item.State === "draft") {
               stateClasses = classes.draft;
@@ -164,11 +201,13 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
               stateClasses = classes.published;
             }
 
-            let meals="";
-
             /*
             diplay the meals 
              */
+
+
+            let meals="";
+
             if( item.publicData1 && item.publicData1.food && item.publicData1.food.includes("breakfast_inclusive") && item.publicData1 && item.publicData1.food && !item.publicData1.food.includes("lunch_inclusive") && item.publicData1 && item.publicData1.food && !item.publicData1.food.includes("dinner_inclusive") ){
 
               meals = "Only Breakfast"
@@ -209,7 +248,7 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
                 const title = item.Title;
                 const updatedTitle = title.split("•")[0].trim();
    /*map the listings  */  
-    console.log(item.publicData1.country)      
+ 
             return (
               <tr  key={index} className={classes.card}>
                 <td>{index}</td>
@@ -228,6 +267,7 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
                 ) : (
                   <td className={classes.false}>no </td>
                 )}
+                <td>{continent}</td>
                 <td>{item.publicData1.country}</td>
                 <td>{item.publicData1.city}</td>
                 <td>{item.publicData1.activities ? "yes":"no"}</td>
@@ -246,7 +286,9 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
                 <td>{item.publicData1.languages.join(' ')}</td>
                 <td>{item.publicData1.otherLanguages}</td>
                 <td><a href={url} target='_blank'> {url}</a> </td>
-                {multipleFilterData && <td  onClick={(e) => addCustomElement(e, index)}>+</td>}
+                {multipleFilterData && <td   onClick={(e) => addCustomElement(e, index)}> <i className="fas fa-solid fa-plus" style={buttonStyle}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}></i></td>}
                
               </tr>
           
@@ -290,7 +332,7 @@ const selection = selectedCustomData.map((item, index)=>{
 
 
         }
-      }, [jsonData,actualState, selectedCountry,selectedRoomtype,hasPrivateBathroom,selectedCity,selectedCustomData,offerActivities, actExpanded,impact]);
+      }, [jsonData,actualState, selectedCountry,selectedRoomtype,hasPrivateBathroom,selectedCity,selectedCustomData,offerActivities, actExpanded,impact,selectedContinent]);
 
 
     
@@ -380,6 +422,23 @@ const selection = selectedCustomData.map((item, index)=>{
                 </option>
             </select>
           </div>
+          <div  className={classes["filter-element"]} >
+            <label htmlFor="selectedContinent">Filter by Continent:</label>
+            <select
+              id="selectedContinent"
+              value={selectedContinent}
+              onChange={(e) => {setSelectedContinent(e.target.value); console.log(e.target.value)} }
+            >
+                <option value="">All Continents</option>
+                <option key={1} value={"Africa"}>Africa</option>
+                <option key={2} value={"Antarctica"}>Antarctica</option>
+                <option key={3} value={"Asia"}>Asia</option>
+                <option key={4} value={"Europe"}>Europe</option>
+                <option key={5} value={"North America"}>North America</option>
+                <option key={6} value={"Oceania"}>Oceania</option>
+                <option key={7} value={"South America"}>South America</option>
+            </select>
+          </div>
          {/* filtering by country*/}
         <div  className={classes["filter-element"]} >
             <label htmlFor="countryFilter">Filter by Country:</label>
@@ -438,7 +497,7 @@ const selection = selectedCustomData.map((item, index)=>{
             <select
               id="impact"
               value={impact}
-              onChange={(e) => { setImpact(e.target.value); console.log(e.target.value) }}
+              onChange={(e) =>  setImpact(e.target.value)}
             >
               <option value="">All</option>
               {/* the roomtype values are available in the multipleFilterData but not on a stylish way */}
@@ -554,6 +613,7 @@ const selection = selectedCustomData.map((item, index)=>{
               <th>Currency</th>
               <th>Meals</th>
               <th>Private Bathroom</th>
+              <th>Continent</th>
               <th>Country</th>
               <th>City</th>
               <th>Activities</th>

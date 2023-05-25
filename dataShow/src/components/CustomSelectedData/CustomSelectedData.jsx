@@ -67,9 +67,9 @@ XLSX.writeFile(wb, 'RawDataToExcel.xlsx');
  
   return (
     <div>
-     <Button onClick={handleTableExport}>Export Table to Excel</Button>
-     <Button onClick={handleRawDataExport}>Export raw Data to Excel</Button>
-     <Button>Export Selection to Excel</Button>
+     <Button onClick={handleTableExport} style={{ marginRight:'1em' }}>Export Table to Excel</Button>
+     <Button onClick={handleRawDataExport} style={{ marginRight:'1em' }}>Export raw Data to Excel</Button>
+     <Button style={{ marginRight:'1em' }}>Export Selection to Excel</Button>
 
     </div>
   )

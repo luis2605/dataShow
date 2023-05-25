@@ -4,7 +4,7 @@ import React, { useState , useEffect } from 'react';
 
 
 
-import HelpModal from '../HelpModal/HelpModal.jsx';
+import Modal from '../Modal/Modal.jsx';
 
 import CustomSelectedData from '../CustomSelectedData/CustomSelectedData';
 
@@ -38,18 +38,31 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
  const [tableJson, setTableJson]=useState([])
 
    /*boolean for displaying help modal*/ 
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpenHelp, setIsOpenHelp] = useState(false);
+
+    
+   /*boolean for displaying selection modal*/ 
+   const [isOpenSelection, setIsOPenSelection] = useState(false);
   
+    /* selection modal open/close */
+    const openModalSelection = () => {
+      setIsOPenSelection(true);
+    };
+   
+    const closeModalSelection = () => {
+      setIsOPenSelection(false);
+    };
+
     /*filter offset canvas */
     const [show, setShow] = useState(false);
    
     /* help modal open/close */
-    const openModal = () => {
-      setIsOpen(true);
+    const openModalHelp = () => {
+      setIsOpenHelp(true);
     };
    
-    const closeModal = () => {
-      setIsOpen(false);
+    const closeModalHelp = () => {
+      setIsOpenHelp(false);
     };
 
     /*filters */
@@ -74,12 +87,31 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
    /*filter by activities */
    
    const [offerActivities, setOfferActivities] = useState('')
+
+    /*filter by impact */
+   
+      const [impact, setImpact] = useState('')
    
    /*open close filter offset canvas */
    
    const handleClose = () => setShow(false);
    const handleShow = () => setShow(true);
 
+  /*expand close activities description */
+
+  const [actExpanded, setActExpanded] = useState(false)
+
+  /* expand close activities description  */
+
+  const expandActivitiesHandler = () => {
+    
+    setActExpanded(true)
+    };
+  ;
+
+  const closeActivitiesHandler = () => {
+    setActExpanded(false)
+  };
 
   /*Reset all filters*/ 
   const resetFilters = () => {
@@ -100,7 +132,7 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
 
        
     
-        if ( actualState||selectedCountry || selectedRoomtype ||hasPrivateBathroom || selectedCity||offerActivities) {
+        if ( actualState||selectedCountry || selectedRoomtype ||hasPrivateBathroom || selectedCity||offerActivities || impact) {
           filteredData = jsonData.filter((item) => {
             const publicData = item.publicData1;
           const stateMatch= !actualState || item.State === actualState;
@@ -111,7 +143,14 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
          
           const cityMatch = !selectedCity || publicData.city === selectedCity;
           const activitiesMatch = !offerActivities || (publicData.activities ? "yes" : "no") === offerActivities; 
-            return  stateMatch && countryMatch && roomtypeMatch && cityMatch  && bathroomMatch && bathroomMatchNot && activitiesMatch;
+          const impactMatch =
+          !impact ||
+          (publicData.amenities && publicData.category.includes(impact)) ||
+          (publicData.categories && publicData.category.includes(impact));
+
+          console.log(impact)
+    
+            return  stateMatch && countryMatch && roomtypeMatch && cityMatch  && bathroomMatch && bathroomMatchNot && activitiesMatch && impactMatch;
           });
         }
 
@@ -169,7 +208,8 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
             /*remove roomtype from title */
                 const title = item.Title;
                 const updatedTitle = title.split("•")[0].trim();
-   /*map the listings  */        
+   /*map the listings  */  
+    console.log(item.publicData1.country)      
             return (
               <tr  key={index} className={classes.card}>
                 <td>{index}</td>
@@ -191,6 +231,17 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
                 <td>{item.publicData1.country}</td>
                 <td>{item.publicData1.city}</td>
                 <td>{item.publicData1.activities ? "yes":"no"}</td>
+                
+                <td>
+                  <div className={classes["act-exp-container"]}>
+                    <span
+                      className={actExpanded ? classes["act-exp"] : classes["act-not-exp"]}
+                    >
+                      {item.publicData1.activities}
+                    </span>
+                    
+                  </div>
+              </td>
                 <td>{item.publicData1.category.join(' ')}</td>
                 <td>{item.publicData1.languages.join(' ')}</td>
                 <td>{item.publicData1.otherLanguages}</td>
@@ -198,6 +249,7 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
                 {multipleFilterData && <td  onClick={(e) => addCustomElement(e, index)}>+</td>}
                
               </tr>
+          
             );
           });
           setMultipleFilterData(filteredData);
@@ -238,7 +290,7 @@ const selection = selectedCustomData.map((item, index)=>{
 
 
         }
-      }, [jsonData,actualState, selectedCountry,selectedRoomtype,hasPrivateBathroom,selectedCity,selectedCustomData,offerActivities]);
+      }, [jsonData,actualState, selectedCountry,selectedRoomtype,hasPrivateBathroom,selectedCity,selectedCustomData,offerActivities, actExpanded,impact]);
 
 
     
@@ -247,23 +299,52 @@ const selection = selectedCustomData.map((item, index)=>{
       
    
     console.log(selectedCustomData)
-
+  console.log(selection)
   return (
     <>
      {jsonData && <div key={"mxps"} className={classes["mega-container"]}>
-       <HelpModal isOpen={isOpen} onClose={closeModal}>
+       <Modal isOpen={isOpenHelp} onClose={closeModalHelp}>
         <h2 >Help Modal</h2>
         <p>This is the content of the help modal.</p>
-      </HelpModal>
-     
+      </Modal>
+      <Modal isOpen={isOpenSelection} onClose={closeModalSelection}>
+      {selection?  selection :"no items selected"  }
+      </Modal>
     
-    {selection}
+   
    {jsonData && <div>
-    <Button variant="primary" onClick={handleShow}>
+    <Button variant="primary" onClick={handleShow} style={{ marginRight:'1em' }}>
         Filters
       </Button>
-    <Button   onClick={openModal}>  <i className="fas fa-question-circle" style={{ fontSize: '16px', color: 'white' }}></i></Button>
-     <p>File created on: {fileMetadata.lastModifiedDate.toLocaleString()}</p>
+      
+     {selection && <Button onClick={openModalSelection} style={{ marginRight:'1em' }}>
+  <i className="fas fa-duotone fa-eye" style={{ fontSize: '16px', color: 'white',marginRight:'.5em' }}></i>
+  <span style={{ position: 'relative' }}>
+    {selection.length > 0 && (
+      <span
+        style={{
+          position: 'absolute',
+          top: '-15px',
+          right: '-80px',
+          backgroundColor: 'red',
+          borderRadius: '50%',
+          width: '20px',
+          height: '20px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          color: 'white',
+          fontSize: '12px',
+        }}
+      >
+        {selection.length}
+      </span>
+    )}
+  </span>
+  Selection
+</Button>}
+    <Button   onClick={openModalHelp} style={{ marginRight:'1em' }}>  <i className="fas fa-question-circle" style={{ fontSize: '16px', color: 'white' }}></i></Button>
+     <p style={{ marginTop:'1em' }}>File created on: {fileMetadata.lastModifiedDate.toLocaleString()}</p>
      <CustomSelectedData onMultipleFilterData={multipleFilterData} onCustomSelectedData={selectedCustomData} />
     
    </div> }
@@ -352,6 +433,38 @@ const selection = selectedCustomData.map((item, index)=>{
             </select>
           </div>
 
+          <div  className={classes["filter-element"]}>
+            <label htmlFor="impact">Filter by Impact:</label>
+            <select
+              id="impact"
+              value={impact}
+              onChange={(e) => { setImpact(e.target.value); console.log(e.target.value) }}
+            >
+              <option value="">All</option>
+              {/* the roomtype values are available in the multipleFilterData but not on a stylish way */}
+              <option key={1} value={"Bildung"}>
+              Bildung
+                </option>
+                <option key={2} value={"Equality"}>
+              Equality
+                </option>
+                <option key={4} value={"Health"}>
+              Health
+                </option>
+              <option key={5} value={'Naturschutz'}>
+              Naturschutz
+              </option>
+              <option key={6} value={"Sports"}>
+              Sports
+              </option>
+              <option key={7} value={"Tierschutz"}>
+              Tierschutz
+              </option>
+             
+           
+            </select>
+          </div>
+
             {/* filtering by hasPrivateBathroom*/}
         <div  className={classes["filter-element"]}>
             <label htmlFor="bathroomFilter">Has Private Bathroom:</label>
@@ -424,9 +537,9 @@ const selection = selectedCustomData.map((item, index)=>{
   {!multipleFilterData && <div className={classes["spinner"]}></div>}
     { multipleFilterData && (
            <>
-           <p>elements: {multipleFilterData.length}</p>
+           <p style={{ marginTop:'1em' }}>elements: {multipleFilterData.length}</p>
           
-         <Table striped bordered hover responsive  id="filteredTable" >
+         <Table striped bordered hover   id="filteredTable" >
          <thead>
             <tr>
               <th>Index</th>
@@ -436,7 +549,7 @@ const selection = selectedCustomData.map((item, index)=>{
               <th>Room Type</th>
               <th>Room Amount</th>
               <th>Room Occupancy</th>
-              <th>Max Amount P.</th>
+              <th>Max Amount</th>
               <th>Price/Night</th>
               <th>Currency</th>
               <th>Meals</th>
@@ -444,6 +557,19 @@ const selection = selectedCustomData.map((item, index)=>{
               <th>Country</th>
               <th>City</th>
               <th>Activities</th>
+              <th>Activities Description {actExpanded ? (
+                      <i
+                        onClick={ closeActivitiesHandler}
+                        className="fas fa-solid fa-chevron-up"
+                        style={{ fontSize: "16px", color: "blue", padding: "0 1em" }}
+                      />
+                    ) : (
+                      <i
+                        onClick={ expandActivitiesHandler}
+                        className="fas fa-solid fa-chevron-down"
+                        style={{ fontSize: "16px", color: "blue", padding: "0 1em" }}
+                      />
+                    )}</th>
               <th>Impact</th>
               <th>Lang</th>
               <th>+Lang</th>

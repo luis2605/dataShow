@@ -5,6 +5,8 @@ import classes from "./csvToJson.module.css"
 
 
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import logo from "../../assets/img/logo_tuerkis_schrift-04.png"
+import logoText from "../../assets/img/logo_tuerkis_schrift-02.png"
 
 import CloseButton from 'react-bootstrap/CloseButton';
 
@@ -58,10 +60,16 @@ const removeCsvFile =()=>{
 
 return(
   <div className={!jsonData? ` ${classes["centered"]}` : ""}>
-  {!jsonData && <h1>Please select the CSV file to be read</h1>}
-  <div>
-  <input ref={inputFileRef}  type="file" accept=".csv" onChange={handleFileUpload} />
+  {!jsonData &&  <div className={classes["logo-title"]}>
+    <img className={classes["logo"]} src={logo}></img>
+    <h1>Please select the CSV file to be read</h1></div>}
+  <div className={classes["topBar-container"]}>
+  {jsonData && <img className={classes["logoText"]} src={ logoText}></img>}
+    <div className={classes["input-container"]}>
+    <input ref={inputFileRef}  type="file" accept=".csv" onChange={handleFileUpload} />
  <CloseButton  onClick={removeCsvFile}/>
+    </div>
+
   </div>
 
  <FilterComponent jsonData={jsonData} fileMetadata={fileMetadata}/>

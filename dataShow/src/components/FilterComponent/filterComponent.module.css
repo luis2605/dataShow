@@ -12,11 +12,7 @@
 backdrop-filter: blur(5px);
 border: 0px solid rgba(255,255,255,0.175);
 }
-.table-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-}
+
 
 .btn-container{
     display: flex;
@@ -31,6 +27,9 @@ border: 0px solid rgba(255,255,255,0.175);
     padding:.5em;
     margin:.5em
 }
+
+
+
 /*filter styles*/
 .filter-container{
     margin:  0;

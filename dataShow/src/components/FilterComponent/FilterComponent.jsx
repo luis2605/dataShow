@@ -250,7 +250,7 @@ const selection = selectedCustomData.map((item, index)=>{
 
   return (
     <>
-     {jsonData && <div className={classes["mega-container"]}>
+     {jsonData && <div key={"mxps"} className={classes["mega-container"]}>
        <HelpModal isOpen={isOpen} onClose={closeModal}>
         <h2 >Help Modal</h2>
         <p>This is the content of the help modal.</p>
@@ -425,7 +425,8 @@ const selection = selectedCustomData.map((item, index)=>{
     { multipleFilterData && (
            <>
            <p>elements: {multipleFilterData.length}</p>
-         <Table striped bordered hover id="filteredTable" >
+          
+         <Table striped bordered hover responsive  id="filteredTable" >
          <thead>
             <tr>
               <th>Index</th>
@@ -453,6 +454,7 @@ const selection = selectedCustomData.map((item, index)=>{
           </thead>
           <tbody>{mappedElement}</tbody>
          </Table>
+       
          </>
      
     )}

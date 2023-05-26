@@ -107,4 +107,19 @@ input[type="file"]::file-selector-button:active {
   background-color: #e5e7eb;
 }
 
-/* ------------------------ */
+/* initial help modal */
+.help-container{
+  display: flex;
+  padding: 2em 0em;
+  justify-content: space-between;
+  align-items: center;
+  text-align: justify;
+}
+.help-container h3{
+  margin:1em 2em ;
+}
+.help-container-img{
+  width:900px;
+  border-radius: 10px;
+  margin-right:2em;
+}

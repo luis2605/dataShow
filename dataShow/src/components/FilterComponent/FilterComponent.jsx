@@ -18,6 +18,7 @@ import classes from './filterComponent.module.css'
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Table from 'react-bootstrap/Table';
+import Card from 'react-bootstrap/Card';
 
 /* export final table to json  */
 import { saveAs } from 'file-saver';  
@@ -132,6 +133,7 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
     setImpact('')
     setSelectedContinent('')
   };
+
 /*btn + and - effect & styles */
   const buttonStyle = {
     padding: '10px ',
@@ -152,6 +154,12 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
     e.target.style.transform = 'none';
   };
 
+  /* clear selection */
+  const clearSelection = () => {
+  setSelection('')
+  setSelectedCustomData([])
+  setIsOPenSelection(false);
+  }
 
     useEffect(() => {
       if (jsonData) {
@@ -248,7 +256,7 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
                 const title = item.Title;
                 const updatedTitle = title.split("•")[0].trim();
    /*map the listings  */  
- 
+
             return (
               <tr  key={index} className={classes.card}>
                 <td>{index}</td>
@@ -314,18 +322,30 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
 
 
 
-const selection = selectedCustomData.map((item, index)=>{
+const selectedItems = selectedCustomData.map((item, index)=>{
   
   return(
-    <div className={classes["selected-item"]}> 
- <p>{item.Title} </p>
- <p data-index={index} onClick={removeCustomElement}>-</p> {/* Pass the index of the element */}
-    </div>
+
+    <Card style={{ width: '100%',height:'5rem', margin:'1em auto .5em auto' }}>
+    
+    <Card.Body  style={{ display:'flex',justifyContent:'space-around',alignItems:'flex-start'}} >
+      <Card.Title>{item.Title}</Card.Title>
+      <Card.Text>
+        Some quick example text to build on the card title and make up the
+        bulk of the card's content.
+      </Card.Text>
+      
+      <Button  onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp} data-index={index}  onClick={removeCustomElement} variant="primary" style={{ margin:'0  .5em ',padding:'.5em' }}> <i className="fas fa-duotone fa-house-circle-xmark" style={{ fontSize: '16px', color: 'white' }}></i></Button> {/* Pass the index of the element */}
+    </Card.Body>
+  </Card>
+
+   
    
   )
   })
 
-  setSelection(selection)
+  setSelection(selectedItems)
  
   
 
@@ -347,19 +367,49 @@ const selection = selectedCustomData.map((item, index)=>{
      {jsonData && <div key={"mxps"} className={classes["mega-container"]}>
        <Modal isOpen={isOpenHelp} onClose={closeModalHelp}>
         <h2 >Help Modal</h2>
-        <p>This is the content of the help modal.</p>
+        <div>
+
+          
+        </div>
       </Modal>
-      <Modal isOpen={isOpenSelection} onClose={closeModalSelection}>
-      {selection?  selection :"no items selected"  }
-      </Modal>
-    
+  
+      
+      <Modal isOpen={isOpenSelection} onClose={closeModalSelection}  >
+
+      <div className={classes["display-selection"]}>
+        {selection && selection.length === 0 ? (
+          <p>Sorry, no items selected.</p>
+        ) : (
+          <>
+           <h2>Selected items</h2>
+          {selection}
+          </>
+         
+        )}
+      </div>
+      <div className={classes["selection-btn-container"]}>
+      <Button  onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp} onClick={clearSelection}> {selection && selection.length === 0? 
+          <span>OK</span>
+         : 
+         <span>Clear selection</span>
+        }
+
+      </Button>
+
+      </div>
+   
+    </Modal>
+  
    
    {jsonData && <div>
-    <Button variant="primary" onClick={handleShow} style={{ marginRight:'1em' }}>
+    <Button  onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp} variant="primary" onClick={handleShow} style={{ marginRight:'1em' }}>
         Filters
       </Button>
       
-     {selection && <Button onClick={openModalSelection} style={{ marginRight:'1em' }}>
+     {selection && <Button  onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp} onClick={openModalSelection} style={{ marginRight:'1em' }}>
   <i className="fas fa-duotone fa-eye" style={{ fontSize: '16px', color: 'white',marginRight:'.5em' }}></i>
   <span style={{ position: 'relative' }}>
     {selection.length > 0 && (
@@ -385,7 +435,8 @@ const selection = selectedCustomData.map((item, index)=>{
   </span>
   Selection
 </Button>}
-    <Button   onClick={openModalHelp} style={{ marginRight:'1em' }}>  <i className="fas fa-question-circle" style={{ fontSize: '16px', color: 'white' }}></i></Button>
+    <Button  onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}   onClick={openModalHelp} style={{ marginRight:'1em' }}>  <i className="fas fa-question-circle" style={{ fontSize: '16px', color: 'white' }}></i></Button>
      <p style={{ marginTop:'1em' }}>File created on: {fileMetadata.lastModifiedDate.toLocaleString()}</p>
      <CustomSelectedData onMultipleFilterData={multipleFilterData} onCustomSelectedData={selectedCustomData} />
     
@@ -584,7 +635,8 @@ const selection = selectedCustomData.map((item, index)=>{
           </div>
           </div>
           <div className={classes["btn-container"]}>
-          <button className={classes["reset-btn"]} onClick={resetFilters}><i className="fa fa-refresh" style={{fontSize:"16px"}}></i></button>
+          <button  onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp} className={classes["reset-btn"]} onClick={resetFilters}><i className="fa fa-refresh" style={{fontSize:"16px"}}></i></button>
        
      
           </div>

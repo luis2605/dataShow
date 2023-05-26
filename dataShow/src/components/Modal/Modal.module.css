@@ -20,8 +20,10 @@
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
+    border-radius: 10px;
+    max-width: 1400px;
     width: 80%;
-    max-width: 600px;
+   
     color: black;
   }
   

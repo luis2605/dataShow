@@ -4,10 +4,25 @@ import XLSX from 'xlsx/dist/xlsx.full.min.js';
 
 const CustomSelectedData = ({onMultipleFilterData,onCustomSelectedData}) => {
 
- 
+
+  /*this is used to extract the arrays of data inside the main data */
+  const convertArraysToStrings = (array) => {
+    return array.map((object) => {
+      const convertedObject = {};
+      for (let key in object) {
+        if (Array.isArray(object[key])) {
+          convertedObject[key] = JSON.stringify(object[key]);
+        } else {
+          convertedObject[key] = object[key];
+        }
+      }
+      return convertedObject;
+    });
+  };
+  
   
 
-  console.log(onMultipleFilterData)
+  
  const handleTableExport =()=>{
  /*convert table content to json */
   const table = document.getElementById('filteredTable');
@@ -22,6 +37,7 @@ const CustomSelectedData = ({onMultipleFilterData,onCustomSelectedData}) => {
     }, {});
   });
 
+ 
   /*Adding formulas to excel file */
  /* Add formula to calculate 'Price + Commission' */
  const updatedData = data.map((row) => {
@@ -54,22 +70,41 @@ XLSX.writeFile(wb, 'TableToExcel.xlsx');
     return { ...rest, ...publicData1 }; // Merge remaining properties with publicData1
   });
   
-  console.log(modifiedArray);
+  /* this function extract all properties like food:[a,b,c] as strings to the main array  */
+  const convertedData = convertArraysToStrings(modifiedArray);
 
 /* Create excel file */
 let wb = XLSX.utils.book_new(),
-  ws = XLSX.utils.json_to_sheet(modifiedArray);
+  ws = XLSX.utils.json_to_sheet(convertedData);
 
 XLSX.utils.book_append_sheet(wb, ws, 'MySheet1');
 XLSX.writeFile(wb, 'RawDataToExcel.xlsx');
  }
 
+ const handleSelectionExport=()=>{
+  
+  /*modify original array into one with usable properties */
+  const modifiedArray = onCustomSelectedData.map((item) => {
+    const { PublicData, publicData1, ...rest } = item; // Extract PublicData and publicData1
+    return { ...rest, ...publicData1 }; // Merge remaining properties with publicData1
+  });
+    /* this function extract all properties like food:[a,b,c] as strings to the main array  */
+    const convertedData = convertArraysToStrings(modifiedArray);
+
+  /* Create excel file */
+let wb = XLSX.utils.book_new(),
+ws = XLSX.utils.json_to_sheet(convertedData);
+
+XLSX.utils.book_append_sheet(wb, ws, 'MySheet1');
+XLSX.writeFile(wb, 'SelectedDataToExcel.xlsx');
+ 
+}
  
   return (
     <div>
      <Button onClick={handleTableExport} style={{ marginRight:'1em' }}>Export Table to Excel</Button>
      <Button onClick={handleRawDataExport} style={{ marginRight:'1em' }}>Export raw Data to Excel</Button>
-     <Button style={{ marginRight:'1em' }}>Export Selection to Excel</Button>
+     {onCustomSelectedData &&  onCustomSelectedData.length===0? "" : <Button onClick={handleSelectionExport}style={{ marginRight:'1em' }}>Export Selection to Excel</Button>}
 
     </div>
   )

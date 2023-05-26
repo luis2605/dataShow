@@ -8,12 +8,27 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import logo from "../../assets/img/logo_tuerkis_schrift-04.png"
 import logoText from "../../assets/img/logo_tuerkis_schrift-02.png"
 
+import sharetribe from "../../assets/img/tutorial/0.png"
+
 import CloseButton from 'react-bootstrap/CloseButton';
+import Button from 'react-bootstrap/Button';
 
 import FilterComponent from '../FilterComponent/FilterComponent';
+import Modal from '../Modal/Modal.jsx';
 
 const CSVToJSON = () => {
   const [jsonData, setJsonData] = useState(null);
+  const [openHelpInitial,setOpenHelpInitial]=useState(false)
+
+
+  const openHelpInitialModal = () => {
+    setOpenHelpInitial(true);
+  };
+ 
+  const closeHelpInitialModal = () => {
+    setOpenHelpInitial(false);
+  };
+
  /* csv file metadata */
  const [fileMetadata, setFileMetadata] = useState(null);
  const inputFileRef = useRef(null); // Ref for the input element
@@ -67,7 +82,24 @@ return(
   {jsonData && <img className={classes["logoText"]} src={ logoText}></img>}
     <div className={classes["input-container"]}>
     <input ref={inputFileRef}  type="file" accept=".csv" onChange={handleFileUpload} />
+  <Button onClick={removeCsvFile}>X</Button>
  <CloseButton  onClick={removeCsvFile}/>
+ <Button    onClick={openHelpInitialModal} style={{ margin:'0 1em' }}>  <i className="fas fa-question-circle" style={{ fontSize: '16px', color: 'white' }}></i></Button>
+ <Modal isOpen={openHelpInitial} onClose={closeHelpInitialModal}>
+        <h2 >How to get the CSV file from Sharetribe Flex Console ? </h2>
+       <div className={classes["help-container"]}>
+        <img className={classes["help-container-img"]} src={sharetribe}></img>
+        <div>
+        <h3>Please log in on you Sharetribe Flex Console Account</h3>
+        <h3>Go to Listings</h3>
+        <h3>Click on Download .csv</h3>
+        <h3>The .csv file will land on your Downloads usual folder</h3>
+        </div>
+      
+       </div>
+       
+      </Modal>
+   
     </div>
 
   </div>

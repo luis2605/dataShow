@@ -50,6 +50,14 @@ border: 0px solid rgba(255,255,255,0.175);
 label{
     text-align: left;
 }
+/*table styles*/
+tr {
+    text-align: center;
+  }
+  
+  td, th {
+    vertical-align: middle;
+  }
 
 thead{
     position: -webkit-sticky;
@@ -82,6 +90,20 @@ th{
     overflow-y: hidden;
 }
 
+/*selection*/
+
+.selection-btn-container{
+    display: flex;
+    margin: 1em;
+    justify-content: center;
+}
+
+.display-selection{
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    margin: 1em 0 2em 0;
+}
 .spinner {
     width: 11.2px;
     height: 11.2px;

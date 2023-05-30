@@ -649,8 +649,8 @@ const selectedItems = selectedCustomData.map((item, index)=>{
     { multipleFilterData && (
            <>
            <p style={{ marginTop:'1em' }}>elements: {multipleFilterData.length}</p>
-          
-         <Table striped bordered hover   id="filteredTable" >
+    
+          <Table striped bordered hover   id="filteredTable" >
          <thead>
             <tr>
               <th>Index</th>
@@ -692,6 +692,8 @@ const selectedItems = selectedCustomData.map((item, index)=>{
           </thead>
           <tbody>{mappedElement}</tbody>
          </Table>
+        
+       
        
          </>
      

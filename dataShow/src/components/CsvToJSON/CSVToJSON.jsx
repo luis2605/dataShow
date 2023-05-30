@@ -82,9 +82,12 @@ return(
   {jsonData && <img className={classes["logoText"]} src={ logoText}></img>}
     <div className={classes["input-container"]}>
     <input ref={inputFileRef}  type="file" accept=".csv" onChange={handleFileUpload} />
-  <Button onClick={removeCsvFile}>X</Button>
- <CloseButton  onClick={removeCsvFile}/>
- <Button    onClick={openHelpInitialModal} style={{ margin:'0 1em' }}>  <i className="fas fa-question-circle" style={{ fontSize: '16px', color: 'white' }}></i></Button>
+  <div className={classes["btn-container"]}>
+  <Button onClick={removeCsvFile}><i className="fas fa-trash" style={{ fontSize: '16px', color: 'white' }}></i></Button>
+
+<Button    onClick={openHelpInitialModal} style={{ margin:'0 1em' }}>  <i className="fas fa-question-circle" style={{ fontSize: '16px', color: 'white' }}></i></Button>
+  </div>
+ 
  <Modal isOpen={openHelpInitial} onClose={closeHelpInitialModal}>
         <h2 >How to get the CSV file from Sharetribe Flex Console ? </h2>
        <div className={classes["help-container"]}>

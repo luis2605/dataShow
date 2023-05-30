@@ -18,6 +18,10 @@
   display: flex;
   align-items: center;
 }
+
+.btn-container{
+  display: flex;
+}
 .logo-title{
   display: flex;
   align-items: center;
@@ -35,7 +39,7 @@
  input[type="file"] {
   outline: none;
   padding: 8px 4px;
-  margin: 1em ;
+
 }
 
 input[type="file"]:focus-within::file-selector-button,
@@ -122,4 +126,35 @@ input[type="file"]::file-selector-button:active {
   width:900px;
   border-radius: 10px;
   margin-right:2em;
+}
+
+/*media queries*/
+
+@media screen and (max-width:425px){
+  
+  .logo-title{
+    flex-direction: column;
+  }
+
+  .logo-title h1{
+    text-align: justify;
+  }
+ .input-container{
+  flex-direction: column;
+  width: 100%;
+  margin: 1em;
+ }
+
+ .btn-container{
+  width: 100%;
+  margin: 1em;
+  justify-content: space-evenly;
+}
+ .help-container{
+  flex-direction: column;
+ }
+ .help-container-img{
+  width: 200px;
+  margin: 1em 0;
+ }
 }

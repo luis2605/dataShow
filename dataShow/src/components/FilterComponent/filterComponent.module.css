@@ -51,6 +51,7 @@ label{
     text-align: left;
 }
 /*table styles*/
+
 tr {
     text-align: center;
   }
@@ -66,7 +67,7 @@ thead{
     background: rgba(255,255,255,0.4);
     -webkit-backdrop-filter: blur(38px);
     backdrop-filter: blur(38px);
-    border: 1px solid rgba(255,255,255,0.2);
+   
     text-align: center;
 }
 

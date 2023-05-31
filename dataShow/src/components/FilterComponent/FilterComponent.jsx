@@ -536,8 +536,8 @@ const selectedItems = selectedCustomData.map((item, index)=>{
               <option key={6} value={"twobedroom"}>
                  Two Bedroom
               </option>
-              <option key={7} value={"camping"}>
-                 Camping
+              <option key={7} value={"tent"}>
+                 tent
               </option>
            
             </select>

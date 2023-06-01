@@ -83,9 +83,9 @@ return(
     <div className={classes["input-container"]}>
     <input ref={inputFileRef}  type="file" accept=".csv" onChange={handleFileUpload} />
   <div className={classes["btn-container"]}>
-  <Button onClick={removeCsvFile}><i className="fas fa-trash" style={{ fontSize: '16px', color: 'white' }}></i></Button>
+  <Button onClick={removeCsvFile} style={{ margin:'0 1em',background:"#1C7881", border:"none" }}><i className="fas fa-trash" style={{ fontSize: '16px', color: 'white'  }}></i></Button>
 
-<Button    onClick={openHelpInitialModal} style={{ margin:'0 1em' }}>  <i className="fas fa-question-circle" style={{ fontSize: '16px', color: 'white' }}></i></Button>
+{!jsonData && <Button    onClick={openHelpInitialModal} style={{ margin:'0 1em',background:"#1C7881", border:"none"  }}>  <i className="fas fa-question-circle" style={{ fontSize: '16px', color: 'white' }}></i></Button>}
   </div>
  
  <Modal isOpen={openHelpInitial} onClose={closeHelpInitialModal}>

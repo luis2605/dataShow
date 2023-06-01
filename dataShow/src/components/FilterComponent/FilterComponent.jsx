@@ -26,6 +26,17 @@ import { saveAs } from 'file-saver';
 /*impor for checkin countries to continents for filtering */
 import { getContinentCode, getContinentName } from '@brixtol/country-continent';
 
+/*assets */
+import sustainable_about from "../../assets/img/sustainable_about.png"
+/* import for the pop up on continent */
+
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
+
+
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import Form from 'react-bootstrap/Form';
+
 const FilterComponent = ({jsonData , fileMetadata}) => {
  
    /*mapped elements for rendering table */
@@ -37,9 +48,10 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
 /* display selected json data from selectedCustomData */  
    const [selection, setSelection] = useState(null);
 
- /* created table on json format */
  
- const [tableJson, setTableJson]=useState([])
+
+// used to show hide the extra categories
+const [showExtraCategories, setShowExtraCategories] = useState(false)
 
    /*boolean for displaying help modal*/ 
     const [isOpenHelp, setIsOpenHelp] = useState(false);
@@ -57,6 +69,13 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
       setIsOPenSelection(false);
     };
 
+     /* show more categories  show/hide */
+     const showHideMore = () => {
+      setShowExtraCategories(!showExtraCategories);
+    };
+   
+
+
     /*filter offset canvas */
     const [show, setShow] = useState(false);
    
@@ -70,7 +89,8 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
     };
 
     /*filters */
-
+  // Search bar state
+  const [searchQuery, setSearchQuery] = useState('');
     /*filter by State */
 
     const[ actualState, setActualState ] = useState('')
@@ -132,7 +152,14 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
     setOfferActivities('')
     setImpact('')
     setSelectedContinent('')
+    setSearchQuery('')
   };
+
+    /*Reset query text*/
+    
+    const resetQueryText = () => {
+      setSearchQuery('')
+    }
 
 /*btn + and - effect & styles */
   const buttonStyle = {
@@ -161,13 +188,19 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
   setIsOPenSelection(false);
   }
 
+  /* text for pop-up on continent */
+  const popupTextContinent = "Continent cannot be selected as first filter due to the fact that continent data is not present on the original source. Please select one of the other filters before filtering by continent "
+ 
+
     useEffect(() => {
+
+
       if (jsonData) {
         let filteredData = jsonData;
 
        
     
-        if ( actualState||selectedCountry || selectedRoomtype ||hasPrivateBathroom || selectedCity||offerActivities || impact) {
+        if ( actualState||selectedCountry || selectedRoomtype ||hasPrivateBathroom || selectedCity||offerActivities || impact || searchQuery) {
           filteredData = jsonData.filter((item) => {
             const publicData = item.publicData1;
           const stateMatch= !actualState || item.State === actualState;
@@ -182,14 +215,19 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
           !impact ||
           (publicData.amenities && publicData.category.includes(impact)) ||
           (publicData.categories && publicData.category.includes(impact));
+
+          const searchQueryMatch =!searchQuery || item.Title && item.Title.toLowerCase().includes(searchQuery.toLowerCase()) 
  
     // Check if publicData and publicData.country are defined before getting the continent
     const continent = publicData && publicData.country && getContinentName(publicData.country);
 // la pinga esta no funciona tratar manana de nuevo
     // Perform continent match only if the continent is defined and selectedContinent is not empty para 
     const continentMatch = !selectedContinent || (continent && continent === selectedContinent);
-          
-            return  stateMatch && countryMatch && roomtypeMatch && cityMatch  && bathroomMatch && bathroomMatchNot && activitiesMatch && impactMatch && continentMatch;
+      
+   
+     
+   
+            return  stateMatch && countryMatch && roomtypeMatch && cityMatch  && bathroomMatch && bathroomMatchNot && activitiesMatch && impactMatch && continentMatch && searchQueryMatch ;
           });
         }
        
@@ -264,13 +302,13 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
                 <td className={stateClasses}>{item.State}</td>
                 <td>{updatedTitle}</td>
                 <td>{item.publicData1.roomtype}</td>
-                <td>{item.publicData1.roomamount}</td>
-                <td>{item.publicData1.bedamount}</td>
-                <td>{item.publicData1.bedamount && item.publicData1.roomamount ? item.publicData1.bedamount * item.publicData1.roomamount : ""}</td>
-                <td>{item.PriceAmount / 100}</td>
-                <td>{item.publicData1.customCurrency}</td>
-                <td>{ meals}</td>
-                {item.publicData1 && item.publicData1.amenities && item.publicData1.amenities.includes('privat_bathroom') ? (
+                {showExtraCategories &&   <td>{item.publicData1.roomamount}</td>}
+                {showExtraCategories &&    <td>{item.publicData1.bedamount}</td>}
+               {showExtraCategories &&    <td>{item.publicData1.bedamount && item.publicData1.roomamount ? item.publicData1.bedamount * item.publicData1.roomamount : ""}</td>}
+               {showExtraCategories &&     <td>{item.PriceAmount / 100}</td>}
+               {showExtraCategories &&    <td>{item.publicData1.customCurrency}</td>}
+               {showExtraCategories &&    <td>{ meals}</td>}
+               { item.publicData1 && item.publicData1.amenities && item.publicData1.amenities.includes('privat_bathroom') ? (
                   <td className={classes.true}>yes </td>
                 ) : (
                   <td className={classes.false}>no </td>
@@ -292,8 +330,8 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
               </td>
                 <td>{item.publicData1.category.join(' ')}</td>
                 <td>{item.publicData1.languages.join(' ')}</td>
-                <td>{item.publicData1.otherLanguages}</td>
-                <td><a href={url} target='_blank'> {url}</a> </td>
+                {showExtraCategories &&   <td>{item.publicData1.otherLanguages}</td>}
+                {showExtraCategories &&   <td><a href={url} target='_blank'> {url}</a> </td>}
                 {multipleFilterData && <td   onClick={(e) => addCustomElement(e, index)}> <i className="fas fa-solid fa-plus" style={buttonStyle}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}></i></td>}
@@ -352,7 +390,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
 
 
         }
-      }, [jsonData,actualState, selectedCountry,selectedRoomtype,hasPrivateBathroom,selectedCity,selectedCustomData,offerActivities, actExpanded,impact,selectedContinent]);
+      }, [jsonData,actualState, selectedCountry,selectedRoomtype,hasPrivateBathroom,selectedCity,selectedCustomData,offerActivities, actExpanded,impact,selectedContinent,showExtraCategories,searchQuery]);
 
 
     
@@ -389,7 +427,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
       </div>
       <div className={classes["selection-btn-container"]}>
       <Button  onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp} onClick={clearSelection}> {selection && selection.length === 0? 
+      onMouseUp={handleMouseUp} onClick={clearSelection} style={{ background:"#1C7881", border:"none"  }}> {selection && selection.length === 0? 
           <span>OK</span>
          : 
          <span>Clear selection</span>
@@ -404,13 +442,15 @@ const selectedItems = selectedCustomData.map((item, index)=>{
    
    {jsonData && <div>
     <Button  onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp} variant="primary" onClick={handleShow} style={{ marginRight:'1em' }}>
+      onMouseUp={handleMouseUp} variant="primary" onClick={handleShow} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>
         Filters
       </Button>
-      
+    
      {selection && <Button  onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp} onClick={openModalSelection} style={{ marginRight:'1em' }}>
-  <i className="fas fa-duotone fa-eye" style={{ fontSize: '16px', color: 'white',marginRight:'.5em' }}></i>
+      onMouseUp={handleMouseUp} onClick={openModalSelection} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>
+
+
+  <i className="fa-solid fa-arrows-to-eye" style={{ fontSize: '16px', color: 'white',marginRight:'.5em' }}></i>
   <span style={{ position: 'relative' }}>
     {selection.length > 0 && (
       <span
@@ -435,8 +475,11 @@ const selectedItems = selectedCustomData.map((item, index)=>{
   </span>
   Selection
 </Button>}
+
+<Button onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp} onClick={showHideMore} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>{showExtraCategories ?   <i className="fa-solid fa-eye-slash" style={{ fontSize: '16px', color: 'white' }}></i> : <i className="fa-solid fa-eye" style={{ fontSize: '16px', color: 'white' }}></i>}</Button>
     <Button  onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}   onClick={openModalHelp} style={{ marginRight:'1em' }}>  <i className="fas fa-question-circle" style={{ fontSize: '16px', color: 'white' }}></i></Button>
+      onMouseUp={handleMouseUp}   onClick={openModalHelp} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>  <i className="fas fa-question-circle" style={{ fontSize: '16px', color: 'white' }}></i></Button>
      <p style={{ marginTop:'1em' }}>File created on: {fileMetadata.lastModifiedDate.toLocaleString()}</p>
      <CustomSelectedData onMultipleFilterData={multipleFilterData} onCustomSelectedData={selectedCustomData} />
     
@@ -473,7 +516,17 @@ const selectedItems = selectedCustomData.map((item, index)=>{
                 </option>
             </select>
           </div>
-          <div  className={classes["filter-element"]} >
+          {
+        <OverlayTrigger
+          key='right'
+          placement='right'
+          overlay={
+            <Tooltip id={`tooltip-continent`}>
+               <strong>{popupTextContinent}</strong>.
+            </Tooltip>
+          }
+        >
+           <div  className={classes["filter-element"]} >
             <label htmlFor="selectedContinent">Filter by Continent:</label>
             <select
               id="selectedContinent"
@@ -490,6 +543,10 @@ const selectedItems = selectedCustomData.map((item, index)=>{
                 <option key={7} value={"South America"}>South America</option>
             </select>
           </div>
+        </OverlayTrigger>
+      }
+
+        
          {/* filtering by country*/}
         <div  className={classes["filter-element"]} >
             <label htmlFor="countryFilter">Filter by Country:</label>
@@ -537,7 +594,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
                  Two Bedroom
               </option>
               <option key={7} value={"tent"}>
-                 tent
+                 Tent
               </option>
            
             </select>
@@ -635,12 +692,28 @@ const selectedItems = selectedCustomData.map((item, index)=>{
           </div>
           </div>
           <div className={classes["btn-container"]}>
+            <div  className={classes["search-container"]}>
+          
+
+      <FloatingLabel
+        controlId="floatingInput"
+        label="Query here..."
+        className="mb-3"
+      >
+        <Form.Control type="text"   value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        placeholder="Search by title" />
+      </FloatingLabel>
+            </div>
+         
+            <button  onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp} className={classes["reset-btn"]} onClick={resetQueryText}><i className="fa  fa-delete-left" style={{fontSize:"16px"}}></i></button>   
           <button  onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp} className={classes["reset-btn"]} onClick={resetFilters}><i className="fa fa-refresh" style={{fontSize:"16px"}}></i></button>
        
      
           </div>
-
+  <img className={classes["offset-img"]} src={sustainable_about}></img>
         </div>}
         </Offcanvas.Body>
       </Offcanvas>
@@ -650,7 +723,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
            <>
            <p style={{ marginTop:'1em' }}>elements: {multipleFilterData.length}</p>
     
-          <Table striped bordered hover   id="filteredTable" >
+         <Table striped bordered hover   id="filteredTable" >
          <thead>
             <tr>
               <th>Index</th>
@@ -658,13 +731,14 @@ const selectedItems = selectedCustomData.map((item, index)=>{
               <th>State</th>
               <th>Title</th>
               <th>Room Type</th>
-              <th>Room Amount</th>
-              <th>Room Occupancy</th>
-              <th>Max Amount</th>
-              <th>Price/Night</th>
-              <th>Currency</th>
-              <th>Meals</th>
-              <th>Private Bathroom</th>
+            
+             {showExtraCategories && <th>Room Amount</th>}
+             {showExtraCategories && <th>Room Occupancy</th>}
+               {showExtraCategories &&<th>Max Amount</th>}
+               {showExtraCategories &&<th>Price/Night</th>}
+               {showExtraCategories && <th>Currency</th>}
+               {showExtraCategories && <th>Meals</th>}
+                <th>Private Bathroom</th>
               <th>Continent</th>
               <th>Country</th>
               <th>City</th>
@@ -684,14 +758,16 @@ const selectedItems = selectedCustomData.map((item, index)=>{
                     )}</th>
               <th>Impact</th>
               <th>Lang</th>
-              <th>+Lang</th>
-              <th>Url</th>
-            
+              {showExtraCategories &&   <th>+Lang</th>}
+              {showExtraCategories &&  <th>Url</th>}
+              {multipleFilterData > 0 &&  <th></th>}
              
             </tr>
           </thead>
           <tbody>{mappedElement}</tbody>
          </Table>
+       
+      
         
        
        

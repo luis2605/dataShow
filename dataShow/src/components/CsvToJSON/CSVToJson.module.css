@@ -157,4 +157,8 @@ input[type="file"]::file-selector-button:active {
   width: 200px;
   margin: 1em 0;
  }
+
+ .topBar-container{
+  flex-direction: column;
+ }
 }

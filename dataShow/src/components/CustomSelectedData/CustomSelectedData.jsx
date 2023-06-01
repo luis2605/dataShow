@@ -102,9 +102,9 @@ XLSX.writeFile(wb, 'SelectedDataToExcel.xlsx');
  
   return (
     <div>
-     <Button onClick={handleTableExport} style={{ marginRight:'1em' }}>Export Table to Excel</Button>
-     <Button onClick={handleRawDataExport} style={{ marginRight:'1em' }}>Export raw Data to Excel</Button>
-     {onCustomSelectedData &&  onCustomSelectedData.length===0? "" : <Button onClick={handleSelectionExport}style={{ marginRight:'1em' }}>Export Selection to Excel</Button>}
+     <Button onClick={handleTableExport} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>Export Table to Excel</Button>
+     <Button onClick={handleRawDataExport} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>Export raw Data to Excel</Button>
+     {onCustomSelectedData &&  onCustomSelectedData.length===0? "" : <Button onClick={handleSelectionExport}style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>Export Selection to Excel</Button>}
 
     </div>
   )

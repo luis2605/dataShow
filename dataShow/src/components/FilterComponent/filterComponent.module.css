@@ -21,6 +21,7 @@ border: 0px solid rgba(255,255,255,0.175);
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    flex-direction: column;
 }
 .reset-btn{
     padding:.5em;
@@ -34,8 +35,26 @@ border: 0px solid rgba(255,255,255,0.175);
 
 /*offset canvas*/
 
-.offset-img{
-    width: 200px;
+.custom-shape-divider-bottom-1685701521 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    transform: rotate(180deg);
+    overflow: hidden;
+    line-height: 0;
+ 
+}
+
+.custom-shape-divider-bottom-1685701521 svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 100%;
+}
+
+.custom-shape-divider-bottom-1685701521 .shape-fill {
+    fill: #1C7881;
 }
 
 /*filter styles*/
@@ -158,3 +177,7 @@ thead{
 .closed{
     color: red !important;
 }
+
+/*media queries*/
+
+

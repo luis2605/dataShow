@@ -486,7 +486,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
    </div> }
     <Offcanvas show={show} onHide={handleClose}>
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+          <Offcanvas.Title>dataShow Filtering Tool</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
         {multipleFilterData && <div className={classes["nav-container"]}>

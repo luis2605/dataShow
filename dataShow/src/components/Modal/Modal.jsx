@@ -1,10 +1,10 @@
 import React from 'react'
 import styles from "./Modal.module.css"
 
-const Modal = ({ isOpen, onClose, children }) => {
+const Modal = ({ isOpen, onClose, children ,onSelection}) => {
   return (
     <div className={`${styles.modal} ${isOpen ? styles.open : ''}`} >
-      <div className={styles.modalContent}>
+     <div className={onSelection && onSelection.length === 0 ? `${styles['modalContent-noSelection']} ${styles['modalContent']}` : styles['modalContent']}>
         <span className={styles.close} onClick={onClose}>
           &times;
         </span>

@@ -19,7 +19,7 @@ import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Table from 'react-bootstrap/Table';
 import Card from 'react-bootstrap/Card';
-
+import ProgressBar from 'react-bootstrap/ProgressBar';
 /* export final table to json  */
 import { saveAs } from 'file-saver';  
 
@@ -28,6 +28,8 @@ import { getContinentCode, getContinentName } from '@brixtol/country-continent';
 
 /*assets */
 import dataShowLogo from "../../assets/img/dataShowLogo.png"
+import sorry from "../../assets/img/sorry.png"
+import selectfilter from "../../assets/img/selectFilter.png"
 /* import for the pop up on continent */
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -117,6 +119,14 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
       const [impact, setImpact] = useState('')
     /*filter by continent */
       const [selectedContinent, setSelectedContinent] = useState('');
+
+      /* state for the % */
+
+      const [percent, setPercent] = useState(0)
+
+      /* identify if the data has been filtered */
+
+      const [dataHasBeenFiltered, setDataHasBeenFiltered] = useState(false)
    
    /*open close filter offset canvas */
    
@@ -188,12 +198,20 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
   setIsOPenSelection(false);
   }
 
+  /*calculate percent  */
+
+  const calculatePercent =(total,percent) => {
+  return  ( percent*100) /total
+
+  }
+
   /* text for pop-up on continent */
   const popupTextContinent = "Continent cannot be selected as first filter due to the fact that continent data is not present on the original source. Please select one of the other filters before filtering by continent "
  
 
     useEffect(() => {
 
+      
 
       if (jsonData) {
         let filteredData = jsonData;
@@ -387,19 +405,30 @@ const selectedItems = selectedCustomData.map((item, index)=>{
  
   
 
+     setPercent(()=>{
+     
+      return calculatePercent(jsonData.length , filteredData.length).toFixed(2)
+     })
 
+
+    
+       if(multipleFilterData && jsonData && multipleFilterData.length < jsonData.length){
+
+        setDataHasBeenFiltered(true)
+       }else setDataHasBeenFiltered(false)
+
+     
 
         }
-      }, [jsonData,actualState, selectedCountry,selectedRoomtype,hasPrivateBathroom,selectedCity,selectedCustomData,offerActivities, actExpanded,impact,selectedContinent,showExtraCategories,searchQuery]);
+      }, [jsonData,actualState, selectedCountry,selectedRoomtype,hasPrivateBathroom,selectedCity,selectedCustomData,offerActivities, actExpanded,impact,selectedContinent,showExtraCategories,searchQuery,percent]);
 
 
     
 
   
-      
+     
    
-    console.log(selectedCustomData)
-  console.log(selection)
+   
   return (
     <>
      {jsonData && <div key={"mxps"} className={classes["mega-container"]}>
@@ -407,16 +436,16 @@ const selectedItems = selectedCustomData.map((item, index)=>{
         <h2 >Help Modal</h2>
         <div>
 
-          
+      
         </div>
       </Modal>
   
       
-      <Modal isOpen={isOpenSelection} onClose={closeModalSelection}  >
+      <Modal isOpen={isOpenSelection} onClose={closeModalSelection} onSelection={selection} >
 
       <div className={classes["display-selection"]}>
         {selection && selection.length === 0 ? (
-          <p>Sorry, no items selected.</p>
+          <img src={sorry} className={classes["img-sorry"]} />
         ) : (
           <>
            <h2>Selected items</h2>
@@ -426,6 +455,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
         )}
       </div>
       <div className={classes["selection-btn-container"]}>
+     
       <Button  onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp} onClick={clearSelection} style={{ background:"#1C7881", border:"none"  }}> {selection && selection.length === 0? 
           <span>OK</span>
@@ -440,7 +470,10 @@ const selectedItems = selectedCustomData.map((item, index)=>{
     </Modal>
   
    
-   {jsonData && <div>
+   {jsonData && <div className={dataHasBeenFiltered ? `${classes["utilities-bar"]} ${classes["utilities-bar-single"]}`: classes["utilities-bar"]}>
+
+     {!dataHasBeenFiltered && <img className={classes["select-filter-img"]} src={selectfilter} alt="" /> }
+    <div>
     <Button  onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp} variant="primary" onClick={handleShow} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>
         Filters
@@ -480,14 +513,16 @@ const selectedItems = selectedCustomData.map((item, index)=>{
       onMouseUp={handleMouseUp} onClick={showHideMore} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>{showExtraCategories ?   <i className="fa-solid fa-eye-slash" style={{ fontSize: '16px', color: 'white' }}></i> : <i className="fa-solid fa-eye" style={{ fontSize: '16px', color: 'white' }}></i>}</Button>
     <Button  onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}   onClick={openModalHelp} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>  <i className="fas fa-question-circle" style={{ fontSize: '16px', color: 'white' }}></i></Button>
-     <p style={{ marginTop:'1em' }}>File created on: {fileMetadata.lastModifiedDate.toLocaleString()}</p>
+     <h3 style={{ margin:'1em 0' }}>File downloaded on: {fileMetadata.lastModifiedDate.toLocaleString()}</h3>
      <CustomSelectedData onMultipleFilterData={multipleFilterData} onCustomSelectedData={selectedCustomData} />
     
-   </div> }
+   </div> 
+   </div>
+   }
     <Offcanvas show={show} onHide={handleClose}  
          >
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title><img src={dataShowLogo} /></Offcanvas.Title>
+          <Offcanvas.Title><img className={classes["img-logo"]} src={dataShowLogo} /></Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
         {multipleFilterData && <div className={classes["nav-container"]}>
@@ -698,7 +733,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
 
       <FloatingLabel
         controlId="floatingInput"
-        label="Query here..."
+        label="Listing name here..."
         className="mb-3"
       >
         <Form.Control type="text"   value={searchQuery}
@@ -730,8 +765,16 @@ const selectedItems = selectedCustomData.map((item, index)=>{
   {!multipleFilterData && <div className={classes["spinner"]}></div>}
     { multipleFilterData && (
            <>
-           <p style={{ marginTop:'1em' }}>elements: {multipleFilterData.length}</p>
-    
+           <div className={classes["total-bar"]}>
+             <h2 > {multipleFilterData.length}/{jsonData.length}</h2>
+            <div  className={classes["total-bar-elements"]}>
+           
+           <h2 > % from Total</h2>
+           <ProgressBar className={classes["bar"]} now={percent} label={`${percent}%`} />
+            </div>
+          
+           </div>
+          
          <Table striped bordered hover   id="filteredTable" >
          <thead>
             <tr>

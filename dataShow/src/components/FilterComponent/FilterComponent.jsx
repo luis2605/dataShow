@@ -38,6 +38,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
+import BarChart from '../Charts/BarChart.jsx';
 
 const FilterComponent = ({jsonData , fileMetadata}) => {
  
@@ -55,9 +56,14 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
 // used to show hide the extra categories
 const [showExtraCategories, setShowExtraCategories] = useState(false)
 
+    
    /*boolean for displaying help modal*/ 
     const [isOpenHelp, setIsOpenHelp] = useState(false);
+  /*boolean for displaying charts modal*/ 
+    const [isOpenCharts, setIsOpenCharts] = useState(false);
+/* state of country count for charts */
 
+  const [countryCount, setCountryCount] = useState({})
     
    /*boolean for displaying selection modal*/ 
    const [isOpenSelection, setIsOPenSelection] = useState(false);
@@ -89,6 +95,14 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
     const closeModalHelp = () => {
       setIsOpenHelp(false);
     };
+      /* charts modal open/close */
+      const openModalCharts = () => {
+        setIsOpenCharts(true);
+      };
+     
+      const closeModalCharts = () => {
+        setIsOpenCharts(false);
+      };
 
     /*filters */
   // Search bar state
@@ -362,7 +376,32 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
           setMappedElements(mapped);
 
  console.log(filteredData)
-   /* add custom elements from filteredData to selectedCustomData */
+ 
+ /*county the amount of listings per country for charts */
+const countryCounts = {};
+
+for (const data of filteredData) {
+  const country = data.publicData1.country;
+  if (country in countryCounts) {
+    countryCounts[country] += 1;
+  } else {
+    countryCounts[country] = 1;
+  }
+}
+
+const countriesArray = Object.entries(countryCounts).map(([country, count]) => ({ country, count }));
+
+console.log(countriesArray);
+setCountryCount({
+  labels:countriesArray.map((data)=>data.country),
+  datasets:[{
+    label:"Amount of Listings per country",
+    data:countriesArray.map((data)=>data.count)
+  }]
+ 
+})
+console.log(countryCount);
+ /* add custom elements from filteredData to selectedCustomData */
   const addCustomElement = (e, index) => {
   const selectedElement = filteredData[index];
   setSelectedCustomData(prevData => [...prevData, selectedElement]);
@@ -439,7 +478,13 @@ const selectedItems = selectedCustomData.map((item, index)=>{
       
         </div>
       </Modal>
-  
+      <Modal isOpen={isOpenCharts} onClose={closeModalCharts}>
+        <h2 >Charts Modal</h2>
+        <div>
+<BarChart chartdata={countryCount} />
+      
+        </div>
+      </Modal>
       
       <Modal isOpen={isOpenSelection} onClose={closeModalSelection} onSelection={selection} >
 
@@ -515,7 +560,8 @@ const selectedItems = selectedCustomData.map((item, index)=>{
       onMouseUp={handleMouseUp}   onClick={openModalHelp} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>  <i className="fas fa-question-circle" style={{ fontSize: '16px', color: 'white' }}></i></Button>
      <h3 style={{ margin:'1em 0' }}>File downloaded on: {fileMetadata.lastModifiedDate.toLocaleString()}</h3>
      <CustomSelectedData onMultipleFilterData={multipleFilterData} onCustomSelectedData={selectedCustomData} />
-    
+     <Button onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp} onClick={openModalCharts}  style={{ marginTop:'1em', marginRight:'1em',background:"#1C7881", border:"none"  }}>Show Charts</Button>
    </div> 
    </div>
    }

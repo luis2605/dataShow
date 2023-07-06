@@ -400,7 +400,7 @@ setCountryCount({
   }]
  
 })
-console.log(countryCount);
+
  /* add custom elements from filteredData to selectedCustomData */
   const addCustomElement = (e, index) => {
   const selectedElement = filteredData[index];

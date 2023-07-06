@@ -391,7 +391,7 @@ for (const data of filteredData) {
 
 const countriesArray = Object.entries(countryCounts).map(([country, count]) => ({ country, count }));
 
-console.log(countriesArray);
+
 setCountryCount({
   labels:countriesArray.map((data)=>data.country),
   datasets:[{

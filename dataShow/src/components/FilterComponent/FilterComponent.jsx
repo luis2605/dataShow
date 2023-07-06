@@ -63,7 +63,21 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
     const [isOpenCharts, setIsOpenCharts] = useState(false);
 /* state of country count for charts */
 
-  const [countryCount, setCountryCount] = useState({})
+  const [countryCount, setCountryCount] = useState({
+    labels :['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    datasets: [
+      {
+        label: 'Dataset 1',
+        data: 1,
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      },
+      {
+        label: 'Dataset 2',
+        data: 2,
+        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      },
+    ],
+  })
     
    /*boolean for displaying selection modal*/ 
    const [isOpenSelection, setIsOPenSelection] = useState(false);

@@ -239,7 +239,7 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
 
     useEffect(() => {
 
-      
+    
 
       if (jsonData) {
         let filteredData = jsonData;
@@ -374,9 +374,12 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
                     
                   </div>
               </td>
-                <td>{item.publicData1.category.join(' ')}</td>
-                <td>{item.publicData1.languages.join(' ')}</td>
-                {showExtraCategories &&   <td>{item.publicData1.otherLanguages}</td>}
+               { item.publicData1.category &&  <td>{Array.isArray(item.publicData1.category) ? item.publicData1.category.join(' ') : item.publicData1.category}</td>
+
+}
+                {item.publicData1.languages && <td>{item.publicData1.languages.join(' ')}</td>}
+                <td>{Array.isArray(item.publicData1.languages) ? item.publicData1.languages.join(' ') : (item.publicData1.languages ? item.publicData1.languages : 'N/A')}</td>
+
                 {showExtraCategories &&   <td><a href={url} target='_blank'> {url}</a> </td>}
                 {multipleFilterData && <td   onClick={(e) => addCustomElement(e, index)}> <i className="fas fa-solid fa-plus" style={buttonStyle}
       onMouseDown={handleMouseDown}

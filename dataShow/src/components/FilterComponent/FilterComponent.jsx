@@ -392,7 +392,7 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
           setMultipleFilterData(filteredData);
           setMappedElements(mapped);
 
- console.log(filteredData)
+
  
  /*county the amount of listings per country for charts */
 const countryCounts = {};

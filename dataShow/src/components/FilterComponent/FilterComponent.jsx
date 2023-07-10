@@ -377,7 +377,6 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
                { item.publicData1.category &&  <td>{Array.isArray(item.publicData1.category) ? item.publicData1.category.join(' ') : item.publicData1.category}</td>
 
 }
-                {item.publicData1.languages && <td>{item.publicData1.languages.join(' ')}</td>}
                 <td>{Array.isArray(item.publicData1.languages) ? item.publicData1.languages.join(' ') : (item.publicData1.languages ? item.publicData1.languages : 'N/A')}</td>
 
                 {showExtraCategories &&   <td><a href={url} target='_blank'> {url}</a> </td>}

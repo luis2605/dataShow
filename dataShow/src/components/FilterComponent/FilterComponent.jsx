@@ -535,6 +535,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
 
      {!dataHasBeenFiltered && <img className={classes["select-filter-img"]} src={selectfilter} alt="" /> }
     <div>
+      
     <Button  onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp} variant="primary" onClick={handleShow} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>
         Filters
@@ -574,11 +575,12 @@ const selectedItems = selectedCustomData.map((item, index)=>{
       onMouseUp={handleMouseUp} onClick={showHideMore} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>{showExtraCategories ?   <i className="fa-solid fa-eye-slash" style={{ fontSize: '16px', color: 'white' }}></i> : <i className="fa-solid fa-eye" style={{ fontSize: '16px', color: 'white' }}></i>}</Button>
     <Button  onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}   onClick={openModalHelp} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>  <i className="fas fa-question-circle" style={{ fontSize: '16px', color: 'white' }}></i></Button>
-     <h3 style={{ margin:'1em 0' }}> Listing File downloaded on: {fileMetadata.lastModifiedDate.toLocaleString()}</h3>
-    {fileUserMetadata && <h3 style={{ margin:'1em 0' }}> User File downloaded on: {fileUserMetadata.lastModifiedDate.toLocaleString()}</h3>}
+     <h4 style={{ margin:'1em 0' }}> Listing File downloaded on: {fileMetadata.lastModifiedDate.toLocaleString()}</h4>
+    {fileUserMetadata && <h4 style={{ margin:'1em 0' }}> User File downloaded on: {fileUserMetadata.lastModifiedDate.toLocaleString()}</h4>} 
      <CustomSelectedData onMultipleFilterData={multipleFilterData} onCustomSelectedData={selectedCustomData} />
      <Button onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp} onClick={openModalCharts}  style={{ marginTop:'1em', marginRight:'1em',background:"#1C7881", border:"none"  }}>Show Charts</Button>
+  
    </div> 
    </div>
    }

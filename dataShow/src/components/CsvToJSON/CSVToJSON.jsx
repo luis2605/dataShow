@@ -30,9 +30,12 @@ const CSVToJSON = () => {
   /*help modal users*/
   const [openHelpUsersInitial,setOpenHelpUserInitial]=useState(false)
 
-
+/*drawer toggle */
   const [drawerVisible, setDrawerVisible] = useState(false); // State for drawer visibility
 
+/*for display name of file */
+  const [fileName, setFileName] = useState("");
+  const [fileUserName, setFileUserName] = useState("");
 
   const openHelpInitialListingModal = () => {
     setOpenHelpInitial(true);
@@ -57,7 +60,7 @@ const CSVToJSON = () => {
 
 
 
-const handleListingsFileUpload = async (e) => {
+ const handleListingsFileUpload = async (e) => {
   const file = e.target.files[0];
   const fileReader = new FileReader();
 
@@ -88,7 +91,11 @@ const handleListingsFileUpload = async (e) => {
 
   // Store the file metadata in a state variable
   setFileMetadata(fileMetadata);
+  
+  // Store the file name separately
+  setFileName(file.name);
 };
+
 
 
 const handleUserFileUpload = async (e) => {
@@ -123,6 +130,9 @@ const handleUserFileUpload = async (e) => {
   setUserFileMetadata(fileMetadata);
   setOverlay(false);
   setDrawerVisible(true);
+
+    // Update the value of inputFileRef
+    setFileUserName(file.name);
 };
 
 
@@ -132,6 +142,7 @@ const removeListingCsvFile =()=>{
     inputFileRef.current.value = null; // Reset the input value
     setOverlay(true);
     setDrawerVisible(false);
+    setFileName("")
 }
 
 const removeUserCsvFile =()=>{
@@ -140,6 +151,7 @@ const removeUserCsvFile =()=>{
    inputUserFileRef.current.value = null; // Reset the input value
    setOverlay(true);
    setDrawerVisible(false);
+   setFileUserName("")
 }
 const toggleDrawer = () => {
   setOverlay((prevState)=> !prevState);
@@ -151,7 +163,7 @@ return (
    {jsonData && <button className={classes["drawer-toggle-button"]} onClick={toggleDrawer}>
       {!drawerVisible ? <i className="fas fa-chevron-right"></i> : <i className="fas fa-chevron-left"></i>}
     </button>}
-   {overlay && <div className={classes["drawer-overlay"]} >
+   {overlay && <div className={classes["drawer-overlay"]}  >
     <div className={`${classes["drawer"]} ${drawerVisible ? classes["visible"] : ""}`}>
       {!jsonData && (
         <div className={classes["logo-title"]}>
@@ -160,12 +172,25 @@ return (
         </div>
       )}
       <div className={classes["topBar-container"]}>
+      {jsonData && <Button className={classes["close-drawer"]} onClick={toggleDrawer} style={{position:"relative",top:"0",left:'90%', margin: '0 1em', background: "#1C7881", border: "none" }}>
+                <i className="fas fa-xmark" style={{ fontSize: '16px', color: 'white' }}></i>
+              </Button>}
         {jsonData && <img className={classes["logoText"]} src={logoText} alt="Logo Text" />}
+
         <div className={classes["input-container"]}>
           <h3>Please introduce the listings file here :</h3>
-          <input ref={inputFileRef} type="file" accept=".csv" onChange={handleListingsFileUpload} />
-          <div className={classes["btn-container"]}>
-            <Button onClick={removeListingCsvFile} style={{ margin: '0 1em', background: "#1C7881", border: "none" }}>
+        <div className={classes["input-text-container"]}>
+        <input
+  ref={inputFileRef}
+  type="file"
+  accept=".csv"
+  onChange={handleListingsFileUpload}
+  style={{ color: 'transparent' }} // Apply CSS styling to hide the placeholder text
+/>
+      <p>{fileName}</p>  
+    { fileName && <i className="fas fa-check" style={{margin:'0 1em', fontSize: '16px', color: '#1C7881' }}></i>}
+    <div className={classes["btn-container"]}>
+            <Button onClick={removeListingCsvFile} style={{ margin: '0 1em 0 4px', background: "#1C7881", border: "none" }}>
               <i className="fas fa-trash" style={{ fontSize: '16px', color: 'white' }}></i>
             </Button>
             {!jsonData && (
@@ -173,14 +198,22 @@ return (
                 <i className="fas fa-question-circle" style={{ fontSize: '16px', color: 'white' }}></i>
               </Button>
             )}
-          </div>
+          </div> 
+        </div>
+          
+    
        
         </div>
         <div className={classes["input-container"]}>
           <h3>Please introduce the users file here for additional data :</h3>
-          <input ref={inputUserFileRef} type="file" accept=".csv" onChange={handleUserFileUpload} />
-          <div className={classes["btn-container"]}>
-            <Button onClick={removeUserCsvFile} style={{ margin: '0 1em', background: "#1C7881", border: "none" }}>
+          <div className={classes["input-text-container"]}>
+          <input ref={inputUserFileRef} 
+          type="file" accept=".csv" onChange={handleUserFileUpload}  style={{ color: 'transparent' }}  />
+         <p>{fileUserName}</p>
+        {fileUserName && <i className="fas fa-check" style={{margin:' 0 1em', fontSize: '16px', color: '#1C7881' }}></i>}
+         
+        <div className={classes["btn-container"]}>
+            <Button onClick={removeUserCsvFile} style={{ margin: '0 1em 0 4px', background: "#1C7881", border: "none" }}>
               <i className="fas fa-trash" style={{ fontSize: '16px', color: 'white' }}></i>
             </Button>
             {!jsonUserData && (
@@ -189,6 +222,10 @@ return (
               </Button>
             )}
           </div>
+          </div>
+         
+        
+        
       
         </div>
       </div>

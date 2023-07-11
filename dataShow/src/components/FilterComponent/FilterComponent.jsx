@@ -40,8 +40,8 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import BarChart from '../Charts/BarChart.jsx';
 
-const FilterComponent = ({jsonData , fileMetadata}) => {
- 
+const FilterComponent = ({jsonData , fileMetadata, jsonUserData , fileUserMetadata }) => {
+ console.log(jsonUserData)
    /*mapped elements for rendering table */
     const[mappedElement,setMappedElements] = useState(null);
  /*json data after filters applied*/
@@ -574,7 +574,8 @@ const selectedItems = selectedCustomData.map((item, index)=>{
       onMouseUp={handleMouseUp} onClick={showHideMore} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>{showExtraCategories ?   <i className="fa-solid fa-eye-slash" style={{ fontSize: '16px', color: 'white' }}></i> : <i className="fa-solid fa-eye" style={{ fontSize: '16px', color: 'white' }}></i>}</Button>
     <Button  onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}   onClick={openModalHelp} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>  <i className="fas fa-question-circle" style={{ fontSize: '16px', color: 'white' }}></i></Button>
-     <h3 style={{ margin:'1em 0' }}>File downloaded on: {fileMetadata.lastModifiedDate.toLocaleString()}</h3>
+     <h3 style={{ margin:'1em 0' }}> Listing File downloaded on: {fileMetadata.lastModifiedDate.toLocaleString()}</h3>
+    {fileUserMetadata && <h3 style={{ margin:'1em 0' }}> User File downloaded on: {fileUserMetadata.lastModifiedDate.toLocaleString()}</h3>}
      <CustomSelectedData onMultipleFilterData={multipleFilterData} onCustomSelectedData={selectedCustomData} />
      <Button onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp} onClick={openModalCharts}  style={{ marginTop:'1em', marginRight:'1em',background:"#1C7881", border:"none"  }}>Show Charts</Button>
@@ -629,7 +630,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
             <select
               id="selectedContinent"
               value={selectedContinent}
-              onChange={(e) => {setSelectedContinent(e.target.value); console.log(e.target.value)} }
+              onChange={(e) => {setSelectedContinent(e.target.value)} }
             >
                 <option value="">All Continents</option>
                 <option key={1} value={"Africa"}>Africa</option>

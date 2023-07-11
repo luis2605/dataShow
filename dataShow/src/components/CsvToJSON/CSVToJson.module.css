@@ -1,22 +1,98 @@
 
- .centered{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Adjust this value as needed */
- }
+.csvToJson-container {
+ 
+  height: 100vh;
+}
+.drawer-overlay{
+position: fixed; /* Sit on top of the page content */
+
+width: 100%; /* Full width (cover the whole page) */
+height: 100%; /* Full height (cover the whole page) */
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+cursor: pointer; /* Add a pointer on hover */
+}
+.drawer {
+  position: absolute;
+  display: flex;
+flex-direction: column;
+  background-color: #f1f1f1;
+  transition: transform 0.3s ease-in-out;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.drawer.visible {
+  transform: translateY(-400px);
+}
+
+.drawer-toggle-button {
+  position: absolute;
+ width: 300px;
+  top: 0;
+  right: 50%;
+
+ 
+  background-color: #1C7881;
+  border: none;
+  margin: 0;
+  padding: .3em .5em;
+  cursor: pointer;
+ 
+  
+}
+
+.drawer-toggle-button i {
+  color: white;
+  font-size: 1rem;
+  transform: rotate(270deg);
+}
+
+.logo-title {
+  text-align: center;
+  padding: 20px;
+}
+
+.logo {
+  width: 100px;
+  height: auto;
+}
+
+.topBar-container {
+  padding: 20px;
+}
+
+.input-container {
+  margin-bottom: 20px;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+}
+
+.modal {
+  /* Styles for the modal */
+}
 
 .topBar-container{
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
+  flex-direction: column;
 
 
 }
 .input-container{
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  flex-direction: column;
 }
 
 .btn-container{

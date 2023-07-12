@@ -241,10 +241,35 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
     
 
       if (jsonData) {
-        let filteredData = jsonData;
 
-       
-    
+        let filteredData = jsonData;
+        
+        if(jsonData && jsonUserData){
+          
+         const hostUsers = jsonUserData.filter(entry => entry.NumOfOpenListings > 0);
+          setHosts(hostUsers)
+          const filteredData = jsonData.map((data) => {
+            const matchingUser = jsonUserData.find((user) => user.Id === data.AuthorId
+
+            
+            );
+            
+            if (matchingUser) {
+              return {
+                ...data,
+                actividades_nuevas: matchingUser.PrivateData, // Replace 'additionalInfo' with the desired key from jsonUserData
+              };
+            }
+            return data;
+          });
+        
+          // Use filteredData containing information from both jsonData and jsonUserData
+          console.log(filteredData);
+          // filtered data includes now the new activities i linked jsonData & jsonUserData on the ID of the user
+      }  
+     
+      console.log(hosts)
+
         if ( actualState||selectedCountry || selectedRoomtype ||hasPrivateBathroom || selectedCity||offerActivities || impact || searchQuery) {
           filteredData = jsonData.filter((item) => {
             const publicData = item.publicData1;
@@ -474,13 +499,8 @@ const selectedItems = selectedCustomData.map((item, index)=>{
      
 
         }
-      if(jsonUserData){
-          let hostUsers = jsonUserData;
-          hostUsers = jsonUserData.filter(entry => entry.NumOfOpenListings !== "0");
-          setHosts(hostUsers)
-         
-      }  
-      console.log(hosts)
+    
+    
       }, [jsonData,jsonUserData,actualState, selectedCountry,selectedRoomtype,hasPrivateBathroom,selectedCity,selectedCustomData,offerActivities, actExpanded,impact,selectedContinent,showExtraCategories,searchQuery,percent]);
 
 

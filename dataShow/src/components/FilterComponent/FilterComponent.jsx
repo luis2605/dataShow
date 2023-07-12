@@ -42,6 +42,8 @@ import BarChart from '../Charts/BarChart.jsx';
 
 const FilterComponent = ({jsonData , fileMetadata, jsonUserData , fileUserMetadata }) => {
  console.log(jsonUserData)
+
+ /* related to listings */
    /*mapped elements for rendering table */
     const[mappedElement,setMappedElements] = useState(null);
  /*json data after filters applied*/
@@ -50,18 +52,13 @@ const FilterComponent = ({jsonData , fileMetadata, jsonUserData , fileUserMetada
     const [selectedCustomData, setSelectedCustomData] = useState([]);
 /* display selected json data from selectedCustomData */  
    const [selection, setSelection] = useState(null);
-
- 
-
 // used to show hide the extra categories
-const [showExtraCategories, setShowExtraCategories] = useState(false)
-
-    
+const [showExtraCategories, setShowExtraCategories] = useState(false)   
    /*boolean for displaying help modal*/ 
     const [isOpenHelp, setIsOpenHelp] = useState(false);
   /*boolean for displaying charts modal*/ 
     const [isOpenCharts, setIsOpenCharts] = useState(false);
-/* state of country count for charts */
+/* state of country count for charts initialised already with dummy data*/
 
   const [countryCount, setCountryCount] = useState({
     labels :['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -78,7 +75,7 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
       },
     ],
   })
-    
+  
    /*boolean for displaying selection modal*/ 
    const [isOpenSelection, setIsOPenSelection] = useState(false);
   
@@ -96,8 +93,6 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
       setShowExtraCategories(!showExtraCategories);
     };
    
-
-
     /*filter offset canvas */
     const [show, setShow] = useState(false);
    
@@ -236,6 +231,10 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
   /* text for pop-up on continent */
   const popupTextContinent = "Continent cannot be selected as first filter due to the fact that continent data is not present on the original source. Please select one of the other filters before filtering by continent "
  
+ 
+  /* related to users.csv*/
+
+ const [hosts , setHosts] = useState(null)
 
     useEffect(() => {
 
@@ -475,7 +474,14 @@ const selectedItems = selectedCustomData.map((item, index)=>{
      
 
         }
-      }, [jsonData,actualState, selectedCountry,selectedRoomtype,hasPrivateBathroom,selectedCity,selectedCustomData,offerActivities, actExpanded,impact,selectedContinent,showExtraCategories,searchQuery,percent]);
+      if(jsonUserData){
+          let hostUsers = jsonUserData;
+          hostUsers = jsonUserData.filter(entry => entry.NumOfOpenListings !== "0");
+          setHosts(hostUsers)
+         
+      }  
+      console.log(hosts)
+      }, [jsonData,jsonUserData,actualState, selectedCountry,selectedRoomtype,hasPrivateBathroom,selectedCity,selectedCustomData,offerActivities, actExpanded,impact,selectedContinent,showExtraCategories,searchQuery,percent]);
 
 
     

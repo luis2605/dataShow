@@ -40,8 +40,10 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import BarChart from '../Charts/BarChart.jsx';
 
-const FilterComponent = ({jsonData , fileMetadata}) => {
- 
+const FilterComponent = ({jsonData , fileMetadata, jsonUserData , fileUserMetadata }) => {
+ console.log(jsonUserData)
+
+ /* related to listings */
    /*mapped elements for rendering table */
     const[mappedElement,setMappedElements] = useState(null);
  /*json data after filters applied*/
@@ -50,18 +52,13 @@ const FilterComponent = ({jsonData , fileMetadata}) => {
     const [selectedCustomData, setSelectedCustomData] = useState([]);
 /* display selected json data from selectedCustomData */  
    const [selection, setSelection] = useState(null);
-
- 
-
 // used to show hide the extra categories
-const [showExtraCategories, setShowExtraCategories] = useState(false)
-
-    
+const [showExtraCategories, setShowExtraCategories] = useState(false)   
    /*boolean for displaying help modal*/ 
     const [isOpenHelp, setIsOpenHelp] = useState(false);
   /*boolean for displaying charts modal*/ 
     const [isOpenCharts, setIsOpenCharts] = useState(false);
-/* state of country count for charts */
+/* state of country count for charts initialised already with dummy data*/
 
   const [countryCount, setCountryCount] = useState({
     labels :['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -78,7 +75,7 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
       },
     ],
   })
-    
+  
    /*boolean for displaying selection modal*/ 
    const [isOpenSelection, setIsOPenSelection] = useState(false);
   
@@ -96,8 +93,6 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
       setShowExtraCategories(!showExtraCategories);
     };
    
-
-
     /*filter offset canvas */
     const [show, setShow] = useState(false);
    
@@ -236,16 +231,45 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
   /* text for pop-up on continent */
   const popupTextContinent = "Continent cannot be selected as first filter due to the fact that continent data is not present on the original source. Please select one of the other filters before filtering by continent "
  
+ 
+  /* related to users.csv*/
+
+ const [hosts , setHosts] = useState(null)
 
     useEffect(() => {
 
     
 
       if (jsonData) {
-        let filteredData = jsonData;
 
-       
-    
+        let filteredData = jsonData;
+        
+        if(jsonData && jsonUserData){
+          
+         const hostUsers = jsonUserData.filter(entry => entry.NumOfOpenListings > 0);
+          setHosts(hostUsers)
+          const filteredData = jsonData.map((data) => {
+            const matchingUser = jsonUserData.find((user) => user.Id === data.AuthorId
+
+            
+            );
+            
+            if (matchingUser) {
+              return {
+                ...data,
+                actividades_nuevas: matchingUser.PrivateData, // Replace 'additionalInfo' with the desired key from jsonUserData
+              };
+            }
+            return data;
+          });
+        
+          // Use filteredData containing information from both jsonData and jsonUserData
+          console.log(filteredData);
+          // filtered data includes now the new activities i linked jsonData & jsonUserData on the ID of the user
+      }  
+     
+      console.log(hosts)
+
         if ( actualState||selectedCountry || selectedRoomtype ||hasPrivateBathroom || selectedCity||offerActivities || impact || searchQuery) {
           filteredData = jsonData.filter((item) => {
             const publicData = item.publicData1;
@@ -475,7 +499,9 @@ const selectedItems = selectedCustomData.map((item, index)=>{
      
 
         }
-      }, [jsonData,actualState, selectedCountry,selectedRoomtype,hasPrivateBathroom,selectedCity,selectedCustomData,offerActivities, actExpanded,impact,selectedContinent,showExtraCategories,searchQuery,percent]);
+    
+    
+      }, [jsonData,jsonUserData,actualState, selectedCountry,selectedRoomtype,hasPrivateBathroom,selectedCity,selectedCustomData,offerActivities, actExpanded,impact,selectedContinent,showExtraCategories,searchQuery,percent]);
 
 
     
@@ -535,6 +561,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
 
      {!dataHasBeenFiltered && <img className={classes["select-filter-img"]} src={selectfilter} alt="" /> }
     <div>
+      
     <Button  onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp} variant="primary" onClick={handleShow} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>
         Filters
@@ -574,10 +601,12 @@ const selectedItems = selectedCustomData.map((item, index)=>{
       onMouseUp={handleMouseUp} onClick={showHideMore} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>{showExtraCategories ?   <i className="fa-solid fa-eye-slash" style={{ fontSize: '16px', color: 'white' }}></i> : <i className="fa-solid fa-eye" style={{ fontSize: '16px', color: 'white' }}></i>}</Button>
     <Button  onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}   onClick={openModalHelp} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>  <i className="fas fa-question-circle" style={{ fontSize: '16px', color: 'white' }}></i></Button>
-     <h3 style={{ margin:'1em 0' }}>File downloaded on: {fileMetadata.lastModifiedDate.toLocaleString()}</h3>
+     <h4 style={{ margin:'1em 0' }}> Listing File downloaded on: {fileMetadata.lastModifiedDate.toLocaleString()}</h4>
+    {fileUserMetadata && <h4 style={{ margin:'1em 0' }}> User File downloaded on: {fileUserMetadata.lastModifiedDate.toLocaleString()}</h4>} 
      <CustomSelectedData onMultipleFilterData={multipleFilterData} onCustomSelectedData={selectedCustomData} />
      <Button onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp} onClick={openModalCharts}  style={{ marginTop:'1em', marginRight:'1em',background:"#1C7881", border:"none"  }}>Show Charts</Button>
+  
    </div> 
    </div>
    }
@@ -629,7 +658,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
             <select
               id="selectedContinent"
               value={selectedContinent}
-              onChange={(e) => {setSelectedContinent(e.target.value); console.log(e.target.value)} }
+              onChange={(e) => {setSelectedContinent(e.target.value)} }
             >
                 <option value="">All Continents</option>
                 <option key={1} value={"Africa"}>Africa</option>

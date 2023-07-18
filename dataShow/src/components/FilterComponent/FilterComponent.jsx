@@ -244,63 +244,65 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
 
         let filteredData = jsonData;
         
+   
+    
         if(jsonData && jsonUserData){
           
-         const hostUsers = jsonUserData.filter(entry => entry.NumOfOpenListings > 0);
-          setHosts(hostUsers)
-          const filteredData = jsonData.map((data) => {
-            const matchingUser = jsonUserData.find((user) => user.Id === data.AuthorId
-
-            
-            );
-            
-            if (matchingUser) {
-              return {
-                ...data,
-                actividades_nuevas: matchingUser.PrivateData, // Replace 'additionalInfo' with the desired key from jsonUserData
-              };
-            }
-            return data;
-          });
-        
-          // Use filteredData containing information from both jsonData and jsonUserData
-          console.log(filteredData);
-          // filtered data includes now the new activities i linked jsonData & jsonUserData on the ID of the user
-      }  
-     
-      console.log(hosts)
-
-        if ( actualState||selectedCountry || selectedRoomtype ||hasPrivateBathroom || selectedCity||offerActivities || impact || searchQuery) {
-          filteredData = jsonData.filter((item) => {
-            const publicData = item.publicData1;
-          const stateMatch= !actualState || item.State === actualState;
-          const countryMatch = !selectedCountry || publicData.country === selectedCountry;
-          const roomtypeMatch = !selectedRoomtype || publicData.roomtype === selectedRoomtype;
-          const bathroomMatch=!hasPrivateBathroom ||  publicData && publicData.amenities && publicData.amenities.includes('privat_bathroom')? "yes":"no"  == hasPrivateBathroom 
-          const bathroomMatchNot=!hasPrivateBathroom ||  publicData && publicData.amenities && publicData.amenities.includes('shared_bathroom')? "no":"yes" == hasPrivateBathroom 
+          const hostUsers = jsonUserData.filter(entry => entry.NumOfOpenListings > 0);
+           setHosts(hostUsers)
+           filteredData = jsonData.map((data) => {
+             const matchingUser = jsonUserData.find((user) => user.Id === data.AuthorId
+  
+             
+             );
+             
+             if (matchingUser) {
+               return {
+                 ...data,
+                 actividades_nuevas: matchingUser.PrivateData, // Replace 'additionalInfo' with the desired key from jsonUserData
+               };
+             }
+             return data;
+           });
          
-          const cityMatch = !selectedCity || publicData.city === selectedCity;
-          const activitiesMatch = !offerActivities || (publicData.activities ? "yes" : "no") === offerActivities; 
-          const impactMatch =
-          !impact ||
-          (publicData.amenities && publicData.category.includes(impact)) ||
-          (publicData.categories && publicData.category.includes(impact));
-
-          const searchQueryMatch =!searchQuery || item.Title && item.Title.toLowerCase().includes(searchQuery.toLowerCase()) 
- 
-    // Check if publicData and publicData.country are defined before getting the continent
-    const continent = publicData && publicData.country && getContinentName(publicData.country);
-// la pinga esta no funciona tratar manana de nuevo
-    // Perform continent match only if the continent is defined and selectedContinent is not empty para 
-    const continentMatch = !selectedContinent || (continent && continent === selectedContinent);
-      
-   
+           // Use filteredData containing information from both jsonData and jsonUserData
      
-   
-            return  stateMatch && countryMatch && roomtypeMatch && cityMatch  && bathroomMatch && bathroomMatchNot && activitiesMatch && impactMatch && continentMatch && searchQueryMatch ;
-          });
-        }
+           // filtered data includes now the new activities i linked jsonData & jsonUserData on the ID of the user
+       } 
+      
+       if ( actualState||selectedCountry || selectedRoomtype ||hasPrivateBathroom || selectedCity||offerActivities || impact || searchQuery|| filteredData) {
+        filteredData = filteredData.filter((item) => {
+          const publicData = item.publicData1;
+        const stateMatch= !actualState || item.State === actualState;
+        const countryMatch = !selectedCountry || publicData.country === selectedCountry;
+        const roomtypeMatch = !selectedRoomtype || publicData.roomtype === selectedRoomtype;
+        const bathroomMatch=!hasPrivateBathroom ||  publicData && publicData.amenities && publicData.amenities.includes('privat_bathroom')? "yes":"no"  == hasPrivateBathroom 
+        const bathroomMatchNot=!hasPrivateBathroom ||  publicData && publicData.amenities && publicData.amenities.includes('shared_bathroom')? "no":"yes" == hasPrivateBathroom 
        
+        const cityMatch = !selectedCity || publicData.city === selectedCity;
+        const activitiesMatch = !offerActivities || (publicData.activities ? "yes" : "no") === offerActivities; 
+        const impactMatch =
+        !impact ||
+        (publicData.amenities && publicData.category.includes(impact)) ||
+        (publicData.categories && publicData.category.includes(impact));
+
+        const searchQueryMatch =!searchQuery || item.Title && item.Title.toLowerCase().includes(searchQuery.toLowerCase()) 
+
+  // Check if publicData and publicData.country are defined before getting the continent
+  const continent = publicData && publicData.country && getContinentName(publicData.country);
+// la pinga esta no funciona tratar manana de nuevo
+  // Perform continent match only if the continent is defined and selectedContinent is not empty para 
+  const continentMatch = !selectedContinent || (continent && continent === selectedContinent);
+    
+ 
+   
+ 
+          return  stateMatch && countryMatch && roomtypeMatch && cityMatch  && bathroomMatch && bathroomMatchNot && activitiesMatch && impactMatch && continentMatch && searchQueryMatch ;
+        });
+      }
+
+    
+       console.log(filteredData)
           const mapped = filteredData.map((item, index) => {
            
             /*set continent name */
@@ -397,6 +399,9 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
                     </span>
                     
                   </div>
+              </td>
+              <td>
+              {item.actividades_nuevas ==="null"  ? "K/A" : item.actividades_nuevas }
               </td>
                { item.publicData1.category &&  <td>{Array.isArray(item.publicData1.category) ? item.publicData1.category.join(' ') : item.publicData1.category}</td>
 
@@ -899,6 +904,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
                         style={{ fontSize: "16px", color: "blue", padding: "0 1em" }}
                       />
                     )}</th>
+                     <th>Actividades nuevas</th>
               <th>Impact</th>
               <th>Lang</th>
               {showExtraCategories &&   <th>+Lang</th>}

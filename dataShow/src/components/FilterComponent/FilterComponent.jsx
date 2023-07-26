@@ -40,7 +40,7 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import BarChart from '../Charts/BarChart.jsx';
 
-const FilterComponent = ({jsonData , fileMetadata, jsonUserData , fileUserMetadata }) => {
+const FilterComponent = ({jsonData , fileMetadata, jsonUserData , fileUserMetadata ,onUserName }) => {
  console.log(jsonUserData)
 
  /* related to listings */
@@ -365,6 +365,14 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
             /*remove roomtype from title */
                 const title = item.Title;
                 const updatedTitle = title.split("•")[0].trim();
+
+            /* extra activities on single activities */
+
+            const singleExtraActivity = () => {
+            
+            };
+
+            console.log(item.actividades_nuevas)
    /*map the listings  */  
 
             return (
@@ -401,7 +409,7 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
                   </div>
               </td>
               <td>
-              {item.actividades_nuevas ==="null"  ? "K/A" : item.actividades_nuevas }
+              { jsonUserData && item.actividades_nuevas ==="null"  ? "K/A" : item.actividades_nuevas }
               </td>
                { item.publicData1.category &&  <td>{Array.isArray(item.publicData1.category) ? item.publicData1.category.join(' ') : item.publicData1.category}</td>
 
@@ -608,6 +616,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
       onMouseUp={handleMouseUp}   onClick={openModalHelp} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>  <i className="fas fa-question-circle" style={{ fontSize: '16px', color: 'white' }}></i></Button>
      <h4 style={{ margin:'1em 0' }}> Listing File downloaded on: {fileMetadata.lastModifiedDate.toLocaleString()}</h4>
     {fileUserMetadata && <h4 style={{ margin:'1em 0' }}> User File downloaded on: {fileUserMetadata.lastModifiedDate.toLocaleString()}</h4>} 
+    <h4 style={{ margin:'1em 0' }}> Report created by: {onUserName}</h4>
      <CustomSelectedData onMultipleFilterData={multipleFilterData} onCustomSelectedData={selectedCustomData} />
      <Button onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp} onClick={openModalCharts}  style={{ marginTop:'1em', marginRight:'1em',background:"#1C7881", border:"none"  }}>Show Charts</Button>
@@ -904,7 +913,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
                         style={{ fontSize: "16px", color: "blue", padding: "0 1em" }}
                       />
                     )}</th>
-                     <th>Actividades nuevas</th>
+                     <th>Extra Activities</th>
               <th>Impact</th>
               <th>Lang</th>
               {showExtraCategories &&   <th>+Lang</th>}

@@ -7,16 +7,30 @@ import classes from "./csvToJson.module.css"
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import logo from "../../assets/img/logo_tuerkis_schrift-04.png"
 import logoText from "../../assets/img/logo_tuerkis_schrift-02.png"
+import appLogo from '../../assets/img/dataShowLogo.png'
 
 import sharetribe from "../../assets/img/tutorial/0.png"
+import sharetribe1 from "../../assets/img/tutorial/1.png"
 
-import Offcanvas from 'react-bootstrap/Offcanvas';
 import Button from 'react-bootstrap/Button';
 
 import FilterComponent from '../FilterComponent/FilterComponent';
 import Modal from '../Modal/Modal.jsx';
 
+import beach1 from '../../assets/img/Goa_beach_silhouette_1.png';
+import backpack from '../../assets/img/9jt08ahp6ut0s260j7275hrlc5.png';
+import doves from '../../assets/img/—Pngtree—flying bird silhouette soaring in_6470118.png'
+
 const CSVToJSON = () => {
+  const handleMouseDown = (e) => {
+    e.target.style.transform = 'translateY(2px)';
+  };
+
+  /* userName data */
+
+  const [userName, setUserName] =useState('')
+  const [userNameSubmitted, setUserNameSubmitted]=useState(false)
+
   /* listings data */
   const [jsonData, setJsonData] = useState(null);
 
@@ -51,6 +65,23 @@ const CSVToJSON = () => {
   const closeHelpInitialListingUserModal = () => {
     setOpenHelpUserInitial(false);
   };
+
+  /*capitalize the userName  */
+  function capitalizeEachWord(str) {
+    // Split the string into an array of words
+    const wordsArray = str.split(" ");
+  
+    // Capitalize the first letter of each word
+    const capitalizedWords = wordsArray.map((word) => {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    });
+  
+    // Join the words back to form the capitalized string
+    const capitalizedString = capitalizedWords.join(" ");
+  
+    return capitalizedString;
+  }
+  
  /* csv listing file metadata */
  const [fileMetadata, setFileMetadata] = useState(null);
  const [fileUserMetadata, setUserFileMetadata] = useState(null);
@@ -58,7 +89,23 @@ const CSVToJSON = () => {
  const inputFileRef = useRef(null); // Ref for the input listing element
  const inputUserFileRef = useRef(null); // Ref for the input user element
 
+ const handleChange = (event) => {
+  
+  setUserName(capitalizeEachWord(event.target.value));
+};
 
+const handleSubmit = (event) => {
+  event.preventDefault();
+  if(userName.length>0){
+    setUserNameSubmitted(true)
+  }
+ 
+};
+
+const goBackToNameInput = () => {
+  setUserNameSubmitted(false)
+  setUserName('')
+}
 
  const handleListingsFileUpload = async (e) => {
   const file = e.target.files[0];
@@ -160,19 +207,40 @@ const toggleDrawer = () => {
 
 return (
   <div className={classes["csvToJson-container"]}>
-   {jsonData && <button className={classes["drawer-toggle-button"]} onClick={toggleDrawer}>
+   {jsonData && <button  className={classes["drawer-toggle-button"]} onClick={toggleDrawer}>
       {!drawerVisible ? <i className="fas fa-chevron-right"></i> : <i className="fas fa-chevron-left"></i>}
     </button>}
    {overlay && <div className={classes["drawer-overlay"]}  >
-    <div className={`${classes["drawer"]} ${drawerVisible ? classes["visible"] : ""}`}>
+   {!jsonData && <img className={classes["bkg-img4"]} src={appLogo} ></img>}
+   <img className={classes["bkg-img3"]} src={doves} ></img>
+    <img className={classes["bkg-img1"]} src={beach1} ></img>
+    <img className={classes["bkg-img2"]} src={backpack} ></img>
+  {!userNameSubmitted && <div className={`${classes["drawer"]} ${drawerVisible ? classes["visible"] : ""}`}>
+     <h2> Please enter your name to start the app </h2>
+    <div className={classes["name-input-container"]}> 
+    <img className={classes["logo"]} src={logo} alt="Logo" />
+    <form onSubmit={handleSubmit} className={classes["name-input-form"]} >
+      <label htmlFor="name">
+       Name here : 
+      </label>
+      <input  onMouseDown={handleMouseDown} id="name" type="text" value={userName} onChange={handleChange} />
+      <button onMouseDown={handleMouseDown} className={classes["ok-btn"]} type="submit">Ok</button>
+    </form>
+    </div>
+  
+   </div>}
+   {userName.length > 0 && userNameSubmitted && <div className={`${classes["drawer"]} ${drawerVisible ? classes["visible"] : ""}`}>
+    
+  
+
       {!jsonData && (
         <div className={classes["logo-title"]}>
           <img className={classes["logo"]} src={logo} alt="Logo" />
-          <h1>Please select the CSV file to be read</h1>
+          <h2 className={classes["name-span-title"]} >Please <span onClick={goBackToNameInput} className={classes["name-span"]} >{userName}  <div className={classes["close-btn"]}>&times;</div></span> select the CSV file to be read</h2>
         </div>
       )}
       <div className={classes["topBar-container"]}>
-      {jsonData && <Button className={classes["close-drawer"]} onClick={toggleDrawer} style={{position:"relative",top:"0",left:'90%', margin: '0 1em', background: "#1C7881", border: "none" }}>
+      {jsonData && <Button onMouseDown={handleMouseDown} className={classes["close-drawer"]} onClick={toggleDrawer} style={{position:"relative",top:"0",left:'90%', margin: '0 1em', background: "#1C7881", border: "none" }}>
                 <i className="fas fa-xmark" style={{ fontSize: '16px', color: 'white' }}></i>
               </Button>}
         {jsonData && <img className={classes["logoText"]} src={logoText} alt="Logo Text" />}
@@ -204,7 +272,7 @@ return (
     
        
         </div>
-        <div className={classes["input-container"]}>
+       { jsonData && <div className={classes["input-container"]}>
           <h3>Please introduce the users file here for additional data :</h3>
           <div className={classes["input-text-container"]}>
           <input ref={inputUserFileRef} 
@@ -227,10 +295,10 @@ return (
         
         
       
-        </div>
+        </div>}
       </div>
      
-    </div>
+    </div>}
     <Modal isOpen={openHelpInitial} onClose={closeHelpInitialListingModal}>
             <h2>How to get the CSV Listings file from Sharetribe Flex Console ?</h2>
             <div className={classes["help-container"]}>
@@ -246,10 +314,10 @@ return (
               <Modal isOpen={openHelpUsersInitial} onClose={closeHelpInitialListingUserModal}>
             <h2>How to get the CSV Users file from Sharetribe Flex Console ?</h2>
             <div className={classes["help-container"]}>
-              <img className={classes["help-container-img"]} src={sharetribe} alt="Sharetribe" />
+              <img className={classes["help-container-img"]} src={sharetribe1} alt="Sharetribe" />
               <div>
                 <h3>Please log in on you Sharetribe Flex Console Account</h3>
-                <h3>Go to Listings</h3>
+                <h3>Go to Users</h3>
                 <h3>Click on Download .csv</h3>
                 <h3>The .csv file will land in your Downloads folder</h3>
               </div>
@@ -263,6 +331,7 @@ return (
           fileMetadata={fileMetadata}
           jsonUserData={jsonUserData}
           fileUserMetadata={fileUserMetadata}
+          onUserName={userName}
         />
       )}
   </div>

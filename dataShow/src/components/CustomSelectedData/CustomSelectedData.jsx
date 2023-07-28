@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
 import XLSX from 'xlsx/dist/xlsx.full.min.js';
+import classes from './customSelectedData.module.css' 
 
 const CustomSelectedData = ({onMultipleFilterData,onCustomSelectedData}) => {
 
@@ -101,7 +102,7 @@ XLSX.writeFile(wb, 'SelectedDataToExcel.xlsx');
 }
  
   return (
-    <div>
+    <div className={classes["secondary-btn-container"]}>
      <Button onClick={handleTableExport} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>Export Table to Excel</Button>
      <Button onClick={handleRawDataExport} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>Export raw Data to Excel</Button>
   

@@ -164,10 +164,50 @@ thead{
     right: 0;
     border-radius: 11.2px;
     box-shadow: 28px 0px 0 0 rgba(71,75,255,0.2), 22.7px 16.5px 0 0 rgba(71,75,255,0.4), 8.68px 26.6px 0 0 rgba(71,75,255,0.6), -8.68px 26.6px 0 0 rgba(71,75,255,0.8), -22.7px 16.5px 0 0 #474bff;
-    animation: spinner-b87k6z 1s infinite linear;
+    animation: spinner 1s infinite linear;
  }
+
+/*media queries*/
+@media screen and (max-width:425px){
+    .utilities-bar{
+        margin: 2em 0 ;
+       }
+    .main-btn-container > button{
+    margin-bottom: 1em;
+   }
+
+   .select-filter-img {
+    width: 185px;
+    position: relative;
+    transform: rotate(305deg);
+    right: -70px;
+    top: -50px;
+}
+
+.total-bar-elements {
+    display: flex;
+    flex-direction: column;
+    width: 30% !important;
+}
+
+}
+@media (max-width: 768px) {
+    .table-container {
+      overflow-x: auto;
+    }
+  
+    table {
+      font-size: 14px; /* Adjust font size for smaller screens */
+    }
+  
+    th,
+    td {
+      padding: 5px; /* Adjust cell padding for smaller screens */
+    }
+  }
+
  
- @keyframes spinner-b87k6z {
+ @keyframes spinner {
     to {
        transform: rotate(360deg);
     }

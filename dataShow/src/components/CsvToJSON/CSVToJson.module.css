@@ -189,7 +189,14 @@ input:focus + label::after {
   font-size: 1rem;
   transform: rotate(270deg);
 }
-
+.close-drawer{
+  position: relative;
+  top: 0;
+  left: 90%;
+  margin: 0 1em;
+  background: #1C7881;
+  border: none;
+ }
 .logo-title {
   text-align: center;
   padding: 20px;
@@ -356,7 +363,24 @@ input[type="file"]::file-selector-button:active {
 /*media queries*/
 
 @media screen and (max-width:425px){
-  
+
+ .drawer{
+  width: 90vw;
+ }
+  .bkg-img1 , .bkg-img3  {
+    display: none;
+  }
+  .bkg-img4{
+    top: 0%;
+    left: 30%;
+    width: 170px;
+  }
+  .bkg-img2{
+    
+    bottom: -70px;
+   
+    width: 300px;
+  }
   .logo-title{
     flex-direction: column;
   }
@@ -364,12 +388,14 @@ input[type="file"]::file-selector-button:active {
   .logo-title h1{
     text-align: justify;
   }
- .input-container{
-  flex-direction: column;
-  width: 100%;
-  margin: 1em;
- }
 
+  .logoText {
+    width: 150px;
+    position: relative;
+    top: -45px;
+    left: -45px;
+    transform: rotate(335deg);
+  }
  .btn-container{
   width: 100%;
   margin: 1em;
@@ -387,6 +413,37 @@ input[type="file"]::file-selector-button:active {
  .topBar-container{
   flex-direction: column;
  }
+
+ .close-drawer{
+  position: relative;
+  top: -10px;
+  left: 85%;
+ }
+ .name-span-title{
+    line-height: 30px;
+    font-size: 1rem;
+    padding: 1em 0;
+    text-align: justify;
+ }
+ .input-container{
+  flex-direction: column;
+  width: 100%;
+  margin: 0em;
+ }
+ .input-text-container{
+  flex-direction: column;
+  margin: 0 auto;
+ }
+
+ .input-container > h3{
+  font-size: 1rem;
+  margin: 0 1em 0 0;
+}
+input[type="file"] {
+  font-size:.9rem;
+}
+
+
 }
 
 @media  screen and (min-width:1024px){

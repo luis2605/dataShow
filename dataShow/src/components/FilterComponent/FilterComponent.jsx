@@ -368,11 +368,19 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
 
             /* extra activities on single activities */
 
-            const singleExtraActivity = () => {
-            
-            };
+            const singleExtraActivity = jsonUserData && item.actividades_nuevas ?  JSON.parse(item.actividades_nuevas) : null;
+let activitiesArray = [];
 
-            console.log(item.actividades_nuevas)
+if (singleExtraActivity) {
+  if (Array.isArray(singleExtraActivity)) {
+    activitiesArray = singleExtraActivity;
+  } else {
+    activitiesArray = Object.values(singleExtraActivity);
+  }
+} else {
+  activitiesArray = ["K/A"];
+}
+            console.log(activitiesArray)
    /*map the listings  */  
 
             return (
@@ -409,8 +417,10 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
                   </div>
               </td>
               <td>
-              { jsonUserData && item.actividades_nuevas ==="null"  ? "K/A" : item.actividades_nuevas }
-              </td>
+    {activitiesArray.map((activity, index) => (
+      <p key={index}>{activity}</p>
+    ))}
+  </td>
                { item.publicData1.category &&  <td>{Array.isArray(item.publicData1.category) ? item.publicData1.category.join(' ') : item.publicData1.category}</td>
 
 }
@@ -573,7 +583,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
    {jsonData && <div className={dataHasBeenFiltered ? `${classes["utilities-bar"]} ${classes["utilities-bar-single"]}`: classes["utilities-bar"]}>
 
      {!dataHasBeenFiltered && <img className={classes["select-filter-img"]} src={selectfilter} alt="" /> }
-    <div>
+    <div className={classes["main-btn-container"]} >
       
     <Button  onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp} variant="primary" onClick={handleShow} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>
@@ -879,8 +889,8 @@ const selectedItems = selectedCustomData.map((item, index)=>{
             </div>
           
            </div>
-          
-         <Table striped bordered hover   id="filteredTable" >
+           <div className={classes["table-container"]}>
+           <Table striped bordered hover   id="filteredTable" >
          <thead>
             <tr>
               <th>Index</th>
@@ -924,6 +934,8 @@ const selectedItems = selectedCustomData.map((item, index)=>{
           </thead>
           <tbody>{mappedElement}</tbody>
          </Table>
+       
+           </div>
        
       
         

@@ -236,11 +236,11 @@ return (
       {!jsonData && (
         <div className={classes["logo-title"]}>
           <img className={classes["logo"]} src={logo} alt="Logo" />
-          <h2 className={classes["name-span-title"]} >Please <span onClick={goBackToNameInput} className={classes["name-span"]} >{userName}  <div className={classes["close-btn"]}>&times;</div></span> select the CSV file to be read</h2>
+          <h2 className={classes["name-span-title"]} >Please  <span onClick={goBackToNameInput} className={classes["name-span"]} >{userName}  <div className={classes["close-btn"]}>&times;</div></span> select the CSV file to be read</h2>
         </div>
       )}
       <div className={classes["topBar-container"]}>
-      {jsonData && <Button onMouseDown={handleMouseDown} className={classes["close-drawer"]} onClick={toggleDrawer} style={{position:"relative",top:"0",left:'90%', margin: '0 1em', background: "#1C7881", border: "none" }}>
+      {jsonData && <Button onMouseDown={handleMouseDown} className={classes["close-drawer"]} onClick={toggleDrawer} style={{background: "#1C7881" ,border:"none"}}>
                 <i className="fas fa-xmark" style={{ fontSize: '16px', color: 'white' }}></i>
               </Button>}
         {jsonData && <img className={classes["logoText"]} src={logoText} alt="Logo Text" />}

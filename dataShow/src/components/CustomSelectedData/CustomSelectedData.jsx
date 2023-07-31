@@ -63,43 +63,51 @@ XLSX.writeFile(wb, 'TableToExcel.xlsx');
 
  }
 
- const handleRawDataExport=()=>{
-
+ const handleRawDataExport = () => {
   /*modify original array into one with usable properties */
   const modifiedArray = onMultipleFilterData.map((item) => {
     const { PublicData, publicData1, ...rest } = item; // Extract PublicData and publicData1
-    return { ...rest, ...publicData1 }; // Merge remaining properties with publicData1
+
+    // Divide the PriceAmount by 100
+    const priceAmount = parseFloat(item.PriceAmount) / 100;
+
+    return { ...rest, ...publicData1, PriceAmount: priceAmount }; // Merge remaining properties with publicData1 and update PriceAmount
   });
-  
+
   /* this function extract all properties like food:[a,b,c] as strings to the main array  */
   const convertedData = convertArraysToStrings(modifiedArray);
 
-/* Create excel file */
-let wb = XLSX.utils.book_new(),
-  ws = XLSX.utils.json_to_sheet(convertedData);
+  /* Create excel file */
+  let wb = XLSX.utils.book_new(),
+    ws = XLSX.utils.json_to_sheet(convertedData);
 
-XLSX.utils.book_append_sheet(wb, ws, 'MySheet1');
-XLSX.writeFile(wb, 'RawDataToExcel.xlsx');
- }
+  XLSX.utils.book_append_sheet(wb, ws, 'MySheet1');
+  XLSX.writeFile(wb, 'RawDataToExcel.xlsx');
+};
 
- const handleSelectionExport=()=>{
-  
+
+ const handleSelectionExport = () => {
   /*modify original array into one with usable properties */
   const modifiedArray = onCustomSelectedData.map((item) => {
     const { PublicData, publicData1, ...rest } = item; // Extract PublicData and publicData1
-    return { ...rest, ...publicData1 }; // Merge remaining properties with publicData1
+
+    // Divide the PriceAmount by 100
+    const priceAmount = parseFloat(item.PriceAmount) / 100;
+
+    return { ...rest, ...publicData1, PriceAmount: priceAmount }; // Merge remaining properties with publicData1 and update PriceAmount
   });
-    /* this function extract all properties like food:[a,b,c] as strings to the main array  */
-    const convertedData = convertArraysToStrings(modifiedArray);
+
+  /* this function extract all properties like food:[a,b,c] as strings to the main array  */
+  const convertedData = convertArraysToStrings(modifiedArray);
 
   /* Create excel file */
-let wb = XLSX.utils.book_new(),
-ws = XLSX.utils.json_to_sheet(convertedData);
+  let wb = XLSX.utils.book_new(),
+    ws = XLSX.utils.json_to_sheet(convertedData);
 
-XLSX.utils.book_append_sheet(wb, ws, 'MySheet1');
-XLSX.writeFile(wb, 'SelectedDataToExcel.xlsx');
- 
-}
+  XLSX.utils.book_append_sheet(wb, ws, 'MySheet1');
+  XLSX.writeFile(wb, 'SelectedDataToExcel.xlsx');
+};
+
  
   return (
     <div className={classes["secondary-btn-container"]}>

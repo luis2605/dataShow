@@ -926,7 +926,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
                      <th>Extra Activities</th>
               <th>Impact</th>
               <th>Lang</th>
-              {showExtraCategories &&   <th>+Lang</th>}
+         
               {showExtraCategories &&  <th>Url</th>}
               {multipleFilterData > 0 &&  <th></th>}
              

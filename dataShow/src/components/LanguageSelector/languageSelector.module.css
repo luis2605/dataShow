@@ -1,0 +1,84 @@
+.selector-container{
+  position: absolute;
+    z-index: 1000;
+}
+/* SwitchLang.module.css */
+
+  .switch-lang {
+    position: absolute;
+    z-index: 1000;
+    width: 110px;
+    text-align: left;
+    cursor: pointer;
+    z-index: 50;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+  
+  .switch-lang:hover .lang-dropdown {
+    display: block;
+  }
+  
+  .switcher-link {
+    color: #fff;
+  }
+  
+  .switcher-link:hover {
+    color: #fff;
+  }
+  
+  .current-lang {
+    background: #34495E;
+    padding: 3px 5px 0px 5px;
+    border-radius: 5px;
+  }
+  
+  .lang-flag {
+    width: 20px;
+    display: inline-block;
+  }
+  
+  .lang-text {
+    display: inline-block;
+    margin-left: 5px;
+    vertical-align: top;
+    margin-top: 2px;
+  }
+  
+  .lang-dropdown {
+    display: none;
+    background: #34495E;
+    border-radius: 5px;
+    margin-top: 2px;
+  }
+  
+  .selecting-lang {
+    padding: 3px 5px 3px 5px;
+    cursor: pointer;
+  }
+  
+  .selecting-lang:hover {
+    background: #22313F;
+  }
+  
+  ul > :first-child {
+    border-radius: 5px 5px 0px 0px;
+  }
+  
+  ul > :last-child {
+    border-radius: 0px 0px 5px 5px;
+  }
+  
+  li {
+    list-style-type: none;
+  }
+  
+  .menu-arrow {
+    display: inline-block;
+    width: 10px;
+    margin-left: 10px;
+    vertical-align: top;
+    margin-top: 6px;
+  }
+  

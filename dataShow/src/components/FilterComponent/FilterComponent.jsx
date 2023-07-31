@@ -40,8 +40,12 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import BarChart from '../Charts/BarChart.jsx';
 
+//translation
+import { useTranslation } from 'react-i18next';
+
 const FilterComponent = ({jsonData , fileMetadata, jsonUserData , fileUserMetadata ,onUserName }) => {
- console.log(jsonUserData)
+
+  const { t } = useTranslation();
 
  /* related to listings */
    /*mapped elements for rendering table */
@@ -229,7 +233,7 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
   }
 
   /* text for pop-up on continent */
-  const popupTextContinent = "Continent cannot be selected as first filter due to the fact that continent data is not present on the original source. Please select one of the other filters before filtering by continent "
+  const popupTextContinent =   t('popupTextContinent') 
  
  
   /* related to users.csv*/
@@ -458,7 +462,7 @@ const countriesArray = Object.entries(countryCounts).map(([country, count]) => (
 setCountryCount({
   labels:countriesArray.map((data)=>data.country),
   datasets:[{
-    label:"Amount of Listings per country",
+    label:t('chartsLabel'),
     data:countriesArray.map((data)=>data.count)
   }]
  
@@ -537,14 +541,14 @@ const selectedItems = selectedCustomData.map((item, index)=>{
     <>
      {jsonData && <div key={"mxps"} className={classes["mega-container"]}>
        <Modal isOpen={isOpenHelp} onClose={closeModalHelp}>
-        <h2 >Help Modal</h2>
+        <h2 >{t('help')} </h2>
         <div>
 
       
         </div>
       </Modal>
       <Modal isOpen={isOpenCharts} onClose={closeModalCharts}>
-        <h2 >Charts Modal</h2>
+        <h2 >{t('charts')}</h2>
         <div>
 <BarChart chartdata={countryCount} />
       
@@ -558,7 +562,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
           <img src={sorry} className={classes["img-sorry"]} />
         ) : (
           <>
-           <h2>Selected items</h2>
+           <h2>{t('selection.SelectedItems')}</h2>
           {selection}
           </>
          
@@ -570,7 +574,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
       onMouseUp={handleMouseUp} onClick={clearSelection} style={{ background:"#1C7881", border:"none"  }}> {selection && selection.length === 0? 
           <span>OK</span>
          : 
-         <span>Clear selection</span>
+         <span>{t('selection.ClearSelection')}</span>
         }
 
       </Button>
@@ -587,7 +591,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
       
     <Button  onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp} variant="primary" onClick={handleShow} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>
-        Filters
+        {t('filters.FilterName')}
       </Button>
     
      {selection && <Button  onMouseDown={handleMouseDown}
@@ -617,7 +621,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
       </span>
     )}
   </span>
-  Selection
+  {t('selection.SelectionName')}
 </Button>}
 
 <Button onMouseDown={handleMouseDown}
@@ -644,26 +648,26 @@ const selectedItems = selectedCustomData.map((item, index)=>{
         <div className={classes["filter-container"]}> 
            {/* filtering by State*/}
            <div  className={classes["filter-element"]}>
-            <label htmlFor="stateFilter">Actual Status:</label>
+            <label htmlFor="stateFilter">{t('filterCanvas.Status')}</label>
             <select
               id="stateFilter"
               value={actualState}
               onChange={(e) => setActualState(e.target.value)}
             >
-              <option value="">All</option>
+              <option value="">{t('filterCanvas.StatusOption1')}</option>
               {/* the values are not available on json data*/}
           
                 <option key={1} value={"draft"}>
-                draft
+                {t('filterCanvas.StatusOption2')}
                 </option>
                 <option key={2} value={"published"}>
-                published 
+                {t('filterCanvas.StatusOption3')}
                 </option>
                 <option key={3} value={"closed"}>
-                closed
+                {t('filterCanvas.StatusOption4')}
                 </option>
                 <option key={4} value={"pendingApproval"}>
-                pending Approval
+                {t('filterCanvas.StatusOption5')}
                 </option>
             </select>
           </div>
@@ -678,20 +682,20 @@ const selectedItems = selectedCustomData.map((item, index)=>{
           }
         >
            <div  className={classes["filter-element"]} >
-            <label htmlFor="selectedContinent">Filter by Continent:</label>
+            <label htmlFor="selectedContinent">{t('filterCanvas.Continents')}</label>
             <select
               id="selectedContinent"
               value={selectedContinent}
               onChange={(e) => {setSelectedContinent(e.target.value)} }
             >
-                <option value="">All Continents</option>
-                <option key={1} value={"Africa"}>Africa</option>
-                <option key={2} value={"Antarctica"}>Antarctica</option>
-                <option key={3} value={"Asia"}>Asia</option>
-                <option key={4} value={"Europe"}>Europe</option>
-                <option key={5} value={"North America"}>North America</option>
-                <option key={6} value={"Oceania"}>Oceania</option>
-                <option key={7} value={"South America"}>South America</option>
+                <option value="">{t('filterCanvas.ContinentsOption1')}</option>
+                <option key={1} value={"Africa"}>{t('filterCanvas.ContinentsOption2')}</option>
+                <option key={2} value={"Antarctica"}>{t('filterCanvas.ContinentsOption3')}</option>
+                <option key={3} value={"Asia"}>{t('filterCanvas.ContinentsOption4')}</option>
+                <option key={4} value={"Europe"}>{t('filterCanvas.ContinentsOption5')}</option>
+                <option key={5} value={"North America"}>{t('filterCanvas.ContinentsOption6')}</option>
+                <option key={6} value={"Oceania"}>{t('filterCanvas.ContinentsOption7')}</option>
+                <option key={7} value={"South America"}>{t('filterCanvas.ContinentsOption8')}</option>
             </select>
           </div>
         </OverlayTrigger>
@@ -700,13 +704,13 @@ const selectedItems = selectedCustomData.map((item, index)=>{
         
          {/* filtering by country*/}
         <div  className={classes["filter-element"]} >
-            <label htmlFor="countryFilter">Filter by Country:</label>
+            <label htmlFor="countryFilter">{t('filterCanvas.Countries')}</label>
             <select
               id="countryFilter"
               value={selectedCountry}
               onChange={(e) => setSelectedCountry(e.target.value)}
             >
-              <option value="">All</option>
+              <option value="">{t('filterCanvas.CountriesOption1')}</option>
               {/* Assuming the country values are available in the multipleFilterData */}
               {[...new Set(multipleFilterData.map((item) => item.publicData1.country))].map((country, index) => (
                 <option key={index} value={country}>
@@ -718,65 +722,65 @@ const selectedItems = selectedCustomData.map((item, index)=>{
 
                  {/* filtering by roomtype*/}
         <div  className={classes["filter-element"]}>
-            <label htmlFor="roomtype">Filter by Room Type:</label>
+            <label htmlFor="roomtype">{t('filterCanvas.RoomType')}</label>
             <select
               id="roomtype"
               value={selectedRoomtype}
               onChange={(e) => setSelectedRoomtype(e.target.value)}
             >
-              <option value="">All</option>
+              <option value="">{t('filterCanvas.RoomTypeOption1')}</option>
               {/* the roomtype values are available in the multipleFilterData but not on a stylish way */}
               <option key={1} value={"entire_accomodation"}>
-                 Entire accomodation
+              {t('filterCanvas.RoomTypeOption2')}
                 </option>
               <option key={2} value={'singlebedroom'}>
-                 Single Bedroom
+              {t('filterCanvas.RoomTypeOption3')}
               </option>
               <option key={3} value={"doublebedroom"}>
-                 Double Bedroom
+              {t('filterCanvas.RoomTypeOption4')}
               </option>
               <option key={4} value={"shared_bedroom"}>
-                 Dormitory
+              {t('filterCanvas.RoomTypeOption5')}
               </option>
               <option key={5} value={"multi_bedroom"}>
-                 Multi Bedroom
+              {t('filterCanvas.RoomTypeOption6')}
               </option>
               <option key={6} value={"twobedroom"}>
-                 Two Bedroom
+              {t('filterCanvas.RoomTypeOption7')}
               </option>
               <option key={7} value={"tent"}>
-                 Tent
+              {t('filterCanvas.RoomTypeOption8')}
               </option>
            
             </select>
           </div>
 
           <div  className={classes["filter-element"]}>
-            <label htmlFor="impact">Filter by Impact:</label>
+            <label htmlFor="impact">{t('filterCanvas.Impact')}</label>
             <select
               id="impact"
               value={impact}
               onChange={(e) =>  setImpact(e.target.value)}
             >
-              <option value="">All</option>
-              {/* the roomtype values are available in the multipleFilterData but not on a stylish way */}
+              <option value="">{t('filterCanvas.ImpactOption1')}</option>
+              {/* the impact  values are in denglisch in original */}
               <option key={1} value={"Bildung"}>
-              Bildung
+              {t('filterCanvas.ImpactOption2')}
                 </option>
                 <option key={2} value={"Equality"}>
-              Equality
+              {t('filterCanvas.ImpactOption3')}
                 </option>
                 <option key={4} value={"Health"}>
-              Health
+              {t('filterCanvas.ImpactOption4')}
                 </option>
               <option key={5} value={'Naturschutz'}>
-              Naturschutz
+              {t('filterCanvas.ImpactOption5')}
               </option>
               <option key={6} value={"Sports"}>
-              Sports
+              {t('filterCanvas.ImpactOption6')}
               </option>
               <option key={7} value={"Tierschutz"}>
-              Tierschutz
+              {t('filterCanvas.ImpactOption7')}
               </option>
              
            
@@ -785,35 +789,35 @@ const selectedItems = selectedCustomData.map((item, index)=>{
 
             {/* filtering by hasPrivateBathroom*/}
         <div  className={classes["filter-element"]}>
-            <label htmlFor="bathroomFilter">Has Private Bathroom:</label>
+            <label htmlFor="bathroomFilter">{t('filterCanvas.Bathroom')}</label>
             <select
               id="bathroomFilter"
               value={hasPrivateBathroom}
               onChange={(e) => setHasPrivateBathroom(e.target.value)}
             >
-              <option value="">All</option>
+              <option value="">{t('filterCanvas.BathroomOption1')}</option>
               {/* the values are not available on json data*/}
           
                 <option key={1} value={"yes"}>
-                 yes
+                {t('filterCanvas.BathroomOption2')}
                 </option>
                 <option key={2} value={"no"}>
-                 no 
+                {t('filterCanvas.BathroomOption3')} 
                 </option>
                 <option key={3} value={"both"}>
-                 private & shared bathroom
+                {t('filterCanvas.BathroomOption4')}
                 </option>
             </select>
           </div>
               {/* filtering by city*/}
         <div  className={classes["filter-element"]}>
-            <label htmlFor="cityFilter">Filter by City:</label>
+            <label htmlFor="cityFilter">{t('filterCanvas.Cities')}</label>
             <select
               id="cityFilter"
               value={selectedCity}
               onChange={(e) => setSelectedCity(e.target.value)}
             >
-              <option value="">All</option>
+              <option value="">{t('filterCanvas.CitiesOption1')}</option>
               {/* Assuming the city values are available in the multipleFilterData */}
               {[...new Set(multipleFilterData.map((item) => item.publicData1.city))].map((city, index) => (
                 <option key={index} value={city}>
@@ -823,20 +827,20 @@ const selectedItems = selectedCustomData.map((item, index)=>{
             </select>
           </div>
           <div  className={classes["filter-element"]}>
-            <label htmlFor="activitiesFilter">Offer activities:</label>
+            <label htmlFor="activitiesFilter">{t('filterCanvas.Activities')}</label>
             <select
               id="activitiesFilter"
               value={offerActivities}
               onChange={(e) => setOfferActivities(e.target.value)}
             >
-              <option value="">All</option>
+              <option value="">{t('filterCanvas.ActivitiesOption1')}</option>
               {/* the values are not available on json data*/}
           
                 <option key={1} value={"yes"}>
-                 yes
+                {t('filterCanvas.ActivitiesOption2')}
                 </option>
                 <option key={2} value={"no"}>
-                 no 
+                {t('filterCanvas.ActivitiesOption3')} 
                 </option>
               
             </select>
@@ -848,7 +852,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
 
       <FloatingLabel
         controlId="floatingInput"
-        label="Listing name here..."
+        label={t('filterCanvas.SearchFielLabel')}
         className="mb-3"
       >
         <Form.Control type="text"   value={searchQuery}
@@ -884,7 +888,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
              <h2 > {multipleFilterData.length}/{jsonData.length}</h2>
             <div  className={classes["total-bar-elements"]}>
            
-           <h2 > % from Total</h2>
+           <h2 > {t('totalPerCent')}</h2>
            <ProgressBar className={classes["bar"]} now={percent} label={`${percent}%`} />
             </div>
           

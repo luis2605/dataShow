@@ -21,7 +21,13 @@ import beach1 from '../../assets/img/Goa_beach_silhouette_1.png';
 import backpack from '../../assets/img/9jt08ahp6ut0s260j7275hrlc5.png';
 import doves from '../../assets/img/—Pngtree—flying bird silhouette soaring in_6470118.png'
 
+//translation
+import { useTranslation } from 'react-i18next';
+
 const CSVToJSON = () => {
+
+  const { t } = useTranslation();
+
   const handleMouseDown = (e) => {
     e.target.style.transform = 'translateY(2px)';
   };
@@ -216,12 +222,12 @@ return (
     <img className={classes["bkg-img1"]} src={beach1} ></img>
     <img className={classes["bkg-img2"]} src={backpack} ></img>
   {!userNameSubmitted && <div className={`${classes["drawer"]} ${drawerVisible ? classes["visible"] : ""}`}>
-     <h2> Please enter your name to start the app </h2>
+     <h2> {t('greeting')}</h2>
     <div className={classes["name-input-container"]}> 
     <img className={classes["logo"]} src={logo} alt="Logo" />
     <form onSubmit={handleSubmit} className={classes["name-input-form"]} >
       <label htmlFor="name">
-       Name here : 
+      {t('nameLabel')} 
       </label>
       <input  onMouseDown={handleMouseDown} id="name" type="text" value={userName} onChange={handleChange} />
       <button onMouseDown={handleMouseDown} className={classes["ok-btn"]} type="submit">Ok</button>
@@ -236,7 +242,7 @@ return (
       {!jsonData && (
         <div className={classes["logo-title"]}>
           <img className={classes["logo"]} src={logo} alt="Logo" />
-          <h2 className={classes["name-span-title"]} >Please  <span onClick={goBackToNameInput} className={classes["name-span"]} >{userName}  <div className={classes["close-btn"]}>&times;</div></span> select the CSV file to be read</h2>
+          <h2 className={classes["name-span-title"]} > {t('please')}  <span onClick={goBackToNameInput} className={classes["name-span"]} >{userName}  <div className={classes["close-btn"]}>&times;</div></span>  {t('csvFileToBeRead')}</h2>
         </div>
       )}
       <div className={classes["topBar-container"]}>
@@ -246,7 +252,7 @@ return (
         {jsonData && <img className={classes["logoText"]} src={logoText} alt="Logo Text" />}
 
         <div className={classes["input-container"]}>
-          <h3>Please introduce the listings file here :</h3>
+          <h3>{t('listingsFileToBeImported')} </h3>
         <div className={classes["input-text-container"]}>
         <input
   ref={inputFileRef}
@@ -273,7 +279,7 @@ return (
        
         </div>
        { jsonData && <div className={classes["input-container"]}>
-          <h3>Please introduce the users file here for additional data :</h3>
+          <h3>{t('usersFileToBeImported')}</h3>
           <div className={classes["input-text-container"]}>
           <input ref={inputUserFileRef} 
           type="file" accept=".csv" onChange={handleUserFileUpload}  style={{ color: 'transparent' }}  />
@@ -300,26 +306,26 @@ return (
      
     </div>}
     <Modal isOpen={openHelpInitial} onClose={closeHelpInitialListingModal}>
-            <h2>How to get the CSV Listings file from Sharetribe Flex Console ?</h2>
+            <h2>{t('listingsFileHelp1')}</h2>
             <div className={classes["help-container"]}>
               <img className={classes["help-container-img"]} src={sharetribe} alt="Sharetribe" />
               <div>
-                <h3>Please log in on you Sharetribe Flex Console Account</h3>
-                <h3>Go to Listings</h3>
-                <h3>Click on Download .csv</h3>
-                <h3>The .csv file will land in your Downloads folder</h3>
+                <h3>{t('listingsFileHelp2')}</h3>
+                <h3>{t('listingsFileHelp3')}</h3>
+                <h3>{t('listingsFileHelp4')}</h3>
+                <h3>{t('listingsFileHelp5')}</h3>
               </div>
             </div>
       </Modal>
               <Modal isOpen={openHelpUsersInitial} onClose={closeHelpInitialListingUserModal}>
-            <h2>How to get the CSV Users file from Sharetribe Flex Console ?</h2>
+            <h2>{t('usersFileHelp1')}</h2>
             <div className={classes["help-container"]}>
               <img className={classes["help-container-img"]} src={sharetribe1} alt="Sharetribe" />
               <div>
-                <h3>Please log in on you Sharetribe Flex Console Account</h3>
-                <h3>Go to Users</h3>
-                <h3>Click on Download .csv</h3>
-                <h3>The .csv file will land in your Downloads folder</h3>
+                <h3>{t('usersFileHelp2')}</h3>
+                <h3>{t('usersFileHelp3')}</h3>
+                <h3>{t('usersFileHelp4')}</h3>
+                <h3>{t('usersFileHelp5')}</h3>
               </div>
             </div>
       </Modal>

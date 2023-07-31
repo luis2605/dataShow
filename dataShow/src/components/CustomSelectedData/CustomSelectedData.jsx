@@ -2,10 +2,11 @@ import React from 'react'
 import { Button } from 'react-bootstrap'
 import XLSX from 'xlsx/dist/xlsx.full.min.js';
 import classes from './customSelectedData.module.css' 
-
+//translation
+import { useTranslation } from 'react-i18next';
 const CustomSelectedData = ({onMultipleFilterData,onCustomSelectedData}) => {
 
-
+  const { t } = useTranslation();
   /*this is used to extract the arrays of data inside the main data */
   const convertArraysToStrings = (array) => {
     return array.map((object) => {
@@ -111,10 +112,10 @@ XLSX.writeFile(wb, 'TableToExcel.xlsx');
  
   return (
     <div className={classes["secondary-btn-container"]}>
-     <Button onClick={handleTableExport} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>Export Table to Excel</Button>
-     <Button onClick={handleRawDataExport} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>Export raw Data to Excel</Button>
+     <Button onClick={handleTableExport} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>{t('customSelectedData.ExportTable')}</Button>
+     <Button onClick={handleRawDataExport} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>{t('customSelectedData.ExportRaw')}</Button>
   
-     {onCustomSelectedData &&  onCustomSelectedData.length===0? "" : <Button onClick={handleSelectionExport}style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>Export Selection to Excel</Button>}
+     {onCustomSelectedData &&  onCustomSelectedData.length===0? "" : <Button onClick={handleSelectionExport}style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>{t('customSelectedData.ExportSelection')}</Button>}
 
     </div>
   )

@@ -12,12 +12,13 @@
     cursor: pointer;
     z-index: 50;
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 2em;
+    right:1em;
   }
   
   .switch-lang:hover .lang-dropdown {
     display: block;
+   
   }
   
   .switcher-link {
@@ -29,9 +30,10 @@
   }
   
   .current-lang {
-    background: #34495E;
+    background-color: #1C7881;
     padding: 3px 5px 0px 5px;
     border-radius: 5px;
+    display: flex;
   }
   
   .lang-flag {
@@ -44,6 +46,8 @@
     margin-left: 5px;
     vertical-align: top;
     margin-top: 2px;
+    margin-bottom: 2px;
+    color: white;
   }
   
   .lang-dropdown {

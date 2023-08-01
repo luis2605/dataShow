@@ -633,7 +633,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
     <h4 style={{ margin:'1em 0' }}> Report created by: {onUserName}</h4>
      <CustomSelectedData onMultipleFilterData={multipleFilterData} onCustomSelectedData={selectedCustomData} />
      <Button onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp} onClick={openModalCharts}  style={{ marginTop:'1em', marginRight:'1em',background:"#1C7881", border:"none"  }}>Show Charts</Button>
+      onMouseUp={handleMouseUp} onClick={openModalCharts}  style={{ marginTop:'1em', marginRight:'1em',background:"#1C7881", border:"none"  }}>{t('showCharts')}</Button>
   
    </div> 
    </div>

@@ -18,6 +18,7 @@
 
     "popupTextContinent":"No se puede seleccionar el continente como primer filtro debido a que los datos del continente no están presentes en la fuente original. Por favor, seleccione uno de los otros filtros antes de filtrar por continente.",
     "help":"Ayuda",
+    "showCharts": "Mostrar gráficas",
     "charts":"Gráficas",
     "chartsLabel":"Cantidad de listados por país",
     "selection.SelectedItems":"Elementos seleccionados",

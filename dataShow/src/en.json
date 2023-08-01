@@ -18,6 +18,7 @@
 
     "popupTextContinent":"Continent cannot be selected as first filter due to the fact that continent data is not present on the original source. Please select one of the other filters before filtering by continent",
     "help":"Help",
+    "showCharts": "Show charts",
     "charts":"Charts",
     "chartsLabel":"Amount of Listings per country",
     "selection.SelectedItems":"Selected items",

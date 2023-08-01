@@ -18,6 +18,7 @@
 
     "popupTextContinent":"Der Kontinent kann nicht als erster Filter ausgewählt werden, da die Kontinentdaten in der Originalquelle nicht vorhanden sind. Bitte wählen Sie einen der anderen Filter, bevor Sie nach Kontinent filtern",
     "help":"Hilfe",
+    "showCharts": "Diagramme anzeigen",
     "charts":"Diagramme",
     "chartsLabel":"Anzahl der Listings pro Land",
     "selection.SelectedItems":"Ausgewählte Objekte",

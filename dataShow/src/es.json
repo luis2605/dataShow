@@ -77,7 +77,29 @@
     "filterCanvas.ActivitiesOption3":"No",
     "filterCanvas.SearchFielLabel":"Nombre del listado aquí...",
 
-    "totalPerCent":"% del Total"
+    "totalPerCent":"% del Total",
+
+    
+    "table.ID":"ID",
+    "table.State":"Estado",
+    "table.Title":"Nombre",
+    "table.RoomType":"Tipo de habitación",
+    "table.RoomAmount":"Cantidad de habitaciones",
+    "table.RoomOccupancy":"Ocupación por habitación",
+    "table.MaxAmount":"Cantidad máxima",
+    "table.Price/Night":"Precio/Noche",
+    "table.Currency":"Moneda",
+    "table.Meals":"Alimentación",
+    "table.PrivateBathroom":"Baño privado",
+    "table.Continent":"Continente",
+    "table.Country":"País",
+    "table.City":"Ciudad",
+    "table.Activities":"Actividades",
+    "table.ActivitiesDescription":"Descripción de las actividades",
+    "table.ExtraActivities":"Activades Extras",
+    "table.Impact":"Impacto",
+    "table.Lang":"Idiomas",
+    "table.Url":"Url"
 
 
 

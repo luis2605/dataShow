@@ -1,9 +1,9 @@
 import React ,{useState} from 'react';
 import { useTranslation } from 'react-i18next'; // Import useTranslation hook
-import i18n from '../../i18n';
+
 import classes from './languageSelector.module.css'
 
-const LanguageSelector = () => {
+const LanguageSelector = ({onJsonData}) => {
 
   const [currentLang, setCurrentLang] = useState('English');
   const [showDropdown, setShowDropdown] = useState(false);
@@ -17,10 +17,6 @@ const LanguageSelector = () => {
     { name: 'Deutsch', flag: 'https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Germany.png' },
   ];
 
-  const handleChangeLanguage = (event) => {
-    const selectedLanguage = event.target.value;
-    i18n.changeLanguage(selectedLanguage);
-  };
 
   const handleLanguageChange = (language) => {
     console.log(language)
@@ -40,21 +36,16 @@ const LanguageSelector = () => {
     setShowDropdown(!showDropdown);
   };
 
-  return (
-    // <div className={classes["selector-container"]}>
-    //   <label htmlFor="languageSelect">Select Language:</label>
-    //   <select id="languageSelect" onChange={handleChangeLanguage} value={i18n.language}>
-    //     <option value="en">English</option>
-    //     <option value="de">German</option>
-    //     {/* Add more language options as needed */}
-    //   </select>
+  const currentLangClasses = onJsonData ?  classes['current-lang-blue']:classes['current-lang'] ;
+  const langTextClasses = onJsonData ?  classes['lang-text-white']:classes['lang-text'] ;
 
-    // </div>
+  return (
+
     
     <div className={classes['switch-lang']}>
-    <div className={classes['current-lang']} onClick={toggleDropdown}>
+    <div className={currentLangClasses} onClick={toggleDropdown}>
       <img src={languages.find(lang => lang.name === currentLang).flag} className={classes['lang-flag']} alt={currentLang} />
-      <p className={classes['lang-text']}>{currentLang}</p>
+      <p className={langTextClasses}>{currentLang}</p>
     </div>
 
     {showDropdown && (

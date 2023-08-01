@@ -23,7 +23,7 @@ import doves from '../../assets/img/—Pngtree—flying bird silhouette soaring 
 
 //translation
 import { useTranslation } from 'react-i18next';
-
+import LanguageSelector from '../LanguageSelector/LanguageSelector';
 const CSVToJSON = () => {
 
   const { t } = useTranslation();
@@ -213,6 +213,7 @@ const toggleDrawer = () => {
 
 return (
   <div className={classes["csvToJson-container"]}>
+      <LanguageSelector onJsonData={jsonData} />
    {jsonData && <button  className={classes["drawer-toggle-button"]} onClick={toggleDrawer}>
       {!drawerVisible ? <i className="fas fa-chevron-right"></i> : <i className="fas fa-chevron-left"></i>}
     </button>}

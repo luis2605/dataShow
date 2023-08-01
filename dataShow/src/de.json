@@ -78,7 +78,31 @@
     "filterCanvas.ActivitiesOption3":"Nein",
     "filterCanvas.SearchFielLabel":"Listing Name hier...",
 
-    "totalPerCent":"% vom Total"
+    "totalPerCent":"% vom Total",
+
+    
+    
+    "table.ID":"ID",
+    "table.State":"Status",
+    "table.Title":"Bezeichnung",
+    "table.RoomType":"Art des Raumes",
+    "table.RoomAmount":"Anzahl der Räume",
+    "table.RoomOccupancy":"Belegung pro Raum",
+    "table.MaxAmount":"Maximale Anzahl",
+    "table.Price/Night":"Preis/Nacht",
+    "table.Currency":"Währung",
+    "table.Meals":"Verpflegung",
+    "table.PrivateBathroom":"Privates Bad",
+    "table.Continent":"Kontinent",
+    "table.Country":"Land",
+    "table.City":"Stadt",
+    "table.Activities":"Aktivitäten",
+    "table.ActivitiesDescription":"Beschreibung der Aktivitäten",
+    "table.ExtraActivities":"Zusätzliche Aktivitäten",
+    "table.Impact":"Impakt",
+    "table.Lang":"Sprachen",
+    "table.Url":"Url"
+
 
 
 

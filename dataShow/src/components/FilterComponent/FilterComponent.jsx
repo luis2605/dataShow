@@ -29,7 +29,9 @@ import { getContinentCode, getContinentName } from '@brixtol/country-continent';
 /*assets */
 import dataShowLogo from "../../assets/img/dataShowLogo.png"
 import sorry from "../../assets/img/sorry.png"
-import selectfilter from "../../assets/img/selectFilter.png"
+import enImg from "../../assets/img/en.png"
+import deImg from "../../assets/img/de.png"
+import esImg from "../../assets/img/es.png"
 /* import for the pop up on continent */
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -42,10 +44,11 @@ import BarChart from '../Charts/BarChart.jsx';
 
 //translation
 import { useTranslation } from 'react-i18next';
-
+import i18n from '../../i18n';
 const FilterComponent = ({jsonData , fileMetadata, jsonUserData , fileUserMetadata ,onUserName }) => {
 
   const { t } = useTranslation();
+
 
  /* related to listings */
    /*mapped elements for rendering table */
@@ -174,6 +177,20 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
 
   const closeActivitiesHandler = () => {
     setActExpanded(false)
+  };
+
+  // dymically renden img based on language
+  const getLanguageImage = () => {
+    const currentLanguage = i18n.language || window.localStorage.i18nextLng;
+    switch (currentLanguage) {
+      case 'de':
+        return deImg;
+      case 'es':
+        return esImg;
+      // Add more cases for other languages as needed
+      default:
+        return enImg;
+    }
   };
 
 
@@ -389,7 +406,7 @@ if (singleExtraActivity) {
 
             return (
               <tr  key={index} className={classes.card}>
-                <td>{index}</td>
+                {/* <td>{index}</td> */}
                 <td className={classes["small"]}>{item.Id}</td>
                 <td className={stateClasses}>{item.State}</td>
                 <td>{updatedTitle}</td>
@@ -586,7 +603,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
    
    {jsonData && <div className={dataHasBeenFiltered ? `${classes["utilities-bar"]} ${classes["utilities-bar-single"]}`: classes["utilities-bar"]}>
 
-     {!dataHasBeenFiltered && <img className={classes["select-filter-img"]} src={selectfilter} alt="" /> }
+     {!dataHasBeenFiltered && <img className={classes["select-filter-img"]} src={getLanguageImage()} alt="" /> }
     <div className={classes["main-btn-container"]} >
       
     <Button  onMouseDown={handleMouseDown}
@@ -897,24 +914,24 @@ const selectedItems = selectedCustomData.map((item, index)=>{
            <Table striped bordered hover   id="filteredTable" >
          <thead>
             <tr>
-              <th>Index</th>
-              <th>ID</th>
-              <th>State</th>
-              <th>Title</th>
-              <th>Room Type</th>
+              {/* <th>Index</th> */}
+              <th>{t('table.ID')}</th>
+              <th>{t('table.State')}</th>
+              <th>{t('table.Title')}</th>
+              <th>{t('table.RoomType')}</th>
             
-             {showExtraCategories && <th>Room Amount</th>}
-             {showExtraCategories && <th>Room Occupancy</th>}
-               {showExtraCategories &&<th>Max Amount</th>}
-               {showExtraCategories &&<th>Price/Night</th>}
-               {showExtraCategories && <th>Currency</th>}
-               {showExtraCategories && <th>Meals</th>}
-                <th>Private Bathroom</th>
-              <th>Continent</th>
-              <th>Country</th>
-              <th>City</th>
-              <th>Activities</th>
-              <th>Activities Description {actExpanded ? (
+             {showExtraCategories && <th>{t('table.RoomAmount')}</th>}
+             {showExtraCategories && <th>{t('table.RoomOccupancy')}</th>}
+               {showExtraCategories &&<th>{t('table.MaxAmount')}</th>}
+               {showExtraCategories &&<th>{t('table.Price/Night')}</th>}
+               {showExtraCategories && <th>{t('table.Currency')}</th>}
+               {showExtraCategories && <th>{t('table.Meals')}</th>}
+                <th>{t('table.PrivateBathroom')}</th>
+              <th>{t('table.Continent')}</th>
+              <th>{t('table.Country')}</th>
+              <th>{t('table.City')}</th>
+              <th>{t('table.Activities')}</th>
+              <th>{t('table.ActivitiesDescription')} {actExpanded ? (
                       <i
                         onClick={ closeActivitiesHandler}
                         className="fas fa-solid fa-chevron-up"
@@ -927,11 +944,11 @@ const selectedItems = selectedCustomData.map((item, index)=>{
                         style={{ fontSize: "16px", color: "blue", padding: "0 1em" }}
                       />
                     )}</th>
-                     <th>Extra Activities</th>
-              <th>Impact</th>
-              <th>Lang</th>
+                     <th>{t('table.ExtraActivities')} </th>
+              <th>{t('table.Impact')}</th>
+              <th>{t('table.Lang')}</th>
          
-              {showExtraCategories &&  <th>Url</th>}
+              {showExtraCategories &&  <th>{t('table.Url')}</th>}
               {multipleFilterData > 0 &&  <th></th>}
              
             </tr>

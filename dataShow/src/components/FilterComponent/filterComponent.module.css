@@ -144,10 +144,10 @@ thead{
     justify-content: flex-end;
 }
 .select-filter-img{
-    width: 200px;
+    width: 270px;
     position: relative;
     right: 25%;
-    top: 150px;
+    top: 100px;
 }
 .display-selection{
     display: flex;

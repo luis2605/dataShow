@@ -7,7 +7,7 @@
   .switch-lang {
     position: absolute;
     z-index: 1000;
-    width: 110px;
+    width: auto;
     text-align: left;
     cursor: pointer;
     z-index: 50;
@@ -30,12 +30,21 @@
   }
   
   .current-lang {
-    background-color: #1C7881;
-    padding: 3px 5px 0px 5px;
+    background-color: #f1f1f1;
+    padding: 5px ;
     border-radius: 5px;
     display: flex;
+    align-items: center;
+    justify-content: flex-start;
   }
-  
+  .current-lang-blue{
+    background-color: #1C7881;
+    padding: 5px ;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
   .lang-flag {
     width: 20px;
     display: inline-block;
@@ -45,25 +54,39 @@
     display: inline-block;
     margin-left: 5px;
     vertical-align: top;
-    margin-top: 2px;
-    margin-bottom: 2px;
+    margin-top: 0;
+    margin-bottom:0;
+    font-weight: 500;
+    line-height: 1.2;
+    color: black;
+  }
+  .lang-text-white {
+    display: inline-block;
+    margin-left: 5px;
+    vertical-align: top;
+    margin-top: 0;
+    margin-bottom:0;
+    font-weight: 500;
+    line-height: 1.2;
     color: white;
   }
-  
   .lang-dropdown {
     display: none;
-    background: #34495E;
+    background: transparent;
     border-radius: 5px;
     margin-top: 2px;
   }
   
   .selecting-lang {
-    padding: 3px 5px 3px 5px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 5px;
     cursor: pointer;
   }
   
   .selecting-lang:hover {
-    background: #22313F;
+    background: #ffffff10;
   }
   
   ul > :first-child {

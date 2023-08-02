@@ -129,8 +129,8 @@ XLSX.utils.sheet_add_json(ws, userNameRowData, { origin: { r: convertedData.leng
  
   return (
     <div className={classes["secondary-btn-container"]}>
-     <Button onClick={handleTableExport} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>{t('customSelectedData.ExportTable')}</Button>
-     <Button onClick={handleRawDataExport} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>{t('customSelectedData.ExportRaw')}</Button>
+     <Button id="step4" onClick={handleTableExport} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>{t('customSelectedData.ExportTable')}</Button>
+     <Button id="step5" onClick={handleRawDataExport} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>{t('customSelectedData.ExportRaw')}</Button>
   
      {onCustomSelectedData &&  onCustomSelectedData.length===0? "" : <Button onClick={handleSelectionExport}style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>{t('customSelectedData.ExportSelection')}</Button>}
 

@@ -45,11 +45,24 @@ import BarChart from '../Charts/BarChart.jsx';
 //translation
 import { useTranslation } from 'react-i18next';
 import i18n from '../../i18n';
+
+// tutorial
+import FilterComponentTutorial from '../tutorials/FilterComponentTutorial.jsx';
+
 const FilterComponent = ({jsonData , fileMetadata, jsonUserData , fileUserMetadata ,onUserName }) => {
 
   const { t } = useTranslation();
+//tutorial
 
-
+const [stepsEnabled, setStepsEnabled] = useState(false);
+const toggleSteps = () => {
+  setStepsEnabled((prevStepsEnabled) => !prevStepsEnabled);
+  console.log(stepsEnabled)
+};
+const onStepsExit = () => {
+  setStepsEnabled(false);
+  
+};
  /* related to listings */
    /*mapped elements for rendering table */
     const[mappedElement,setMappedElements] = useState(null);
@@ -555,6 +568,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
    
   return (
     <>
+     <FilterComponentTutorial onStepsEnabled={stepsEnabled}  onStepsExit={onStepsExit}  />
      {jsonData && <div key={"mxps"} className={classes["mega-container"]}>
        <Modal isOpen={isOpenHelp} onClose={closeModalHelp}>
         <h2 >{t('help')} </h2>
@@ -605,12 +619,12 @@ const selectedItems = selectedCustomData.map((item, index)=>{
      {!dataHasBeenFiltered && <img className={classes["select-filter-img"]} src={getLanguageImage()} alt="" /> }
     <div className={classes["main-btn-container"]} >
       
-    <Button  onMouseDown={handleMouseDown}
+    <Button id="step1"  onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp} variant="primary" onClick={handleShow} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>
         {t('filters.FilterName')}
       </Button>
     
-     {selection && <Button  onMouseDown={handleMouseDown}
+     {selection && <Button id="step2"   onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp} onClick={openModalSelection} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>
 
 
@@ -640,15 +654,15 @@ const selectedItems = selectedCustomData.map((item, index)=>{
   {t('selection.SelectionName')}
 </Button>}
 
-<Button onMouseDown={handleMouseDown}
+<Button id="step3"  onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp} onClick={showHideMore} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>{showExtraCategories ?   <i className="fa-solid fa-eye-slash" style={{ fontSize: '16px', color: 'white' }}></i> : <i className="fa-solid fa-eye" style={{ fontSize: '16px', color: 'white' }}></i>}</Button>
-    <Button  onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}   onClick={openModalHelp} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>  <i className="fas fa-question-circle" style={{ fontSize: '16px', color: 'white' }}></i></Button>
+    <span id="hint1"><Button  onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}   onClick={toggleSteps} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>  <i  className="fas fa-question-circle" style={{ fontSize: '16px', color: 'white' }}></i></Button></span>
      <h4 style={{ margin:'1em 0' }}> {t('listingMetadata.DownloadedOn')} {fileMetadata.lastModifiedDate.toLocaleString()}</h4>
     {fileUserMetadata && <h4 style={{ margin:'1em 0' }}> {t('usersMetadata.DownloadedOn')}  {fileUserMetadata.lastModifiedDate.toLocaleString()}</h4>} 
     <h4 style={{ margin:'1em 0' }}>  {t('Metadata.ReportCreatedBy')}  {onUserName}</h4>
-     <CustomSelectedData onMultipleFilterData={multipleFilterData} onCustomSelectedData={selectedCustomData} onUserName={onUserName} />
-     {!selectedCountry && <Button onMouseDown={handleMouseDown}
+     <CustomSelectedData   onMultipleFilterData={multipleFilterData} onCustomSelectedData={selectedCustomData} onUserName={onUserName} />
+     {!selectedCountry && <Button  id="step6"  onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp} onClick={openModalCharts}  style={{ marginTop:'1em', marginRight:'1em',background:"#1C7881", border:"none"  }}>{t('showCharts')}</Button>}
   
    </div> 

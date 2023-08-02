@@ -80,6 +80,9 @@
 
     "totalPerCent":"% vom Total",
 
+    "listingMetadata.DownloadedOn":"Listings-Datei heruntergeladen am:",
+    "usersMetadata.DownloadedOn":"Users-Datei heruntergeladen am:",
+    "Metadata.ReportCreatedBy":"Bericht erstellt von:",
     
     
     "table.ID":"ID",

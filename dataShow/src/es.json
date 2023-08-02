@@ -79,6 +79,10 @@
 
     "totalPerCent":"% del Total",
 
+    "listingMetadata.DownloadedOn":"Archivo de listados descargado el:",
+    "usersMetadata.DownloadedOn":"Archivo de usuarios descargado el:",
+    "Metadata.ReportCreatedBy":"Reporte creado por:",
+
     
     "table.ID":"ID",
     "table.State":"Estado",

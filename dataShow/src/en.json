@@ -79,6 +79,10 @@
 
     "totalPerCent":"% from Total",
 
+    "listingMetadata.DownloadedOn":"Listing File downloaded on:",
+    "usersMetadata.DownloadedOn":"User File downloaded on:",
+    "Metadata.ReportCreatedBy":"Report created by:",
+
      "table.ID":"ID",
      "table.State":"Status",
      "table.Title":"Title",

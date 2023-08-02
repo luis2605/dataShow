@@ -499,7 +499,7 @@ setCountryCount({
     setSelectedCustomData(updatedSelectedCustomData); // Update the selectedCustomData state
   };
 
-
+  console.log(selectedCustomData)
 
 const selectedItems = selectedCustomData.map((item, index)=>{
   
@@ -507,15 +507,14 @@ const selectedItems = selectedCustomData.map((item, index)=>{
 
     <Card style={{ width: '100%',height:'5rem', margin:'1em auto .5em auto' }}>
     
-    <Card.Body  style={{ display:'flex',justifyContent:'space-around',alignItems:'flex-start'}} >
+    <Card.Body  style={{ display:'flex',justifyContent:'space-between',alignItems:'center' }} >
       <Card.Title>{item.Title}</Card.Title>
       <Card.Text>
-        Some quick example text to build on the card title and make up the
-        bulk of the card's content.
+        
       </Card.Text>
       
       <Button  onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp} data-index={index}  onClick={removeCustomElement} variant="primary" style={{ margin:'0  .5em ',padding:'.5em' }}> <i className="fas fa-duotone fa-house-circle-xmark" style={{ fontSize: '16px', color: 'white' }}></i></Button> {/* Pass the index of the element */}
+      onMouseUp={handleMouseUp} data-index={index}  onClick={removeCustomElement} variant="primary" style={{background:"#1C7881", border:"none", margin:'0  .5em ',padding:'.5em' }}> <i onClick={removeCustomElement} className="fas fa-duotone fa-house-circle-xmark" style={{ fontSize: '16px', color: 'white' }}></i></Button> {/* Pass the index of the element */}
     </Card.Body>
   </Card>
 
@@ -645,12 +644,12 @@ const selectedItems = selectedCustomData.map((item, index)=>{
       onMouseUp={handleMouseUp} onClick={showHideMore} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>{showExtraCategories ?   <i className="fa-solid fa-eye-slash" style={{ fontSize: '16px', color: 'white' }}></i> : <i className="fa-solid fa-eye" style={{ fontSize: '16px', color: 'white' }}></i>}</Button>
     <Button  onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}   onClick={openModalHelp} style={{ marginRight:'1em',background:"#1C7881", border:"none"  }}>  <i className="fas fa-question-circle" style={{ fontSize: '16px', color: 'white' }}></i></Button>
-     <h4 style={{ margin:'1em 0' }}> Listing File downloaded on: {fileMetadata.lastModifiedDate.toLocaleString()}</h4>
-    {fileUserMetadata && <h4 style={{ margin:'1em 0' }}> User File downloaded on: {fileUserMetadata.lastModifiedDate.toLocaleString()}</h4>} 
-    <h4 style={{ margin:'1em 0' }}> Report created by: {onUserName}</h4>
-     <CustomSelectedData onMultipleFilterData={multipleFilterData} onCustomSelectedData={selectedCustomData} />
-     <Button onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp} onClick={openModalCharts}  style={{ marginTop:'1em', marginRight:'1em',background:"#1C7881", border:"none"  }}>{t('showCharts')}</Button>
+     <h4 style={{ margin:'1em 0' }}> {t('listingMetadata.DownloadedOn')} {fileMetadata.lastModifiedDate.toLocaleString()}</h4>
+    {fileUserMetadata && <h4 style={{ margin:'1em 0' }}> {t('usersMetadata.DownloadedOn')}  {fileUserMetadata.lastModifiedDate.toLocaleString()}</h4>} 
+    <h4 style={{ margin:'1em 0' }}>  {t('Metadata.ReportCreatedBy')}  {onUserName}</h4>
+     <CustomSelectedData onMultipleFilterData={multipleFilterData} onCustomSelectedData={selectedCustomData} onUserName={onUserName} />
+     {!selectedCountry && <Button onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp} onClick={openModalCharts}  style={{ marginTop:'1em', marginRight:'1em',background:"#1C7881", border:"none"  }}>{t('showCharts')}</Button>}
   
    </div> 
    </div>

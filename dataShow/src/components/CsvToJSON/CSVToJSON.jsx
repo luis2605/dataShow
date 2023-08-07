@@ -213,8 +213,8 @@ const toggleDrawer = () => {
 
 return (
   <div className={classes["csvToJson-container"]}>
-      <LanguageSelector onJsonData={jsonData} />
-   {jsonData && <button  className={classes["drawer-toggle-button"]} onClick={toggleDrawer}>
+      <LanguageSelector  onJsonData={jsonData} />
+   {jsonData && <button id='step7'  className={classes["drawer-toggle-button"]} onClick={toggleDrawer}>
       {!drawerVisible ? <i className="fas fa-chevron-right"></i> : <i className="fas fa-chevron-left"></i>}
     </button>}
    {overlay && <div className={classes["drawer-overlay"]}  >

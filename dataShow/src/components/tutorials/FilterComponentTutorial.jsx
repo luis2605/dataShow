@@ -8,7 +8,7 @@ const FilterComponentTutorial = ({onStepsEnabled,onStepsExit}) => {
     const [steps, setSteps] = useState([
       {
         element: "#step1",
-        intro: "1 step",
+        intro: "hola",
       },
       {
         element: "#step2",
@@ -29,6 +29,18 @@ const FilterComponentTutorial = ({onStepsEnabled,onStepsExit}) => {
       {
         element: "#step6",
         intro: "6 step",
+      },
+      {
+        element: "#step7",
+        intro: "7 step",
+      },
+      {
+        element: "#step8",
+        intro: "8 step",
+      },
+      {
+        element: "#step9",
+        intro: "9 step",
       },
     ]);
   

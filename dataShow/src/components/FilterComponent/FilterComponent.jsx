@@ -115,11 +115,7 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
    
     /*filter offset canvas */
     const [show, setShow] = useState(false);
-   
-    /* help modal open/close */
-    const openModalHelp = () => {
-      setIsOpenHelp(true);
-    };
+  
    
     const closeModalHelp = () => {
       setIsOpenHelp(false);
@@ -162,6 +158,10 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
       const [impact, setImpact] = useState('')
     /*filter by continent */
       const [selectedContinent, setSelectedContinent] = useState('');
+
+    /*filter by hasVideoOnSocialbnb */
+
+    const [hasVideoOnSocialbnb, setHasVideoOnSocialbnb] = useState('');
 
       /* state for the % */
 
@@ -220,6 +220,7 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
     setImpact('')
     setSelectedContinent('')
     setSearchQuery('')
+    setHasVideoOnSocialbnb('')
   };
 
     /*Reset query text*/
@@ -238,6 +239,21 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
     transition: 'transform 0.2s',
     fontSize: '16px',
      color: 'white'
+  };
+/*youtube btn  and not allowed youtube btn styles */
+  const youtubeLinkButtonStyle = {
+    padding: '10px 9px 6px 9px',
+    backgroundColor: '#ff0000',
+   borderRadius:'50%',
+    border: 'none',
+    cursor: 'pointer',
+    transition: 'transform 0.2s',
+    fontSize: '16px',
+     color: 'white'
+  };
+  const youtubeLinkButtonNA = {
+    display: 'none ',
+    
   };
 
   const handleMouseDown = (e) => {
@@ -291,9 +307,11 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
              );
              
              if (matchingUser) {
+              console.log(matchingUser)
                return {
                  ...data,
                  actividades_nuevas: matchingUser.PrivateData, // Replace 'additionalInfo' with the desired key from jsonUserData
+                 hasVideoOnSocialbnb: matchingUser.PublicData1 && matchingUser.publicData1.video === 'ja' ? 'ja' : 'nein'
                };
              }
              return data;
@@ -304,15 +322,20 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
            // filtered data includes now the new activities i linked jsonData & jsonUserData on the ID of the user
        } 
       
-       if ( actualState||selectedCountry || selectedRoomtype ||hasPrivateBathroom || selectedCity||offerActivities || impact || searchQuery|| filteredData) {
+       if (hasVideoOnSocialbnb || actualState||selectedCountry || selectedRoomtype ||hasPrivateBathroom || selectedCity||offerActivities || impact || searchQuery|| filteredData) {
+       
+       
         filteredData = filteredData.filter((item) => {
+         console.log(hasVideoOnSocialbnb)
           const publicData = item.publicData1;
+          console.log(item)
         const stateMatch= !actualState || item.State === actualState;
         const countryMatch = !selectedCountry || publicData.country === selectedCountry;
         const roomtypeMatch = !selectedRoomtype || publicData.roomtype === selectedRoomtype;
         const bathroomMatch=!hasPrivateBathroom ||  publicData && publicData.amenities && publicData.amenities.includes('privat_bathroom')? "yes":"no"  == hasPrivateBathroom 
         const bathroomMatchNot=!hasPrivateBathroom ||  publicData && publicData.amenities && publicData.amenities.includes('shared_bathroom')? "no":"yes" == hasPrivateBathroom 
-       
+        const hasVideoOnSocialbnbMatch = !hasVideoOnSocialbnb || hosts && hosts.length > 0 && hasVideoOnSocialbnb === item.hasVideoOnSocialbnb;
+
         const cityMatch = !selectedCity || publicData.city === selectedCity;
         const activitiesMatch = !offerActivities || (publicData.activities ? "yes" : "no") === offerActivities; 
         const impactMatch =
@@ -331,9 +354,11 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
  
    
  
-          return  stateMatch && countryMatch && roomtypeMatch && cityMatch  && bathroomMatch && bathroomMatchNot && activitiesMatch && impactMatch && continentMatch && searchQueryMatch ;
+          return  stateMatch && countryMatch && roomtypeMatch && cityMatch  && bathroomMatch && bathroomMatchNot && activitiesMatch && impactMatch && continentMatch && searchQueryMatch && hasVideoOnSocialbnbMatch ;
         });
       }
+
+  
 
     
        console.log(filteredData)
@@ -401,7 +426,7 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
                 const updatedTitle = title.split("•")[0].trim();
 
             /* extra activities on single activities */
-
+         
             const singleExtraActivity = jsonUserData && item.actividades_nuevas ?  JSON.parse(item.actividades_nuevas) : null;
 let activitiesArray = [];
 
@@ -414,7 +439,7 @@ if (singleExtraActivity) {
 } else {
   activitiesArray = ["K/A"];
 }
-            console.log(activitiesArray)
+            
    /*map the listings  */  
 
             return (
@@ -461,7 +486,9 @@ if (singleExtraActivity) {
                 <td>{Array.isArray(item.publicData1.languages) ? item.publicData1.languages.join(' ') : (item.publicData1.languages ? item.publicData1.languages : 'N/A')}</td>
 
                 {showExtraCategories &&   <td><a href={url} target='_blank'> {url}</a> </td>}
-                {multipleFilterData && <td   onClick={(e) => addCustomElement(e, index)}> <i className="fas fa-solid fa-plus" style={buttonStyle}
+                {showExtraCategories &&   <td><a href={item.publicData1.youtubeLink} target='_blank'><i className="fa-brands fa-youtube" style={item.publicData1.youtubeLink && item.publicData1.youtubeLink.length > 0 ? youtubeLinkButtonStyle : youtubeLinkButtonNA} onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}  >  </i></a> </td>}
+                {multipleFilterData && <td id='step9'  onClick={(e) => addCustomElement(e, index)}> <i className="fas fa-solid fa-plus"  style={buttonStyle} 
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}></i></td>}
                
@@ -471,7 +498,7 @@ if (singleExtraActivity) {
           });
           setMultipleFilterData(filteredData);
           setMappedElements(mapped);
-
+             
 
  
  /*county the amount of listings per country for charts */
@@ -555,9 +582,10 @@ const selectedItems = selectedCustomData.map((item, index)=>{
      
 
         }
+        console.log(multipleFilterData)
+        console.log(jsonUserData)
     
-    
-      }, [jsonData,jsonUserData,actualState, selectedCountry,selectedRoomtype,hasPrivateBathroom,selectedCity,selectedCustomData,offerActivities, actExpanded,impact,selectedContinent,showExtraCategories,searchQuery,percent]);
+      }, [jsonData,jsonUserData,actualState, selectedCountry,selectedRoomtype,hasPrivateBathroom,selectedCity,selectedCustomData,offerActivities, actExpanded,impact,selectedContinent,showExtraCategories,searchQuery,percent,hasVideoOnSocialbnb]);
 
 
     
@@ -730,7 +758,20 @@ const selectedItems = selectedCustomData.map((item, index)=>{
           </div>
         </OverlayTrigger>
       }
-
+    {/* filtering by hasVideoOnSocialbnb*/}
+   {jsonUserData && <div  className={classes["filter-element"]} >
+            <label htmlFor="hasVideoOnSocialbnb">video on Socialbnb</label>
+            <select
+              id="hasVideoOnSocialbnb"
+              value={hasVideoOnSocialbnb}
+              onChange={(e) => setHasVideoOnSocialbnb(e.target.value)}
+            >
+                <option value="">{t('filterCanvas.BathroomOption1')}</option>
+              <option key={1} value={"ja"}>yes</option>
+            
+              <option key={2} value={"nein"}>no</option>
+            </select>
+          </div>}
         
          {/* filtering by country*/}
         <div  className={classes["filter-element"]} >
@@ -962,6 +1003,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
               <th>{t('table.Lang')}</th>
          
               {showExtraCategories &&  <th>{t('table.Url')}</th>}
+              {showExtraCategories &&  <th>youtube</th>}
               {multipleFilterData > 0 &&  <th></th>}
              
             </tr>

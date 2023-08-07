@@ -42,7 +42,7 @@ const LanguageSelector = ({onJsonData}) => {
   return (
 
     
-    <div className={classes['switch-lang']}>
+    <div id='step8' className={classes['switch-lang']}>
     <div className={currentLangClasses} onClick={toggleDropdown}>
       <img src={languages.find(lang => lang.name === currentLang).flag} className={classes['lang-flag']} alt={currentLang} />
       <p className={langTextClasses}>{currentLang}</p>

@@ -4,7 +4,7 @@ import XLSX from 'xlsx/dist/xlsx.full.min.js';
 import classes from './customSelectedData.module.css' 
 //translation
 import { useTranslation } from 'react-i18next';
-const CustomSelectedData = ({onMultipleFilterData,onCustomSelectedData, onUserName}) => {
+const CustomSelectedData = ({onMultipleFilterData,onCustomSelectedData, onUserName,onAmountProjects}) => {
 
   const { t } = useTranslation();
   /*this is used to extract the arrays of data inside the main data */
@@ -52,9 +52,14 @@ const CustomSelectedData = ({onMultipleFilterData,onCustomSelectedData, onUserNa
     });
    // use a translation for the userName tag 
     const translatedUserName = t('Metadata.ReportCreatedBy');
+    const projects = t('Metadata.AmountProjects')
     // Include onUserName prop as the first row
     const userNameRow = {
       [translatedUserName]: onUserName, // Modify this according to the actual key in your data
+    
+    };
+    const projectAmountRow = {
+      [projects]: onAmountProjects, // Modify this according to the actual key in your data
     
     };
   
@@ -65,6 +70,8 @@ let ws = XLSX.utils.json_to_sheet(updatedData, { header: headers });
 // Add userNameRow to the sheet at a specific position (for example, starting at A1)
 const userNameRowData = [userNameRow]; // Wrap userNameRow in an array
 XLSX.utils.sheet_add_json(ws, userNameRowData, { origin: { r: updatedData.length +2 , c: 1 } }); // Start at B2 (0-indexed)
+const amounProjectsData = [projectAmountRow]; // Wrap userNameRow in an array
+XLSX.utils.sheet_add_json(ws, amounProjectsData, { origin: { r: updatedData.length +4 , c: 1 } }); // Start at B2 (0-indexed)
 
 XLSX.utils.book_append_sheet(wb, ws, 'MySheet1');
 XLSX.writeFile(wb, 'TableToExcel.xlsx');

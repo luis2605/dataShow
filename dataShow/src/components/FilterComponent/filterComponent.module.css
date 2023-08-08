@@ -249,6 +249,15 @@ thead{
 
     justify-content: space-between;
 }
+
+.total-bar-listings-projects{
+    display: flex;
+    flex-direction: column;
+}
+
+.total-bar-listings-projects > h2{
+  padding-left: 0;
+}
 .total-bar-elements{
     display: flex;
     flex-direction: column;

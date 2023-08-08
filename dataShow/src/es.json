@@ -76,17 +76,22 @@
     "filterCanvas.ActivitiesOption2":"Sí",
     "filterCanvas.ActivitiesOption3":"No",
     "filterCanvas.SearchFielLabel":"Nombre del listado aquí...",
+    "filterCanvas.videoOnSocialbnb":"Vídeo en socialbnb",
+    "filterCanvas.videoOnSocialbnbOption1":"si",
+    "filterCanvas.videoOnSocialbnbOption2":"no",
 
     "totalPerCent":"% del Total",
 
     "listingMetadata.DownloadedOn":"Archivo de listados descargado el:",
     "usersMetadata.DownloadedOn":"Archivo de usuarios descargado el:",
     "Metadata.ReportCreatedBy":"Reporte creado por:",
+    "Metadata.AmountProjects":"Total de projectos:",
 
     
     "table.ID":"ID",
     "table.State":"Estado",
     "table.Title":"Nombre",
+    "table.ProjectTitle":"Projecto",
     "table.RoomType":"Tipo de habitación",
     "table.RoomAmount":"Cantidad de habitaciones",
     "table.RoomOccupancy":"Ocupación por habitación",

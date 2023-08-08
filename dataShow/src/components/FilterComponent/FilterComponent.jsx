@@ -57,7 +57,7 @@ const FilterComponent = ({jsonData , fileMetadata, jsonUserData , fileUserMetada
 const [stepsEnabled, setStepsEnabled] = useState(false);
 const toggleSteps = () => {
   setStepsEnabled((prevStepsEnabled) => !prevStepsEnabled);
-  console.log(stepsEnabled)
+
 };
 const onStepsExit = () => {
   setStepsEnabled(false);
@@ -222,7 +222,10 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
     setSearchQuery('')
     setHasVideoOnSocialbnb('')
   };
-
+/* count projects */
+const [projectTitleCounts, setProjectTitleCounts] = useState({ });
+const counts = {};
+let prevProjectTitle = null;
     /*Reset query text*/
     
     const resetQueryText = () => {
@@ -307,13 +310,17 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
              );
              
              if (matchingUser) {
-              console.log(matchingUser)
+          
                return {
                  ...data,
                  actividades_nuevas: matchingUser.PrivateData, // Replace 'additionalInfo' with the desired key from jsonUserData
-                 hasVideoOnSocialbnb: matchingUser.PublicData1 && matchingUser.publicData1.video === 'ja' ? 'ja' : 'nein'
+                 hasVideoOnSocialbnb: matchingUser.PrivateData,
+                 projectTitle: matchingUser.publicData1
+
+
                };
              }
+          
              return data;
            });
          
@@ -321,20 +328,20 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
      
            // filtered data includes now the new activities i linked jsonData & jsonUserData on the ID of the user
        } 
-      
+       
        if (hasVideoOnSocialbnb || actualState||selectedCountry || selectedRoomtype ||hasPrivateBathroom || selectedCity||offerActivities || impact || searchQuery|| filteredData) {
        
        
         filteredData = filteredData.filter((item) => {
-         console.log(hasVideoOnSocialbnb)
+     
           const publicData = item.publicData1;
-          console.log(item)
+         
         const stateMatch= !actualState || item.State === actualState;
         const countryMatch = !selectedCountry || publicData.country === selectedCountry;
         const roomtypeMatch = !selectedRoomtype || publicData.roomtype === selectedRoomtype;
         const bathroomMatch=!hasPrivateBathroom ||  publicData && publicData.amenities && publicData.amenities.includes('privat_bathroom')? "yes":"no"  == hasPrivateBathroom 
         const bathroomMatchNot=!hasPrivateBathroom ||  publicData && publicData.amenities && publicData.amenities.includes('shared_bathroom')? "no":"yes" == hasPrivateBathroom 
-        const hasVideoOnSocialbnbMatch = !hasVideoOnSocialbnb || hosts && hosts.length > 0 && hasVideoOnSocialbnb === item.hasVideoOnSocialbnb;
+        const hasVideoOnSocialbnbMatch = !hasVideoOnSocialbnb || hosts && hosts.length > 0 && item.hasVideoOnSocialbnb.includes("video\":\"ja")? "ja" :"nein" ==hasVideoOnSocialbnb
 
         const cityMatch = !selectedCity || publicData.city === selectedCity;
         const activitiesMatch = !offerActivities || (publicData.activities ? "yes" : "no") === offerActivities; 
@@ -360,8 +367,7 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
 
   
 
-    
-       console.log(filteredData)
+     
           const mapped = filteredData.map((item, index) => {
            
             /*set continent name */
@@ -427,18 +433,27 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
 
             /* extra activities on single activities */
          
-            const singleExtraActivity = jsonUserData && item.actividades_nuevas ?  JSON.parse(item.actividades_nuevas) : null;
-let activitiesArray = [];
-
-if (singleExtraActivity) {
-  if (Array.isArray(singleExtraActivity)) {
-    activitiesArray = singleExtraActivity;
-  } else {
-    activitiesArray = Object.values(singleExtraActivity);
-  }
-} else {
-  activitiesArray = ["K/A"];
-}
+            const singleExtraActivity = jsonUserData && item.actividades_nuevas ? JSON.parse(item.actividades_nuevas) : null;
+            let activitiesArray = [];
+            
+            if (singleExtraActivity) {
+              if (Array.isArray(singleExtraActivity)) {
+                activitiesArray = singleExtraActivity;
+              } else {
+                activitiesArray = Object.values(singleExtraActivity);
+              }
+            } else {
+              activitiesArray = ["K/A"];
+            }
+            
+            // Remove the last element from activitiesArray
+            if (activitiesArray.length > 0) {
+              activitiesArray.pop();
+            }
+  // Extracting the "video" value if it exists
+  const videoValue = singleExtraActivity && singleExtraActivity.video
+  ? t('filterCanvas.videoOnSocialbnbOption1')
+  : t('filterCanvas.videoOnSocialbnbOption2');
             
    /*map the listings  */  
 
@@ -448,6 +463,8 @@ if (singleExtraActivity) {
                 <td className={classes["small"]}>{item.Id}</td>
                 <td className={stateClasses}>{item.State}</td>
                 <td>{updatedTitle}</td>
+                {/* {jsonUserData && item.projectTitle && <td>{item.projectTitle.projectTitle
+}</td>} */}
                 <td>{item.publicData1.roomtype}</td>
                 {showExtraCategories &&   <td>{item.publicData1.roomamount}</td>}
                 {showExtraCategories &&    <td>{item.publicData1.bedamount}</td>}
@@ -486,6 +503,7 @@ if (singleExtraActivity) {
                 <td>{Array.isArray(item.publicData1.languages) ? item.publicData1.languages.join(' ') : (item.publicData1.languages ? item.publicData1.languages : 'N/A')}</td>
 
                 {showExtraCategories &&   <td><a href={url} target='_blank'> {url}</a> </td>}
+                {jsonUserData &&   <td>{videoValue }</td>}
                 {showExtraCategories &&   <td><a href={item.publicData1.youtubeLink} target='_blank'><i className="fa-brands fa-youtube" style={item.publicData1.youtubeLink && item.publicData1.youtubeLink.length > 0 ? youtubeLinkButtonStyle : youtubeLinkButtonNA} onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}  >  </i></a> </td>}
                 {multipleFilterData && <td id='step9'  onClick={(e) => addCustomElement(e, index)}> <i className="fas fa-solid fa-plus"  style={buttonStyle} 
@@ -498,8 +516,9 @@ if (singleExtraActivity) {
           });
           setMultipleFilterData(filteredData);
           setMappedElements(mapped);
-             
+             console.log(multipleFilterData)
 
+        
  
  /*county the amount of listings per country for charts */
 const countryCounts = {};
@@ -539,7 +558,7 @@ setCountryCount({
     setSelectedCustomData(updatedSelectedCustomData); // Update the selectedCustomData state
   };
 
-  console.log(selectedCustomData)
+  
 
 const selectedItems = selectedCustomData.map((item, index)=>{
   
@@ -582,16 +601,27 @@ const selectedItems = selectedCustomData.map((item, index)=>{
      
 
         }
-        console.log(multipleFilterData)
-        console.log(jsonUserData)
+     
     
       }, [jsonData,jsonUserData,actualState, selectedCountry,selectedRoomtype,hasPrivateBathroom,selectedCity,selectedCustomData,offerActivities, actExpanded,impact,selectedContinent,showExtraCategories,searchQuery,percent,hasVideoOnSocialbnb]);
 
+      useEffect(()=>{
+        {multipleFilterData &&   multipleFilterData.forEach(item => {
+          const projectTitle = item.projectTitle;
+          console.log('Current project title:', projectTitle);
 
+          if (projectTitle !== prevProjectTitle) {
+            counts[projectTitle] = (counts[projectTitle] || 0) + 1;
+            prevProjectTitle = projectTitle;
+          }
+        });
+        console.log('Counts:', counts);
+        setProjectTitleCounts(counts);}
+      },[multipleFilterData])
     
-
+      const uniqueProjectTitles = Object.keys(projectTitleCounts);
   
-     
+     console.log(projectTitleCounts)
    
    
   return (
@@ -689,7 +719,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
      <h4 style={{ margin:'1em 0' }}> {t('listingMetadata.DownloadedOn')} {fileMetadata.lastModifiedDate.toLocaleString()}</h4>
     {fileUserMetadata && <h4 style={{ margin:'1em 0' }}> {t('usersMetadata.DownloadedOn')}  {fileUserMetadata.lastModifiedDate.toLocaleString()}</h4>} 
     <h4 style={{ margin:'1em 0' }}>  {t('Metadata.ReportCreatedBy')}  {onUserName}</h4>
-     <CustomSelectedData   onMultipleFilterData={multipleFilterData} onCustomSelectedData={selectedCustomData} onUserName={onUserName} />
+     <CustomSelectedData   onMultipleFilterData={multipleFilterData} onCustomSelectedData={selectedCustomData} onUserName={onUserName} onAmountProjects={projectTitleCounts[uniqueProjectTitles[0]]} />
      {!selectedCountry && <Button  id="step6"  onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp} onClick={openModalCharts}  style={{ marginTop:'1em', marginRight:'1em',background:"#1C7881", border:"none"  }}>{t('showCharts')}</Button>}
   
@@ -760,7 +790,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
       }
     {/* filtering by hasVideoOnSocialbnb*/}
    {jsonUserData && <div  className={classes["filter-element"]} >
-            <label htmlFor="hasVideoOnSocialbnb">video on Socialbnb</label>
+            <label htmlFor="hasVideoOnSocialbnb">socialbnb Video</label>
             <select
               id="hasVideoOnSocialbnb"
               value={hasVideoOnSocialbnb}
@@ -956,9 +986,23 @@ const selectedItems = selectedCustomData.map((item, index)=>{
     { multipleFilterData && (
            <>
            <div className={classes["total-bar"]}>
-             <h2 > {multipleFilterData.length}/{jsonData.length}</h2>
-            <div  className={classes["total-bar-elements"]}>
+
+           <div className={classes["total-bar-listings-projects"]}>
+           <h2 > {multipleFilterData.length} Listings</h2>
+           <h3>from</h3>
+           {jsonUserData && uniqueProjectTitles.length > 0 && (
+              <h2>
+              {projectTitleCounts[uniqueProjectTitles[0]]} Projects
+            
+            </h2>
+          
+            )}
            
+         </div>
+
+            <div  className={classes["total-bar-elements"]}>
+          
+
            <h2 > {t('totalPerCent')}</h2>
            <ProgressBar className={classes["bar"]} now={percent} label={`${percent}%`} />
             </div>
@@ -972,6 +1016,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
               <th>{t('table.ID')}</th>
               <th>{t('table.State')}</th>
               <th>{t('table.Title')}</th>
+              {/* <th>{t('table.ProjectTitle')}</th> */}
               <th>{t('table.RoomType')}</th>
             
              {showExtraCategories && <th>{t('table.RoomAmount')}</th>}
@@ -1003,6 +1048,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
               <th>{t('table.Lang')}</th>
          
               {showExtraCategories &&  <th>{t('table.Url')}</th>}
+              {jsonUserData &&  <th>has socialbnbVideo</th>}
               {showExtraCategories &&  <th>youtube</th>}
               {multipleFilterData > 0 &&  <th></th>}
              

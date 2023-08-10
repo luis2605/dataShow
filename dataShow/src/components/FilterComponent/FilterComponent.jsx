@@ -437,24 +437,30 @@ let prevProjectTitle = null;
             let activitiesArray = [];
             
             if (singleExtraActivity) {
-              if (Array.isArray(singleExtraActivity)) {
-                activitiesArray = singleExtraActivity;
-              } else {
-                activitiesArray = Object.values(singleExtraActivity);
-              }
+              activitiesArray = Object.entries(singleExtraActivity).reduce((acc, [key, value]) => {
+                const match = key.match(/^(.*?)(\d+)$/); // Match keys ending with a number
+                if (match) {
+                  const [, baseKey, index] = match;
+                  if (!acc[index]) {
+                    acc[index] = {};
+                  }
+                  acc[index][baseKey] = value;
+                } else {
+                  acc.push({ key, value });
+                }
+                return acc;
+              }, []);
             } else {
-              activitiesArray = ["K/A"];
+              activitiesArray = [{ key: "K/A", value: "K/A" }];
             }
             
-            // Remove the last element from activitiesArray
-            if (activitiesArray.length > 0) {
-              activitiesArray.pop();
-            }
+            console.log(activitiesArray);
+            
+
+
   // Extracting the "video" value if it exists
-  const videoValue = singleExtraActivity && singleExtraActivity.video
-  ? t('filterCanvas.videoOnSocialbnbOption1')
-  : t('filterCanvas.videoOnSocialbnbOption2');
-            
+  let videoValue =jsonUserData && item.hasVideoOnSocialbnb.includes("video\":\"ja")? t('filterCanvas.videoOnSocialbnbOption1') :t('filterCanvas.videoOnSocialbnbOption2') 
+  
    /*map the listings  */  
 
             return (
@@ -494,7 +500,12 @@ let prevProjectTitle = null;
               </td>
               <td>
     {activitiesArray.map((activity, index) => (
-      <p key={index}>{activity}</p>
+     <div className={jsonUserData && activitiesArray.length > 0 && !activitiesArray.some(item => item.key === 'K/A' && item.value === 'K/A') ? classes.activitiesDisplayTable : ""}>
+      <p key={index}>{activity.activity}</p>
+      <p key={index +1}>{activity.activitycategory}</p>
+      <p key={index +3}>{activity.activitycosts}</p>
+      </div>
+
     ))}
   </td>
                { item.publicData1.category &&  <td>{Array.isArray(item.publicData1.category) ? item.publicData1.category.join(' ') : item.publicData1.category}</td>
@@ -516,7 +527,7 @@ let prevProjectTitle = null;
           });
           setMultipleFilterData(filteredData);
           setMappedElements(mapped);
-             console.log(multipleFilterData)
+          
 
         
  
@@ -608,20 +619,20 @@ const selectedItems = selectedCustomData.map((item, index)=>{
       useEffect(()=>{
         {multipleFilterData &&   multipleFilterData.forEach(item => {
           const projectTitle = item.projectTitle;
-          console.log('Current project title:', projectTitle);
+       
 
           if (projectTitle !== prevProjectTitle) {
             counts[projectTitle] = (counts[projectTitle] || 0) + 1;
             prevProjectTitle = projectTitle;
           }
         });
-        console.log('Counts:', counts);
+    
         setProjectTitleCounts(counts);}
       },[multipleFilterData])
     
       const uniqueProjectTitles = Object.keys(projectTitleCounts);
   
-     console.log(projectTitleCounts)
+  
    
    
   return (

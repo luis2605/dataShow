@@ -107,7 +107,18 @@ thead{
     text-align: center;
 }
 
-
+.activitiesDisplayTable{
+    display: flex;
+    align-items: flex-start;
+    border: 1px solid green;
+}
+.activitiesDisplayTable > p{
+    padding: 0 .5em;
+    margin-bottom: 0.2em;
+}
+.activitiesDisplayTable > :not(:last-child) {
+  border-right: .5px dotted red;
+  }
 
 .act-exp-container{
     display: flex;

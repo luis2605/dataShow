@@ -316,7 +316,7 @@ let prevProjectLocation = null;
                return {
                  ...data,
                  actividades_nuevas: matchingUser.PrivateData, // Replace 'additionalInfo' with the desired key from jsonUserData
-                 hasVideoOnSocialbnb: matchingUser.PrivateData,
+                 hasVideoOnSocialbnb: matchingUser.PrivateData.includes("video\":\"ja")? "ja" :"nein",
                  projectTitle: matchingUser.publicData1
 
 
@@ -343,7 +343,7 @@ let prevProjectLocation = null;
         const roomtypeMatch = !selectedRoomtype || publicData.roomtype === selectedRoomtype;
         const bathroomMatch=!hasPrivateBathroom ||  publicData && publicData.amenities && publicData.amenities.includes('privat_bathroom')? "yes":"no"  == hasPrivateBathroom 
         const bathroomMatchNot=!hasPrivateBathroom ||  publicData && publicData.amenities && publicData.amenities.includes('shared_bathroom')? "no":"yes" == hasPrivateBathroom 
-        const hasVideoOnSocialbnbMatch = !hasVideoOnSocialbnb || hosts && hosts.length > 0 && item.hasVideoOnSocialbnb.includes("video\":\"ja")? "ja" :"nein" ==hasVideoOnSocialbnb
+        const hasVideoOnSocialbnbMatch = !hasVideoOnSocialbnb || hosts && hosts.length > 0 && item.hasVideoOnSocialbnb ==hasVideoOnSocialbnb
 
         const cityMatch = !selectedCity || publicData.city === selectedCity;
         const activitiesMatch = !offerActivities || (publicData.activities ? "yes" : "no") === offerActivities; 
@@ -560,6 +560,7 @@ setCountryCount({
  /* add custom elements from filteredData to selectedCustomData */
   const addCustomElement = (e, index) => {
   const selectedElement = filteredData[index];
+  console.log(selectedCustomData)
   setSelectedCustomData(prevData => [...prevData, selectedElement]);
  
   };
@@ -614,7 +615,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
      
 
         }
-     
+     console.log(selectedCustomData)
     
       }, [jsonData,jsonUserData,actualState, selectedCountry,selectedRoomtype,hasPrivateBathroom,selectedCity,selectedCustomData,offerActivities, actExpanded,impact,selectedContinent,showExtraCategories,searchQuery,percent,hasVideoOnSocialbnb]);
 

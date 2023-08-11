@@ -225,7 +225,9 @@ const [showExtraCategories, setShowExtraCategories] = useState(false)
 /* count projects */
 const [projectTitleCounts, setProjectTitleCounts] = useState({ });
 const counts = {};
+/* comparing the projects to themselves for knowing if they are unique and not repeated  */
 let prevProjectTitle = null;
+let prevProjectLocation = null;
     /*Reset query text*/
     
     const resetQueryText = () => {
@@ -454,7 +456,7 @@ let prevProjectTitle = null;
               activitiesArray = [{ key: "K/A", value: "K/A" }];
             }
             
-            console.log(activitiesArray);
+           console.log(activitiesArray)
             
 
 
@@ -617,13 +619,16 @@ const selectedItems = selectedCustomData.map((item, index)=>{
       }, [jsonData,jsonUserData,actualState, selectedCountry,selectedRoomtype,hasPrivateBathroom,selectedCity,selectedCustomData,offerActivities, actExpanded,impact,selectedContinent,showExtraCategories,searchQuery,percent,hasVideoOnSocialbnb]);
 
       useEffect(()=>{
+        console.log(multipleFilterData)
         {multipleFilterData &&   multipleFilterData.forEach(item => {
           const projectTitle = item.projectTitle;
+          const projectLocation = item.publicData1.city
        
 
-          if (projectTitle !== prevProjectTitle) {
+          if (projectTitle !== prevProjectTitle && projectLocation !==prevProjectLocation) {
             counts[projectTitle] = (counts[projectTitle] || 0) + 1;
             prevProjectTitle = projectTitle;
+            prevProjectLocation = projectLocation
           }
         });
     
@@ -730,7 +735,7 @@ const selectedItems = selectedCustomData.map((item, index)=>{
      <h4 style={{ margin:'1em 0' }}> {t('listingMetadata.DownloadedOn')} {fileMetadata.lastModifiedDate.toLocaleString()}</h4>
     {fileUserMetadata && <h4 style={{ margin:'1em 0' }}> {t('usersMetadata.DownloadedOn')}  {fileUserMetadata.lastModifiedDate.toLocaleString()}</h4>} 
     <h4 style={{ margin:'1em 0' }}>  {t('Metadata.ReportCreatedBy')}  {onUserName}</h4>
-     <CustomSelectedData   onMultipleFilterData={multipleFilterData} onCustomSelectedData={selectedCustomData} onUserName={onUserName} onAmountProjects={projectTitleCounts[uniqueProjectTitles[0]]} />
+     <CustomSelectedData   onMultipleFilterData={multipleFilterData} onCustomSelectedData={selectedCustomData} onUserName={onUserName} onAmountProjects={projectTitleCounts[uniqueProjectTitles[0]]}  />
      {!selectedCountry && <Button  id="step6"  onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp} onClick={openModalCharts}  style={{ marginTop:'1em', marginRight:'1em',background:"#1C7881", border:"none"  }}>{t('showCharts')}</Button>}
   

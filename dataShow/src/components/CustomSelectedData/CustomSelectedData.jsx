@@ -26,6 +26,8 @@ const CustomSelectedData = ({onMultipleFilterData,onCustomSelectedData, onUserNa
 
   
   const handleTableExport = () => {
+    console.log(onMultipleFilterData)
+
     /* Convert table content to json */
     const table = document.getElementById('filteredTable');
     const headers = Array.from(table.querySelectorAll('th')).map(th => th.textContent.trim());
@@ -41,15 +43,41 @@ const CustomSelectedData = ({onMultipleFilterData,onCustomSelectedData, onUserNa
   
     /* Add formula to calculate 'Price + Commission' */
     const updatedData = data.map((row) => {
-      const price = parseFloat(row['Price/Night']); // Assuming the column name is 'Price' in your data
-      const commission = price * 0.15; // Calculate commission as 15% of price
+      const currency = row.PriceCurrency === "Dollar" ? "Euro" : "USD";
+        
+      const price = parseFloat(row['Price/Night']);
+      const commission = price * 0.15;
       const priceWithCommission = price + commission;
-   
-      return {
+        
+      const formattedRow = {
         ...row,
         'Price + Commission': priceWithCommission.toFixed(2),
       };
+        
+      // Format nested JSON strings like 'actividades_nuevas'
+      const nestedKeysToFormat = ['actividades_nuevas', 'hasVideoOnSocialbnb'];
+      nestedKeysToFormat.forEach((key) => {
+        if (formattedRow[key]) {
+          const nestedObject = JSON.parse(formattedRow[key]);
+          const nestedKeys = Object.keys(nestedObject);
+          formattedRow[key] = nestedKeys.map(nestedKey => `${nestedKey}: ${nestedObject[nestedKey]}`).join(', ');
+        }
+      });
+        
+      // Extract and format individual activities from "Extra Activities"
+      if (formattedRow['Extra Activities']) {
+        const extraActivities = formattedRow['Extra Activities'].split(currency);
+        formattedRow['Extra Activities'] = extraActivities
+          .filter(activity => activity.trim() !== '') // Exclude empty entries
+          .map(activity => `${activity}${currency}`)
+          .join('\n');
+        console.log(row);
+      }
+          
+      return formattedRow;
     });
+    
+    
    // use a translation for the userName tag 
     const translatedUserName = t('Metadata.ReportCreatedBy');
     const projects = t('Metadata.AmountProjects')

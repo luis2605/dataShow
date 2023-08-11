@@ -461,7 +461,7 @@ let prevProjectLocation = null;
 
 
   // Extracting the "video" value if it exists
-  let videoValue =jsonUserData && item.hasVideoOnSocialbnb.includes("video\":\"ja")? t('filterCanvas.videoOnSocialbnbOption1') :t('filterCanvas.videoOnSocialbnbOption2') 
+  let videoValue =jsonUserData && item.hasVideoOnSocialbnb=== 'ja'? t('filterCanvas.videoOnSocialbnbOption1') :t('filterCanvas.videoOnSocialbnbOption2') 
   
    /*map the listings  */  
 

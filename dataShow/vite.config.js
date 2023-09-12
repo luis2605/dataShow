@@ -20,6 +20,7 @@ export default defineConfig({
             src: "/public/ic_launcher.png",
             sizes: "192x192",
             type: "image/png",
+            purpose: "any maskable",
           },
         ],
       },

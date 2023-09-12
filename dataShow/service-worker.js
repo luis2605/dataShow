@@ -1,18 +1,15 @@
 // service-worker.js
 
-// Define a cache name for your assets
 const cacheName = "your-app-cache-v1";
 
-// Define an array of assets to cache
 const assetsToCache = [
-  "/", // Cache the root URL
-  "/index.html", // Cache your application's HTML file
-  "/manifest.json", // Cache your manifest file
-  "/dataShowLogo.png", // Cache your app's icon
+  "/",
+  "/index.html",
+  "/manifest.json",
+  "/dataShowLogo.png",
   // Add other assets you want to cache here
 ];
 
-// Install the service worker
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(cacheName).then((cache) => {
@@ -21,7 +18,6 @@ self.addEventListener("install", (event) => {
   );
 });
 
-// Activate the service worker
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -34,11 +30,35 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// Fetch assets from the cache or the network
 self.addEventListener("fetch", (event) => {
-  event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      return cachedResponse || fetch(event.request);
-    })
-  );
+  const requestUrl = new URL(event.request.url);
+
+  // Check if the request is for the specific URL you want to cache
+  if (
+    requestUrl.origin === "https://luis2605.github.io" &&
+    requestUrl.pathname === "/dataShow/"
+  ) {
+    event.respondWith(
+      caches.open(cacheName).then((cache) => {
+        return cache.match(event.request).then((cachedResponse) => {
+          if (cachedResponse) {
+            return cachedResponse;
+          }
+
+          // If not found in cache, fetch and cache the response
+          return fetch(event.request).then((response) => {
+            cache.put(event.request, response.clone());
+            return response;
+          });
+        });
+      })
+    );
+  } else {
+    // For other requests, use the default fetch strategy
+    event.respondWith(
+      caches.match(event.request).then((cachedResponse) => {
+        return cachedResponse || fetch(event.request);
+      })
+    );
+  }
 });

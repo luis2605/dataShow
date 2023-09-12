@@ -1,8 +1,7 @@
 {
   "name": "dataShow",
   "short_name": "dShow",
-  "start_url": "https://luis2605.github.io",
-  "display": "standalone",
+  "start_url": "/dataShow/",
   "background_color": "#ffffff",
   "theme_color": "#000000",
   "icons": [

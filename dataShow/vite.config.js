@@ -17,7 +17,7 @@ export default defineConfig({
         theme_color: "#007bff",
         icons: [
           {
-            src: "dataShowLogo.png",
+            src: "/dataShowLogo.png",
             sizes: "192x192",
             type: "image/png",
             purpose: "any maskable",

@@ -1,18 +1,18 @@
-// service-worker.js
+// sw.js
 
 // Define a cache name for your assets
-const cacheName = "your-app-cache-v1";
+const cacheName = "my-app-cache-v1";
 
 // Define an array of assets to cache
 const assetsToCache = [
-  "/", // Cache the root URL
-  "/index.html", // Cache your application's HTML file
-  "/manifest.json", // Cache your manifest file
-  "/public/dataShowLogo.png", // Cache your app's icon
+  "/",
+  "/index.html",
+  "/manifest.json",
+  "/public/ic_launcher.png",
   // Add other assets you want to cache here
 ];
 
-// Install the service worker
+// Install the service worker and cache assets
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(cacheName).then((cache) => {
@@ -21,7 +21,7 @@ self.addEventListener("install", (event) => {
   );
 });
 
-// Activate the service worker
+// Activate the service worker and clean up old caches
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {

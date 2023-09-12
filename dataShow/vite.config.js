@@ -10,7 +10,7 @@ export default defineConfig({
       manifest: {
         name: "dataShow",
         short_name: "dShow",
-        start_url: "https://luis2605.github.io/dataShow/",
+        start_url: "/dataShow/",
         display: "standalone",
         background_color: "#ffffff",
         theme_color: "#000000",

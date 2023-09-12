@@ -107,5 +107,7 @@
   "table.ExtraActivities": "Activades Extras",
   "table.Impact": "Impacto",
   "table.Lang": "Idiomas",
-  "table.Url": "Url"
+  "table.Url": "Url",
+
+  "mobile.Warning": "Intenta utilizar la aplicación en un dispositivo con una pantalla más grande, ya que la cantidad de datos no es adecuada para pantallas pequeñas."
 }

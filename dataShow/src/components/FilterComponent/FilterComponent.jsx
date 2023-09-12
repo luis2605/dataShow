@@ -781,12 +781,11 @@ const FilterComponent = ({
                   background: "#1C7881",
                   border: "none",
                   margin: "0  .5em ",
-                  padding: ".5em",
+                  padding: "1em",
                 }}
               >
                 {" "}
                 <i
-                  onClick={removeCustomElement}
                   className="fas fa-duotone fa-house-circle-xmark"
                   style={{ fontSize: "16px", color: "white" }}
                 ></i>
@@ -1519,7 +1518,9 @@ const FilterComponent = ({
                 </div>
               ) : (
                 <>
-                  <p>nothing here</p>
+                  <p className={classes["mobile-warning"]}>
+                    {t("mobile.Warning")}
+                  </p>
                   <div className={classes["table-container"]}>
                     <Table striped bordered hover id="filteredTable">
                       <thead>

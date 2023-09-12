@@ -106,5 +106,7 @@
   "table.ExtraActivities": "Extra Activities",
   "table.Impact": "Impact",
   "table.Lang": "Lang",
-  "table.Url": "Url"
+  "table.Url": "Url",
+
+  "mobile.Warning": "Please try to use the app on a device with bigger screen.The amount of data is not suitable for smaller screens."
 }

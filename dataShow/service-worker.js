@@ -6,7 +6,7 @@ const assetsToCache = [
   "/",
   "/index.html",
   "/manifest.json",
-  "/dataShowLogo.png",
+  "/public/dataShowLogo.png",
   // Add other assets you want to cache here
 ];
 

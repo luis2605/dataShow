@@ -1,111 +1,135 @@
-.selector-container{
+.selector-container {
   position: absolute;
-    z-index: 1000;
+  z-index: 1000;
 }
 /* SwitchLang.module.css */
 
-  .switch-lang {
+.switch-lang {
+  position: absolute;
+  z-index: 1000;
+  width: auto;
+  text-align: left;
+  cursor: pointer;
+  z-index: 50;
+  position: absolute;
+  top: 2em;
+  right: 1em;
+}
+
+.switch-lang:hover .lang-dropdown {
+  display: block;
+}
+
+.switcher-link {
+  color: #fff;
+}
+
+.switcher-link:hover {
+  color: #fff;
+}
+
+.current-lang {
+  background-color: #f1f1f1;
+  padding: 5px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.current-lang-blue {
+  background-color: #1c7881;
+  padding: 5px;
+  margin: 2.5em 0 0 0;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.lang-flag {
+  width: 20px;
+  display: inline-block;
+}
+
+.lang-text {
+  display: inline-block;
+  margin-left: 5px;
+  vertical-align: top;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-weight: 500;
+  line-height: 1.2;
+  color: black;
+}
+.lang-text-white {
+  display: inline-block;
+  margin-left: 5px;
+  vertical-align: top;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-weight: 500;
+  line-height: 1.2;
+  color: white;
+}
+.lang-dropdown {
+  display: none;
+  background: #74777786;
+
+  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(9px);
+  border-radius: 5px;
+  margin-top: 2px;
+}
+
+.selecting-lang {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.selecting-lang:hover {
+  background: #ffffff10;
+}
+
+ul > :first-child {
+  border-radius: 5px 5px 0px 0px;
+}
+
+ul > :last-child {
+  border-radius: 0px 0px 5px 5px;
+}
+
+li {
+  list-style-type: none;
+}
+
+.menu-arrow {
+  display: inline-block;
+  width: 10px;
+  margin-left: 10px;
+  vertical-align: top;
+  margin-top: 6px;
+}
+/*media queries*/
+
+@media (max-width: 425px) {
+  .current-lang-blue {
     position: absolute;
-    z-index: 1000;
-    width: auto;
-    text-align: left;
-    cursor: pointer;
-    z-index: 50;
-    position: absolute;
-    top: 2em;
-    right:1em;
-  }
-  
-  .switch-lang:hover .lang-dropdown {
-    display: block;
-   
-  }
-  
-  .switcher-link {
-    color: #fff;
-  }
-  
-  .switcher-link:hover {
-    color: #fff;
-  }
-  
-  .current-lang {
-    background-color: #f1f1f1;
-    padding: 5px ;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-  }
-  .current-lang-blue{
-    background-color: #1C7881;
-    padding: 5px ;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-  }
-  .lang-flag {
-    width: 20px;
-    display: inline-block;
-  }
-  
-  .lang-text {
-    display: inline-block;
-    margin-left: 5px;
-    vertical-align: top;
-    margin-top: 0;
-    margin-bottom:0;
-    font-weight: 500;
-    line-height: 1.2;
-    color: black;
-  }
-  .lang-text-white {
-    display: inline-block;
-    margin-left: 5px;
-    vertical-align: top;
-    margin-top: 0;
-    margin-bottom:0;
-    font-weight: 500;
-    line-height: 1.2;
-    color: white;
+    top: 0;
+    left: -21.3em;
+    z-index: 1;
   }
   .lang-dropdown {
     display: none;
-    background: transparent;
+    background: #74777786;
+    padding: 5px;
+    -webkit-backdrop-filter: blur(9px);
+    backdrop-filter: blur(9px);
     border-radius: 5px;
     margin-top: 2px;
+    position: absolute;
+    top: 4em;
+    left: -21.3em;
   }
-  
-  .selecting-lang {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 5px;
-    cursor: pointer;
-  }
-  
-  .selecting-lang:hover {
-    background: #ffffff10;
-  }
-  
-  ul > :first-child {
-    border-radius: 5px 5px 0px 0px;
-  }
-  
-  ul > :last-child {
-    border-radius: 0px 0px 5px 5px;
-  }
-  
-  li {
-    list-style-type: none;
-  }
-  
-  .menu-arrow {
-    display: inline-block;
-    width: 10px;
-    margin-left: 10px;
-    vertical-align: top;
-    margin-top: 6px;
-  }
-  
+}

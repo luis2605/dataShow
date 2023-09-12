@@ -686,12 +686,13 @@ const FilterComponent = ({
         ) : (
           <tr key={index} className={classes.card}>
             {/* <td>{index}</td> */}
-
-            <td>{updatedTitle}</td>
+            <a href={url} target="_blank">
+              {" "}
+              <td>{updatedTitle}</td>
+            </a>{" "}
             {/* {jsonUserData && item.projectTitle && <td>{item.projectTitle.projectTitle
 }</td>} */}
-            <td>{item.publicData1.roomtype}</td>
-
+            {/* <td>{item.publicData1.roomtype}</td> */}
             {multipleFilterData && (
               <td id="step9" onClick={(e) => addCustomElement(e, index)}>
                 {" "}
@@ -756,7 +757,8 @@ const FilterComponent = ({
           <Card
             style={{
               width: "100%",
-              height: "5rem",
+              height: "100%",
+
               margin: "1em auto .5em auto",
             }}
           >
@@ -1006,24 +1008,24 @@ const FilterComponent = ({
                     ></i>
                   )}
                 </Button>
-                <span id="hint1">
-                  <Button
-                    onMouseDown={handleMouseDown}
-                    onMouseUp={handleMouseUp}
-                    onClick={toggleSteps}
-                    style={{
-                      marginRight: "1em",
-                      background: "#1C7881",
-                      border: "none",
-                    }}
-                  >
-                    {" "}
-                    <i
-                      className="fas fa-question-circle"
-                      style={{ fontSize: "16px", color: "white" }}
-                    ></i>
-                  </Button>
-                </span>
+
+                <Button
+                  id="hint1"
+                  onMouseDown={handleMouseDown}
+                  onMouseUp={handleMouseUp}
+                  onClick={toggleSteps}
+                  style={{
+                    marginRight: "1em",
+                    background: "#1C7881",
+                    border: "none",
+                  }}
+                >
+                  <i
+                    className="fas fa-question-circle"
+                    style={{ fontSize: "16px", color: "white" }}
+                  ></i>
+                </Button>
+
                 <h4 style={{ margin: "1em 0" }}>
                   {" "}
                   {t("listingMetadata.DownloadedOn")}{" "}
@@ -1526,7 +1528,7 @@ const FilterComponent = ({
 
                           <th>{t("table.Title")}</th>
                           {/* <th>{t('table.ProjectTitle')}</th> */}
-                          <th>{t("table.RoomType")}</th>
+                          {/* <th>{t("table.RoomType")}</th> */}
 
                           {multipleFilterData > 0 && <th></th>}
                         </tr>

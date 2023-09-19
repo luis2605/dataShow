@@ -1,0 +1,171 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should match snapshot with default values 1`] = `
+<div
+  className="csvToJson-container"
+>
+  <div
+    className="switch-lang"
+    id="step8"
+  >
+    <div
+      className="current-lang"
+      onClick={[Function]}
+    >
+      <img
+        alt="English"
+        className="lang-flag"
+        src="https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_Kingdom.png"
+      />
+      <p
+        className="lang-text"
+      >
+        English
+      </p>
+    </div>
+  </div>
+  <div
+    className="drawer-overlay"
+  >
+    <img
+      className="bkg-img4"
+      src={{}}
+    />
+    <img
+      className="bkg-img3"
+      src={{}}
+    />
+    <img
+      className="bkg-img1"
+      src={{}}
+    />
+    <img
+      className="bkg-img2"
+      src={{}}
+    />
+    <div
+      className="drawer "
+    >
+      <h2>
+         
+        Please enter your name to start the app.
+      </h2>
+      <div
+        className="name-input-container"
+      >
+        <img
+          alt="Logo"
+          className="logo"
+          src={{}}
+        />
+        <form
+          className="name-input-form"
+          onSubmit={[Function]}
+        >
+          <label
+            htmlFor="name"
+          >
+            Name here: 
+          </label>
+          <input
+            data-testid="name"
+            id="name"
+            onChange={[Function]}
+            onMouseDown={[Function]}
+            type="text"
+            value=""
+          />
+          <button
+            className="ok-btn"
+            data-testid="ok"
+            onMouseDown={[Function]}
+            type="submit"
+          >
+            Ok
+          </button>
+        </form>
+      </div>
+    </div>
+    <div
+      className="modal "
+    >
+      <div
+        className="modalContent"
+      >
+        <span
+          className="close"
+          onClick={[Function]}
+        >
+          ×
+        </span>
+        <h2>
+          How to get the CSV Listings file from Sharetribe Flex Console?
+        </h2>
+        <div
+          className="help-container"
+        >
+          <img
+            alt="Sharetribe"
+            className="help-container-img"
+            src={{}}
+          />
+          <div>
+            <h3>
+              Please log in on you Sharetribe Flex Console Account
+            </h3>
+            <h3>
+              Go to Listings
+            </h3>
+            <h3>
+              Click on Download .csv
+            </h3>
+            <h3>
+              The .csv file will land in your Downloads folder
+            </h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="modal "
+    >
+      <div
+        className="modalContent"
+      >
+        <span
+          className="close"
+          onClick={[Function]}
+        >
+          ×
+        </span>
+        <h2>
+          How to get the CSV Users file from Sharetribe Flex Console?
+        </h2>
+        <div
+          className="help-container"
+        >
+          <img
+            alt="Sharetribe"
+            className="help-container-img"
+            src={{}}
+          />
+          <div>
+            <h3>
+              Please log in on you Sharetribe Flex Console Account
+            </h3>
+            <h3>
+              Go to Users
+            </h3>
+            <h3>
+              Click on Download .csv
+            </h3>
+            <h3>
+              The .csv file will land in your Downloads folder
+            </h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

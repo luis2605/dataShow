@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import Modal from "../Modal/Modal.jsx";
 
-import CustomSelectedData from "../CustomSelectedData/CustomSelectedData";
+import CustomSelectedData from "../CustomSelectedData/CustomSelectedData.jsx";
 
 /* font-awesome icons  */
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -20,6 +20,7 @@ import { saveAs } from "file-saver";
 
 /*impor for checkin countries to continents for filtering */
 import { getContinentCode, getContinentName } from "@brixtol/country-continent";
+/*error Catching */
 
 /*assets */
 import dataShowLogo from "../../assets/img/dataShowLogo.png";
@@ -38,7 +39,7 @@ import BarChart from "../Charts/BarChart.jsx";
 
 //translation
 import { useTranslation } from "react-i18next";
-import i18n from "../../i18n";
+import i18n from "../../i18n.js";
 
 // tutorial
 import FilterComponentTutorial from "../tutorials/FilterComponentTutorial.jsx";
@@ -555,8 +556,6 @@ const FilterComponent = ({
           activitiesArray = [{ key: "K/A", value: "K/A" }];
         }
 
-        console.log(activitiesArray);
-
         // Extracting the "video" value if it exists
         let videoValue =
           jsonUserData && item.hasVideoOnSocialbnb === "ja"
@@ -739,7 +738,7 @@ const FilterComponent = ({
       /* add custom elements from filteredData to selectedCustomData */
       const addCustomElement = (e, index) => {
         const selectedElement = filteredData[index];
-        console.log(selectedCustomData);
+
         setSelectedCustomData((prevData) => [...prevData, selectedElement]);
       };
       /* remove custom elements from filteredData to selectedCustomData */
@@ -812,7 +811,6 @@ const FilterComponent = ({
         setDataHasBeenFiltered(true);
       } else setDataHasBeenFiltered(false);
     }
-    console.log(selectedCustomData);
   }, [
     jsonData,
     jsonUserData,
@@ -833,7 +831,6 @@ const FilterComponent = ({
   ]);
 
   useEffect(() => {
-    console.log(multipleFilterData);
     {
       multipleFilterData &&
         multipleFilterData.forEach((item) => {
@@ -862,6 +859,7 @@ const FilterComponent = ({
         onStepsEnabled={stepsEnabled}
         onStepsExit={onStepsExit}
       />
+
       {jsonData && (
         <div key={"mxps"} className={classes["mega-container"]}>
           <Modal isOpen={isOpenHelp} onClose={closeModalHelp}>
@@ -1066,7 +1064,7 @@ const FilterComponent = ({
               </div>
             </div>
           )}
-          <Offcanvas show={show} onHide={handleClose}>
+          <Offcanvas title="off-canvas" show={show} onHide={handleClose}>
             <Offcanvas.Header closeButton>
               <Offcanvas.Title>
                 <img className={classes["img-logo"]} src={dataShowLogo} />
@@ -1190,6 +1188,7 @@ const FilterComponent = ({
                         id="countryFilter"
                         value={selectedCountry}
                         onChange={(e) => setSelectedCountry(e.target.value)}
+                        aria-label="Countries"
                       >
                         <option value="">
                           {t("filterCanvas.CountriesOption1")}

@@ -248,6 +248,7 @@ const CSVToJSON = () => {
                   <label htmlFor="name">{t("nameLabel")}</label>
                   <input
                     onMouseDown={handleMouseDown}
+                    data-testid="name"
                     id="name"
                     type="text"
                     value={userName}
@@ -257,6 +258,7 @@ const CSVToJSON = () => {
                     onMouseDown={handleMouseDown}
                     className={classes["ok-btn"]}
                     type="submit"
+                    data-testid="ok"
                   >
                     Ok
                   </button>

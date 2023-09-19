@@ -7,8 +7,7 @@ import { useTranslation } from "react-i18next";
 
 const FilterComponentTutorial = ({ onStepsEnabled, onStepsExit }) => {
   const { i18n } = useTranslation(); // Use the useTranslation hook to get i18n
-  console.log(i18n.resolvedLanguage);
-  console.log(i18n.resolvedLanguage);
+
   const [steps, setSteps] = useState([
     {
       element: "#step1",

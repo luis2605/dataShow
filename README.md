@@ -52,7 +52,7 @@ Please note that while this documentation provides an overview of the component 
 
 
 
-### FilterComponent
+### FilterComponent  React Component
 
 The `FilterComponent` is a React component responsible for rendering various filtering and display options for data. It consists of the following sub-components:
 
@@ -195,5 +195,34 @@ The `FilterComponentTutorial` component is intended to be used as a part of the 
 
 The component supports multiple languages by dynamically updating tutorial text based on the user's language preference. Developers can extend the `steps` array to include translations for additional languages as needed.
 
-Please note that this documentation provides an overview of the component's functionalities. Additional comments within the code itself may be helpful for developers working on or maintaining this component.
+### CustomSelectedData React Component
+
+The `CustomSelectedData` component is responsible for exporting data from the application. It provides functions to export filtered table data, raw data, and selected data into Excel files. Additionally, it allows users to include custom metadata, such as the username and project amount, in the exported Excel files. This documentation provides an overview of the component's functions and usage.
+
+#### Functions
+
+1. `convertArraysToStrings(array)`: This function takes an array of objects and converts any properties that are arrays into JSON strings. It is used to prepare data for export by ensuring that nested arrays are represented as strings.
+
+2. `handleRawDataExport()`: This function exports raw data from the `onMultipleFilterData` prop to an Excel file named "RawDataToExcel.xlsx." It modifies the original data by extracting and formatting specific properties like `PriceAmount`.
+
+3. `handleSelectionExport()`: This function exports selected data from the `onCustomSelectedData` prop to an Excel file named "SelectedDataToExcel.xlsx." It modifies the data by parsing the `hasVideoOnSocialbnb` property, adding custom metadata (e.g., username and project amount), and formatting various properties.
+
+4. `handleTableExport()`: This function exports table data to an Excel file named "TableToExcel.xlsx." It converts the table content into JSON format, calculates the "Price + Commission" column, formats nested JSON strings, and extracts and formats individual activities. It also includes custom metadata (e.g., username and project amount) in the exported file.
+
+#### Usage
+
+The `CustomSelectedData` component is used to provide users with the ability to export different types of data from the application. It offers the following export options:
+
+- Exporting the filtered table data with additional calculations.
+- Exporting raw data from the `onMultipleFilterData` prop.
+- Exporting selected data from the `onCustomSelectedData` prop.
+
+The component renders export buttons that trigger the corresponding export functions when clicked.
+
+#### Translation and Localization
+
+The component uses the `useTranslation` hook to provide translations for button labels and metadata keys. Developers can use this component to support multiple languages by configuring translations using the `t` function from the hook.
+
+
+
 

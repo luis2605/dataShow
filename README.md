@@ -148,11 +148,52 @@ The component applies conditional CSS classes based on the presence of data in `
 - `langTextClasses`: Conditional class for the language text.
 - `langDropdownClasses`: Conditional class for the language dropdown.
 
-### Usage
+#### Usage
 
 The `LanguageSelector` component can be easily integrated into your application to provide multilingual support. Users can select their preferred language, and the component will update the application's language accordingly. You can extend the `languages` array to support additional languages and their respective flags.
 
-### CSS Styles
+#### CSS Styles
 
 The component uses CSS modules for styling. The CSS classes are imported from an external CSS module file (`languageSelector.module.css`) and applied to various UI elements to control their appearance.
+
+### FilterComponentTutorial React Component
+
+The `FilterComponentTutorial` component is responsible for providing an interactive tutorial for users on how to use filtering features within the application. It utilizes the "intro.js-react" library to create step-by-step guides for different actions and elements. This documentation provides an overview of the component's state variables, functions, and usage.
+
+#### State Variables
+
+1. `steps`: A state variable that holds an array of tutorial steps. Each step object contains two properties:
+   - `element`: A selector that specifies the HTML element to highlight during that step.
+   - `intro`: A text description providing guidance to the user for the current step.
+
+2. `initialStep`: A state variable that determines the starting step of the tutorial.
+
+#### Translation and Language Support
+
+The component uses the `useTranslation` hook from the "react-i18next" library to support multiple languages. It dynamically updates the tutorial steps based on the resolved language (`i18n.resolvedLanguage`) to ensure that users receive instructions in their preferred language.
+
+The `steps` array is updated according to the resolved language to provide instructions in English, Spanish, or German.
+
+#### Functions
+
+1. `useEffect`: An effect hook that listens for changes in the resolved language (`i18n.resolvedLanguage`) and updates the `steps` array with language-specific instructions.
+
+#### Rendered UI
+
+The component renders the tutorial using the "intro.js-react" library, allowing for step-by-step guidance to users. It can be enabled or disabled based on the `onStepsEnabled` prop, and it can start from a specified step using the `initialStep` prop.
+
+#### Usage
+
+The `FilterComponentTutorial` component is intended to be used as a part of the filtering interface to provide users with an interactive guide on how to use the filtering features effectively. It helps users understand the various actions they can perform within the application, such as filtering data, displaying additional information, and exporting data.
+
+#### Dependencies
+
+- "intro.js": The component relies on the "intro.js" library to create interactive tutorials.
+- "intro.js-react": The "intro.js-react" library is used to integrate "intro.js" with React components.
+
+#### Translation and Localization
+
+The component supports multiple languages by dynamically updating tutorial text based on the user's language preference. Developers can extend the `steps` array to include translations for additional languages as needed.
+
+Please note that this documentation provides an overview of the component's functionalities. Additional comments within the code itself may be helpful for developers working on or maintaining this component.
 

@@ -1,9 +1,9 @@
 # Developer Documentation
 ## Components
 
-###React Tree of dataShow App
+### React Tree of dataShow App
 
-![React Treet]([image_url_or_path](https://github.com/luis2605/dataShow/blob/test_users/dataShow/src/assets/img/react_tree.png))
+![React Tree](https://github.com/luis2605/dataShow/blob/test_users/dataShow/src/assets/img/react_tree.png)
 
 ### CSVToJSON React Component
 The `CSVToJSON` component is the core component of the application, responsible for handling CSV file input, conversion to JSON, and rendering the user interface. This documentation provides an overview of its state variables, functions, and associated components.

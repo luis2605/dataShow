@@ -1,64 +1,63 @@
-# dataShow
-an application to read CSV Data on a more human friendly way
-Developer Documentation for Code
-Components and Functions Overview:
-This code is a React application that consists of several components and functions. It is primarily used for filtering and displaying data from a JSON source. Below, you'll find an overview of the key components and functions in this code.
+# Developer Documentation
 
-1. FilterComponentTutorial
-Purpose: This component is responsible for displaying a tutorial related to filtering data.
+## Components
 
-Props:
+### FilterComponent
 
-onStepsEnabled: A function callback for when steps (tutorial) are enabled.
-onStepsExit: A function callback for when the tutorial steps are exited.
-2. Modal
-Purpose: This component is used to display modal dialogs.
+The `FilterComponent` is a React component responsible for rendering various filtering and display options for data. It consists of the following sub-components:
 
-Props:
+- `FilterComponentTutorial`: This sub-component provides a tutorial and guidance on using the filtering features.
 
-isOpen: A boolean indicating whether the modal is open or closed.
-onClose: A function callback to close the modal.
-onSelection: A function callback used in one of the modals for handling selections.
-3. BarChart
-Purpose: This component renders a bar chart based on the provided chartdata.
+- `Modal`: Modal components are used to display pop-up windows for actions like viewing help, charts, and selections.
 
-Props:
+- `CustomSelectedData`: This sub-component displays custom selected data based on filtering.
 
-chartdata: Data used to render the bar chart.
-4. CustomSelectedData
-Purpose: This component displays custom-selected data.
+#### Functions
 
-Props:
+- `handleShow`: This function is called to show the filtering options.
 
-onMultipleFilterData: Data used for filtering.
-onCustomSelectedData: Callback function for handling custom selected data.
-onUserName: The username associated with the data.
-onAmountProjects: The number of projects associated with the data.
-5. Offcanvas
-Purpose: This component provides an off-canvas sidebar.
+- `showHideMore`: Toggles the display of extra categories.
 
-Props:
+- `toggleSteps`: Toggles the display of tutorial steps.
 
-title: Title of the off-canvas sidebar.
-show: A boolean indicating whether the sidebar is open or closed.
-onHide: Callback function to hide the off-canvas sidebar.
-6. FilterComponent (Main Component)
-Purpose: This is the main component that composes the entire application. It contains various sub-components and functions for filtering and displaying data.
+- `clearSelection`: Clears the selected items.
 
-Key Features:
+- `openModalCharts`: Opens the modal for displaying charts.
 
-Filtering and displaying data based on various criteria.
-Displaying modals for help, charts, and selections.
-Handling user interactions like mouse events and button clicks.
-Rendering a table with data based on user selections.
-Handling data related to projects and listings.
-Providing mobile responsiveness.
-Props: This component doesn't receive props from its parent component.
+- `openModalSelection`: Opens the modal for displaying selections.
 
-Functions
-The FilterComponent also includes several functions, such as event handlers for mouse events, filtering data, and rendering elements.
+- `closeModalHelp`: Closes the help modal.
 
-Usage
-To use this code, you can incorporate the FilterComponent into your React application. Ensure that the required props are provided to it. The code handles user interactions and displays data accordingly.
+- `closeModalCharts`: Closes the charts modal.
 
-This developer documentation provides an overview of the components and functions in the code, helping other developers understand its structure and functionality. If you have specific questions or need further details about any part of the code, please feel free to ask.
+- `closeModalSelection`: Closes the selection modal.
+
+- `handleMouseDown` and `handleMouseUp`: Handle mouse events for buttons.
+
+### BarChart
+
+The `BarChart` component is responsible for rendering bar chart visualizations using data from `countryCount`.
+
+### CustomSelectedData
+
+This component displays custom selected data based on the applied filters.
+
+## Usage
+
+The `FilterComponent` is used to provide a user-friendly interface for filtering and displaying data. It allows users to:
+
+- Filter data based on various criteria such as status, continent, country, room type, and more.
+
+- View data in a tabular format with sorting and pagination.
+
+- Display charts based on filtered data.
+
+- Clear selections and reset filters.
+
+- Access tutorials and help.
+
+## Styling
+
+Styling for the components is done using CSS classes and inline styles. CSS classes are used to define the layout and appearance of elements, while inline styles are used for custom styling.
+
+Please refer to the code for specific styles applied to each component.

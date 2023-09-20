@@ -4,7 +4,7 @@
 
 The `CSVToJSON` component is the core component of the application, responsible for handling CSV file input, conversion to JSON, and rendering the user interface. This documentation provides an overview of its state variables, functions, and associated components.
 
-## State Variables
+#### State Variables
 
 1. `userName`: A state variable to store the user's name input.
 2. `userNameSubmitted`: A state variable to track whether the user's name has been submitted.
@@ -17,7 +17,7 @@ The `CSVToJSON` component is the core component of the application, responsible 
 9. `fileName`: A state variable to store the name of the CSV file containing listings.
 10. `fileUserName`: A state variable to store the name of the CSV file containing user data.
 
-## Functions
+#### Functions
 
 1. `handleMouseDown(e)`: A function to handle the mouse down event and apply a style transformation to an element.
 2. `capitalizeEachWord(str)`: A utility function that takes a string as input and returns a new string with the first letter of each word capitalized.
@@ -30,17 +30,17 @@ The `CSVToJSON` component is the core component of the application, responsible 
 9. `removeUserCsvFile()`: A function to clear the user data and reset related state variables.
 10. `toggleDrawer()`: A function to toggle the visibility of the side drawer and overlay.
 
-## Rendered UI
+#### Rendered UI
 
 The component renders various UI elements, including file upload inputs, buttons, modals for help, and other interface components like language selectors.
 
-## Other Components and Libraries
+#### Other Components and Libraries
 
 1. `FilterComponent`: This component receives JSON data and file metadata as props and is responsible for filtering and displaying data. More detailed documentation is recommended within this component.
 2. `Modal`: This component is used to display modals for providing help and instructions to users.
 3. `LanguageSelector`: This component is responsible for allowing users to select their preferred language.
 
-## CSS Styles
+#### CSS Styles
 
 The component uses CSS modules for styling. The CSS classes are imported from an external CSS module file (`csvToJson.module.css`) and applied to various UI elements to control their appearance.
 
@@ -80,15 +80,15 @@ The `FilterComponent` is a React component responsible for rendering various fil
 
 - `handleMouseDown` and `handleMouseUp`: Handle mouse events for buttons.
 
-### BarChart
+#### BarChart
 
 The `BarChart` component is responsible for rendering bar chart visualizations using data from `countryCount`.
 
-### CustomSelectedData
+#### CustomSelectedData
 
 This component displays custom selected data based on the applied filters.
 
-## Usage
+### Usage
 
 The `FilterComponent` is used to provide a user-friendly interface for filtering and displaying data. It allows users to:
 
@@ -101,9 +101,9 @@ The `FilterComponent` is used to provide a user-friendly interface for filtering
 - Clear selections and reset filters.
 
 - Access tutorials and help.
+  
+#### CSS Styles
 
-## Styling
-
-Styling for the components is done using CSS classes and inline styles. CSS classes are used to define the layout and appearance of elements, while inline styles are used for custom styling.
+The component uses CSS modules for styling. The CSS classes are imported from an external CSS module file (`filterComponent.module.css`) and applied to various UI elements to control their appearance.
 
 Please refer to the code for specific styles applied to each component.

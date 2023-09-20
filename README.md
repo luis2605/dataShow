@@ -1,7 +1,7 @@
 # Developer Documentation
 ## Components
-###CSVToJSON React Component
 
+### CSVToJSON React Component
 The `CSVToJSON` component is the core component of the application, responsible for handling CSV file input, conversion to JSON, and rendering the user interface. This documentation provides an overview of its state variables, functions, and associated components.
 
 #### State Variables
@@ -88,7 +88,7 @@ The `BarChart` component is responsible for rendering bar chart visualizations u
 
 This component displays custom selected data based on the applied filters.
 
-### Usage
+#### Usage
 
 The `FilterComponent` is used to provide a user-friendly interface for filtering and displaying data. It allows users to:
 

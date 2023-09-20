@@ -110,4 +110,49 @@ The `FilterComponent` is used to provide a user-friendly interface for filtering
 
 The component uses CSS modules for styling. The CSS classes are imported from an external CSS module file (`filterComponent.module.css`) and applied to various UI elements to control their appearance.
 
-Please refer to the code for specific styles applied to each component.
+### LanguageSelector React Component
+
+The `LanguageSelector` component is responsible for providing language selection functionality in the application. It allows users to choose from a list of supported languages and dynamically updates the application's language using the `i18n` internationalization library. This documentation provides an overview of the component's state variables, functions, and associated UI elements.
+
+#### State Variables
+
+1. `currentLang`: A state variable that stores the currently selected language, initialized with "English" by default.
+2. `showDropdown`: A state variable that controls the visibility of the language selection dropdown menu.
+3. `i18n`: An instance of the `i18n` object obtained using the `useTranslation` hook to manage translations.
+
+#### Language Data
+
+The component defines an array of language objects, each containing the following properties:
+
+- `name`: The name of the language (e.g., "English").
+- `flag`: The URL of an image representing the flag of the respective language.
+
+#### Functions
+
+1. `handleLanguageChange(language)`: A function that handles language selection. It updates the `currentLang` state, changes the application's language using `i18n.changeLanguage()`, and hides the language selection dropdown.
+
+2. `toggleDropdown()`: A function that toggles the visibility of the language selection dropdown menu.
+
+#### Rendered UI
+
+The component renders the following UI elements:
+
+- The currently selected language displayed as a flag and text.
+- A dropdown menu containing language options with flags and language names.
+
+#### Conditional Styling
+
+The component applies conditional CSS classes based on the presence of data in `onJsonData` (a prop passed to the component). This allows for different styles when displaying language selection in different contexts.
+
+- `currentLangClasses`: Conditional class for the currently selected language element.
+- `langTextClasses`: Conditional class for the language text.
+- `langDropdownClasses`: Conditional class for the language dropdown.
+
+### Usage
+
+The `LanguageSelector` component can be easily integrated into your application to provide multilingual support. Users can select their preferred language, and the component will update the application's language accordingly. You can extend the `languages` array to support additional languages and their respective flags.
+
+### CSS Styles
+
+The component uses CSS modules for styling. The CSS classes are imported from an external CSS module file (`languageSelector.module.css`) and applied to various UI elements to control their appearance.
+

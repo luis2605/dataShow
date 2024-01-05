@@ -114,22 +114,71 @@ const CSVToJSON = () => {
     setUserName("");
   };
 
+  // const handleListingsFileUpload = async (e) => {
+  //   const file = e.target.files[0];
+  //   const fileReader = new FileReader();
+
+  //   fileReader.onload = async (event) => {
+  //     const csvData = event.target.result;
+  //     const jsonArray = await csvtojson().fromString(csvData);
+
+  //     const modifiedData = jsonArray.map((item) => {
+  //       const publicData1 = JSON.parse(item.PublicData);
+  //       return { ...item, publicData1 };
+  //     });
+  //     console.log(csvData);
+  //     setJsonData(modifiedData);
+  //     setOverlay(false);
+  //     setDrawerVisible(true);
+  //   };
+
+  //   fileReader.readAsText(file);
+
+  //   // Get file metadata
+  //   const fileMetadata = {
+  //     name: file.name,
+  //     size: file.size,
+  //     type: file.type,
+  //     lastModified: file.lastModified,
+  //     lastModifiedDate: file.lastModifiedDate,
+  //   };
+
+  //   // Store the file metadata in a state variable
+  //   setFileMetadata(fileMetadata);
+
+  //   // Store the file name separately
+  //   setFileName(file.name);
+  // };
   const handleListingsFileUpload = async (e) => {
     const file = e.target.files[0];
     const fileReader = new FileReader();
 
     fileReader.onload = async (event) => {
       const csvData = event.target.result;
-      const jsonArray = await csvtojson().fromString(csvData);
 
-      const modifiedData = jsonArray.map((item) => {
-        const publicData1 = JSON.parse(item.PublicData);
-        return { ...item, publicData1 };
-      });
+      // Check if csv file is the correct one
+      const specificString =
+        "Id,CreatedAt,Title,PriceAmount,PriceCurrency,AuthorId,State,ImageCount,CurrentStockQuantity,PublicData,PrivateData,Metadata";
+      if (csvData.includes(specificString)) {
+        const jsonArray = await csvtojson().fromString(csvData);
 
-      setJsonData(modifiedData);
-      setOverlay(false);
-      setDrawerVisible(true);
+        const modifiedData = jsonArray.map((item) => {
+          const publicData1 = JSON.parse(item.PublicData);
+          return { ...item, publicData1 };
+        });
+
+        // Set the modified data in the state
+        setJsonData(modifiedData);
+
+        // Hide the overlay
+        setOverlay(false);
+
+        // Show the drawer
+        setDrawerVisible(true);
+      } else {
+        // Display an error message if the specific string is not found
+        alert(t("pleaseSelectOtherFile"));
+      }
     };
 
     fileReader.readAsText(file);

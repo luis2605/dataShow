@@ -1,0 +1,33 @@
+"filename", "language", "JavaScript", "CSS", "JavaScript JSX", "JSON", "XML", "HTML", "comment", "blank", "total"
+"c:\Users\luisr\Github\dataShow\dataShow\.eslintrc.cjs", "JavaScript", 15, 0, 0, 0, 0, 0, 0, 1, 16
+"c:\Users\luisr\Github\dataShow\dataShow\image-mock.js", "JavaScript", 1, 0, 0, 0, 0, 0, 0, 1, 2
+"c:\Users\luisr\Github\dataShow\dataShow\index.html", "HTML", 0, 0, 0, 0, 0, 47, 0, 3, 50
+"c:\Users\luisr\Github\dataShow\dataShow\jest.config.cjs", "JavaScript", 10, 0, 0, 0, 0, 0, 1, 1, 12
+"c:\Users\luisr\Github\dataShow\dataShow\package-lock.json", "JSON", 0, 0, 0, 2787, 0, 0, 0, 1, 2788
+"c:\Users\luisr\Github\dataShow\dataShow\package.json", "JSON", 0, 0, 0, 55, 0, 0, 0, 1, 56
+"c:\Users\luisr\Github\dataShow\dataShow\public\vite.svg", "XML", 0, 0, 0, 0, 1, 0, 0, 0, 1
+"c:\Users\luisr\Github\dataShow\dataShow\src\App.css", "CSS", 0, 5, 0, 0, 0, 0, 0, 7, 12
+"c:\Users\luisr\Github\dataShow\dataShow\src\App.jsx", "JavaScript JSX", 0, 0, 14, 0, 0, 0, 0, 9, 23
+"c:\Users\luisr\Github\dataShow\dataShow\src\assets\react.svg", "XML", 0, 0, 0, 0, 1, 0, 0, 0, 1
+"c:\Users\luisr\Github\dataShow\dataShow\src\components\Charts\BarChart.jsx", "JavaScript JSX", 0, 0, 9, 0, 0, 0, 0, 2, 11
+"c:\Users\luisr\Github\dataShow\dataShow\src\components\CsvToJSON\CSVToJSON.jsx", "JavaScript JSX", 0, 0, 405, 0, 0, 0, 25, 51, 481
+"c:\Users\luisr\Github\dataShow\dataShow\src\components\CsvToJSON\CSVToJSON.test.js", "JavaScript", 25, 0, 0, 0, 0, 0, 6, 5, 36
+"c:\Users\luisr\Github\dataShow\dataShow\src\components\CsvToJSON\CSVToJson.module.css", "CSS", 0, 480, 0, 0, 0, 0, 21, 74, 575
+"c:\Users\luisr\Github\dataShow\dataShow\src\components\CustomSelectedData\CustomSelectedData.jsx", "JavaScript JSX", 0, 0, 167, 0, 0, 0, 25, 28, 220
+"c:\Users\luisr\Github\dataShow\dataShow\src\components\CustomSelectedData\customSelectedData.module.css", "CSS", 0, 5, 0, 0, 0, 0, 0, 2, 7
+"c:\Users\luisr\Github\dataShow\dataShow\src\components\FilterComponent\FilterComponent.jsx", "JavaScript JSX", 0, 0, 1326, 0, 0, 0, 98, 126, 1550
+"c:\Users\luisr\Github\dataShow\dataShow\src\components\FilterComponent\FilterComponent.test.js", "JavaScript", 20, 0, 0, 0, 0, 0, 2, 4, 26
+"c:\Users\luisr\Github\dataShow\dataShow\src\components\FilterComponent\filterComponent.module.css", "CSS", 0, 322, 0, 0, 0, 0, 17, 39, 378
+"c:\Users\luisr\Github\dataShow\dataShow\src\components\LanguageSelector\LanguageSelector.jsx", "JavaScript JSX", 0, 0, 77, 0, 0, 0, 2, 10, 89
+"c:\Users\luisr\Github\dataShow\dataShow\src\components\LanguageSelector\languageSelector.module.css", "CSS", 0, 135, 0, 0, 0, 0, 2, 17, 154
+"c:\Users\luisr\Github\dataShow\dataShow\src\components\Modal\Modal.jsx", "JavaScript JSX", 0, 0, 15, 0, 0, 0, 0, 2, 17
+"c:\Users\luisr\Github\dataShow\dataShow\src\components\Modal\Modal.module.css", "CSS", 0, 43, 0, 0, 0, 0, 1, 7, 51
+"c:\Users\luisr\Github\dataShow\dataShow\src\components\tutorials\FilterComponentTutorial.jsx", "JavaScript JSX", 0, 0, 191, 0, 0, 0, 4, 8, 203
+"c:\Users\luisr\Github\dataShow\dataShow\src\de.json", "JSON", 0, 0, 0, 106, 0, 0, 0, 8, 114
+"c:\Users\luisr\Github\dataShow\dataShow\src\en.json", "JSON", 0, 0, 0, 106, 0, 0, 0, 7, 113
+"c:\Users\luisr\Github\dataShow\dataShow\src\es.json", "JSON", 0, 0, 0, 106, 0, 0, 0, 8, 114
+"c:\Users\luisr\Github\dataShow\dataShow\src\i18n.js", "JavaScript", 25, 0, 0, 0, 0, 0, 0, 4, 29
+"c:\Users\luisr\Github\dataShow\dataShow\src\index.css", "CSS", 0, 57, 0, 0, 0, 0, 0, 12, 69
+"c:\Users\luisr\Github\dataShow\dataShow\src\main.jsx", "JavaScript JSX", 0, 0, 25, 0, 0, 0, 1, 5, 31
+"c:\Users\luisr\Github\dataShow\dataShow\vite.config.js", "JavaScript", 28, 0, 0, 0, 0, 0, 1, 2, 31
+"Total", "-", 124, 1047, 2229, 3160, 2, 47, 206, 445, 7260

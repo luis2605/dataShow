@@ -60,7 +60,8 @@ const FilterComponent = ({
 }) => {
   const { t } = useTranslation();
   //tutorial
-
+  console.log(jsonData);
+  console.log(jsonUserData);
   const [stepsEnabled, setStepsEnabled] = useState(false);
   const toggleSteps = () => {
     setStepsEnabled((prevStepsEnabled) => !prevStepsEnabled);

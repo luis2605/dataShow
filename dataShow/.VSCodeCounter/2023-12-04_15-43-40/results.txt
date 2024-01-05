@@ -1,0 +1,73 @@
+Date : 2023-12-04 15:43:40
+Directory : c:\Users\luisr\Github\dataShow\dataShow
+Total : 31 files,  6609 codes, 206 comments, 445 blanks, all 7260 lines
+
+Languages
++----------------+------------+------------+------------+------------+------------+
+| language       | files      | code       | comment    | blank      | total      |
++----------------+------------+------------+------------+------------+------------+
+| JSON           |          5 |      3,160 |          0 |         25 |      3,185 |
+| JavaScript JSX |          9 |      2,229 |        155 |        241 |      2,625 |
+| CSS            |          7 |      1,047 |         41 |        158 |      1,246 |
+| JavaScript     |          7 |        124 |         10 |         18 |        152 |
+| HTML           |          1 |         47 |          0 |          3 |         50 |
+| XML            |          2 |          2 |          0 |          0 |          2 |
++----------------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                    | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                       |         31 |      6,609 |        206 |        445 |      7,260 |
+| . (Files)                                                                                               |          7 |      2,943 |          2 |         10 |      2,955 |
+| public                                                                                                  |          1 |          1 |          0 |          0 |          1 |
+| src                                                                                                     |         23 |      3,665 |        204 |        435 |      4,304 |
+| src (Files)                                                                                             |          8 |        444 |          1 |         60 |        505 |
+| src\assets                                                                                              |          1 |          1 |          0 |          0 |          1 |
+| src\components                                                                                          |         14 |      3,220 |        203 |        375 |      3,798 |
+| src\components\Charts                                                                                   |          1 |          9 |          0 |          2 |         11 |
+| src\components\CsvToJSON                                                                                |          3 |        910 |         52 |        130 |      1,092 |
+| src\components\CustomSelectedData                                                                       |          2 |        172 |         25 |         30 |        227 |
+| src\components\FilterComponent                                                                          |          3 |      1,668 |        117 |        169 |      1,954 |
+| src\components\LanguageSelector                                                                         |          2 |        212 |          4 |         27 |        243 |
+| src\components\Modal                                                                                    |          2 |         58 |          1 |          9 |         68 |
+| src\components\tutorials                                                                                |          1 |        191 |          4 |          8 |        203 |
++---------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| filename                                                                                                | language       | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| c:\Users\luisr\Github\dataShow\dataShow\.eslintrc.cjs                                                   | JavaScript     |         15 |          0 |          1 |         16 |
+| c:\Users\luisr\Github\dataShow\dataShow\image-mock.js                                                   | JavaScript     |          1 |          0 |          1 |          2 |
+| c:\Users\luisr\Github\dataShow\dataShow\index.html                                                      | HTML           |         47 |          0 |          3 |         50 |
+| c:\Users\luisr\Github\dataShow\dataShow\jest.config.cjs                                                 | JavaScript     |         10 |          1 |          1 |         12 |
+| c:\Users\luisr\Github\dataShow\dataShow\package-lock.json                                               | JSON           |      2,787 |          0 |          1 |      2,788 |
+| c:\Users\luisr\Github\dataShow\dataShow\package.json                                                    | JSON           |         55 |          0 |          1 |         56 |
+| c:\Users\luisr\Github\dataShow\dataShow\public\vite.svg                                                 | XML            |          1 |          0 |          0 |          1 |
+| c:\Users\luisr\Github\dataShow\dataShow\src\App.css                                                     | CSS            |          5 |          0 |          7 |         12 |
+| c:\Users\luisr\Github\dataShow\dataShow\src\App.jsx                                                     | JavaScript JSX |         14 |          0 |          9 |         23 |
+| c:\Users\luisr\Github\dataShow\dataShow\src\assets\react.svg                                            | XML            |          1 |          0 |          0 |          1 |
+| c:\Users\luisr\Github\dataShow\dataShow\src\components\Charts\BarChart.jsx                              | JavaScript JSX |          9 |          0 |          2 |         11 |
+| c:\Users\luisr\Github\dataShow\dataShow\src\components\CsvToJSON\CSVToJSON.jsx                          | JavaScript JSX |        405 |         25 |         51 |        481 |
+| c:\Users\luisr\Github\dataShow\dataShow\src\components\CsvToJSON\CSVToJSON.test.js                      | JavaScript     |         25 |          6 |          5 |         36 |
+| c:\Users\luisr\Github\dataShow\dataShow\src\components\CsvToJSON\CSVToJson.module.css                   | CSS            |        480 |         21 |         74 |        575 |
+| c:\Users\luisr\Github\dataShow\dataShow\src\components\CustomSelectedData\CustomSelectedData.jsx        | JavaScript JSX |        167 |         25 |         28 |        220 |
+| c:\Users\luisr\Github\dataShow\dataShow\src\components\CustomSelectedData\customSelectedData.module.css | CSS            |          5 |          0 |          2 |          7 |
+| c:\Users\luisr\Github\dataShow\dataShow\src\components\FilterComponent\FilterComponent.jsx              | JavaScript JSX |      1,326 |         98 |        126 |      1,550 |
+| c:\Users\luisr\Github\dataShow\dataShow\src\components\FilterComponent\FilterComponent.test.js          | JavaScript     |         20 |          2 |          4 |         26 |
+| c:\Users\luisr\Github\dataShow\dataShow\src\components\FilterComponent\filterComponent.module.css       | CSS            |        322 |         17 |         39 |        378 |
+| c:\Users\luisr\Github\dataShow\dataShow\src\components\LanguageSelector\LanguageSelector.jsx            | JavaScript JSX |         77 |          2 |         10 |         89 |
+| c:\Users\luisr\Github\dataShow\dataShow\src\components\LanguageSelector\languageSelector.module.css     | CSS            |        135 |          2 |         17 |        154 |
+| c:\Users\luisr\Github\dataShow\dataShow\src\components\Modal\Modal.jsx                                  | JavaScript JSX |         15 |          0 |          2 |         17 |
+| c:\Users\luisr\Github\dataShow\dataShow\src\components\Modal\Modal.module.css                           | CSS            |         43 |          1 |          7 |         51 |
+| c:\Users\luisr\Github\dataShow\dataShow\src\components\tutorials\FilterComponentTutorial.jsx            | JavaScript JSX |        191 |          4 |          8 |        203 |
+| c:\Users\luisr\Github\dataShow\dataShow\src\de.json                                                     | JSON           |        106 |          0 |          8 |        114 |
+| c:\Users\luisr\Github\dataShow\dataShow\src\en.json                                                     | JSON           |        106 |          0 |          7 |        113 |
+| c:\Users\luisr\Github\dataShow\dataShow\src\es.json                                                     | JSON           |        106 |          0 |          8 |        114 |
+| c:\Users\luisr\Github\dataShow\dataShow\src\i18n.js                                                     | JavaScript     |         25 |          0 |          4 |         29 |
+| c:\Users\luisr\Github\dataShow\dataShow\src\index.css                                                   | CSS            |         57 |          0 |         12 |         69 |
+| c:\Users\luisr\Github\dataShow\dataShow\src\main.jsx                                                    | JavaScript JSX |         25 |          1 |          5 |         31 |
+| c:\Users\luisr\Github\dataShow\dataShow\vite.config.js                                                  | JavaScript     |         28 |          1 |          2 |         31 |
+| Total                                                                                                   |                |      6,609 |        206 |        445 |      7,260 |
++---------------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+

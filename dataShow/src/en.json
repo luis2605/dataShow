@@ -2,6 +2,7 @@
   "greeting": "Please enter your name to start the app.",
   "nameLabel": "Name here: ",
   "please": "Please",
+  "pleaseSelectOtherFile": "The file you have added is not the correct one or does not include the information you need to be displayed.Please select a different file.You can use the actual menu to delete the incorrect file and add the new one.",
   "csvFileToBeRead": "select the CSV file to be read.",
   "listingsFileToBeImported": "Please introduce the listings file here:",
   "usersFileToBeImported": "Please introduce the users file here for additional data:",
